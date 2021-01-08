@@ -8,6 +8,7 @@ import { ProvideAuth } from "./Auth.js";
 import {Login} from './pages/Login'
 import {PrivateRoute} from './pages/Protect'
 import {User} from './pages/User'
+import {CreatedUser} from './pages/CreatedUser'
 
 export default function App() {
   return (
@@ -17,8 +18,11 @@ export default function App() {
           <Route path="/login">
             <Login/>
           </Route>
-          <PrivateRoute path="/">
+          <PrivateRoute exact path="/user">
               <User/>
+          </PrivateRoute>
+          <PrivateRoute exact path="/user/create">
+              <CreatedUser/>
           </PrivateRoute>
         </Switch>
       </Router>

@@ -1,7 +1,10 @@
 import { Table, Tag, Space, Pagination } from 'antd';
-import {Row, Col} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {SideBar} from '../components/Sidebar'
+import {
+  useHistory
+} from "react-router-dom";
 
 const columns = [
   {
@@ -33,9 +36,9 @@ const columns = [
     title: 'Action',
     key: 'action',
     width: '20%',
-    render: (text, record) => (
+    render: (text) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
+        <a>Update</a>
         <a>Delete</a>
       </Space>
     ),
@@ -44,15 +47,20 @@ const columns = [
 
 export function User() {
     const [users, setUsers] = useState([]);
+    const [total, setTotal] = useState(0);
     const [current, setCurrent] = useState(1);
     const token = localStorage.getItem('token')
+    let history = useHistory();
     useEffect(() => {
         axios.get(
         'http://localhost:4000/api/user', { headers: {"Authorization" : `Bearer ${token}`} }
     ).then(res => {
         setUsers(res.data.users);
+        setTotal(res.data.total)
     }).catch(error => {
-        console.log('error', error)
+      if(error.response.status == 401){
+        history.replace('/login');
+      }
     })
   }, []);
 
@@ -61,15 +69,13 @@ export function User() {
     }
 
     return (
-        <Row className="justify-content-md-center">
-          <Col md={{ span: 12}}>
-            <Table 
-                columns={columns} 
-                dataSource={users} 
-                rowKey={record => record._id} 
-                pagination={{defaultCurrent: current, total: users.length, onChange: onChangePage, pageSize: 2}}
+        <SideBar>
+          <Table 
+            columns={columns} 
+            dataSource={users} 
+            rowKey={record => record._id} 
+            pagination={{defaultCurrent: current, total: total, onChange: onChangePage, pageSize: 2}}
             />
-          </Col>
-        </Row>
+        </SideBar>
     )
 }

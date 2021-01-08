@@ -38,8 +38,7 @@ export function Login() {
     }
 
     return (
-    <div className="container pt-3">
-       <Form
+        <Form
           {...layout}
           name="basic"
           onFinish={handleSubmit}
@@ -69,7 +68,6 @@ export function Login() {
               Submit
             </Button>
           </Form.Item>
-        </Form> 
-    </div>    
+        </Form>   
       );
     };

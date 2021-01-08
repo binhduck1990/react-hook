@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { message } from 'antd';
 import axios from 'axios';
+import { Layout } from 'antd';
+
+const { Header, Content, Footer, Sider } = Layout;
 
 const authContext = createContext();
 
@@ -8,7 +11,11 @@ const authContext = createContext();
 // ... available to any child component that calls useAuth().
 export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+  return <authContext.Provider value={auth}>
+            <Layout>
+              {children}
+            </Layout>
+          </authContext.Provider>;
 }
 
 // Hook for child components to get the auth object ...

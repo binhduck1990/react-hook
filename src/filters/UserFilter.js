@@ -14,7 +14,6 @@ export function UserFilter(props){
     const [address, setAddress] = useState('')
     const [phone, setPhone] = useState('')
     const [createdAt, setCreatedAt] = useState('')
-
     useEffect(() => {
         const query = new URLSearchParams(props.param)
         if(query.has('username')){

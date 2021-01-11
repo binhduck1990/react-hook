@@ -14,8 +14,8 @@ export function UserFilter(props){
     const [address, setAddress] = useState('')
     const [phone, setPhone] = useState('')
     const [createdAt, setCreatedAt] = useState('')
+    const query = new URLSearchParams(props.param)
     useEffect(() => {
-        const query = new URLSearchParams(props.param)
         if(query.has('username')){
             setName(query.get('username'))
         }else{
@@ -68,8 +68,7 @@ export function UserFilter(props){
         setCreatedAt(date)
     }
 
-    const onSearchUser = () => {
-        const query = new URLSearchParams()
+    const onPressEnterName = () => {
         if(name){
             query.set('username', name)
             const result = "?" + query.toString()
@@ -79,6 +78,9 @@ export function UserFilter(props){
             })
             props.onFilterUser(result)
         }
+    }
+
+    const onPressEnterEmail = () => {
         if(email){
             query.set('email', email)
             const result = "?" + query.toString()
@@ -88,6 +90,9 @@ export function UserFilter(props){
             })
             props.onFilterUser(result)
         }
+    }
+
+    const onPressEnterAddress = () => {
         if(address){
             query.set('address', address)
             const result = "?" + query.toString()
@@ -97,6 +102,9 @@ export function UserFilter(props){
             })
             props.onFilterUser(result)
         }
+    }
+
+    const onPressEnterPhone = () => {
         if(phone){
             query.set('phone', phone)
             const result = "?" + query.toString()
@@ -106,9 +114,27 @@ export function UserFilter(props){
             })
             props.onFilterUser(result)
         }
+    }
+
+    const onSearchUser = () => {
+        const query = new URLSearchParams()
+        if(name){
+            query.set('username', name)
+        }
+        if(email){
+            query.set('email', email)
+        }
+        if(address){
+            query.set('address', address)
+        }
+        if(phone){
+            query.set('phone', phone)
+        }
         if(createdAt){
             const createdAtFormat = createdAt.format(dateFormat)
             query.set('created_at', createdAtFormat)
+        }
+        if(name || email || address || phone || createdAt){
             const result = "?" + query.toString()
             history.push({
                 pathname: '/user',
@@ -128,10 +154,10 @@ export function UserFilter(props){
     return (
         <div className="user-filter">
             <Row>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search name" value={name} onChange={onChangeName}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search email" value={email} onChange={onChangeEmail}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search address" value={address} onChange={onChangeAddress}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search phone" value={phone} onChange={onChangePhone}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search name" value={name} onChange={onChangeName} onPressEnter={onPressEnterName}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search email" value={email} onChange={onChangeEmail} onPressEnter={onPressEnterEmail}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search address" value={address} onChange={onChangeAddress} onPressEnter={onPressEnterAddress}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search phone" value={phone} onChange={onChangePhone} onPressEnter={onPressEnterPhone}/></Col>
             </Row>
             <Col span={24} style={{ marginTop: '10px', marginBottom: '10px' }}></Col>
             <Row>

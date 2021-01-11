@@ -6,16 +6,21 @@
     transition: color 0.3s;
   }
   
-  .trigger:hover {
-    color: #1890ff;
-  }
-  
-  .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
-  }
-  
-  .site-layout .site-layout-background {
-    background: #fff;
-  }
+.trigger:hover {
+color: #1890ff;
+}
+
+.logo {
+height: 32px;
+background: rgba(255, 255, 255, 0.3);
+margin: 16px;
+}
+
+.site-layout .site-layout-background {
+background: #fff;
+}
+
+.dropdown-header {
+    float: right;
+    margin-right: 16px;
+}

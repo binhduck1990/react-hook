@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
 import { message } from 'antd';
 import axios from 'axios';
-import { Layout } from 'antd';
-
-const { Header, Content, Footer, Sider } = Layout;
 
 const authContext = createContext();
 
@@ -12,9 +9,7 @@ const authContext = createContext();
 export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>
-            <Layout>
-              {children}
-            </Layout>
+            {children}
           </authContext.Provider>;
 }
 

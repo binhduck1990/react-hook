@@ -5,9 +5,6 @@ import {
     useHistory,
     useLocation
   } from "react-router-dom";
-import { Layout } from 'antd';
-
-const { Header, Footer, Sider, Content } = Layout;
 
 export function CreatedUser() {
     const [email, setEmail] = useState("");
@@ -52,69 +49,66 @@ export function CreatedUser() {
         setPassword(e.target.value)
     }
 
-    return (
-    <Layout>
-        <Content>
-            <Form
-                {...layout}
-                name="basic"
-                onFinish={handleSubmit}
-                >
-                <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[{ required: true, message: 'Please input your email!' }]}
-                >
-                    <Input 
-                        onChange={onChangeEmail}
-                    />
-                </Form.Item>
-            
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                >
-                    <Input.Password 
-                        onChange={onChangePassword}
-                    />
-                </Form.Item>
+return (
+    <Form
+    {...layout}
+    name="basic"
+    onFinish={handleSubmit}
+    >
+        <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your email!' }]}
+        >
+            <Input 
+                onChange={onChangeEmail}
+            />
+        </Form.Item>
+    
+        <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+            <Input.Password 
+                onChange={onChangePassword}
+            />
+        </Form.Item>
 
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                >
-                    <Input 
-                        onChange={onChangeUsername}
-                    />
-                </Form.Item>
+        <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+            <Input 
+                onChange={onChangeUsername}
+            />
+        </Form.Item>
 
-                <Form.Item
-                    label="Age"
-                    name="age"
-                >
-                    <Input 
-                        onChange={onChangeAge}
-                    />
-                </Form.Item>
+        <Form.Item
+            label="Age"
+            name="age"
+        >
+            <Input 
+                onChange={onChangeAge}
+            />
+        </Form.Item>
 
-                <Form.Item
-                    label="Address"
-                    name="address"
-                >
-                    <Input 
-                        onChange={onChangeAddress}
-                    />
-                </Form.Item>
-            
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">
-                    Submit
-                    </Button>
-                </Form.Item>
-                </Form>
-        </Content> 
-    </Layout>    
-      );
-    };
+        <Form.Item
+            label="Address"
+            name="address"
+        >
+            <Input 
+                onChange={onChangeAddress}
+            />
+        </Form.Item>
+    
+        <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit">
+            Submit
+            </Button>
+        </Form.Item>
+
+    </Form>
+);
+};

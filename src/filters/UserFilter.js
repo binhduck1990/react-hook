@@ -15,7 +15,12 @@ export function UserFilter(props){
     const [phone, setPhone] = useState('')
     const [createdAt, setCreatedAt] = useState('')
     const query = new URLSearchParams(props.param)
+
+    // set value for filter if url has query param
     useEffect(() => {
+        console.log('123')
+        // create a new instance of URLSearchParams to ignore useEffrect warning
+        const query = new URLSearchParams(props.param) 
         if(query.has('username')){
             setName(query.get('username'))
         }else{
@@ -47,7 +52,8 @@ export function UserFilter(props){
             setCreatedAt('')
         }
       }, [props.param])
-
+    
+    // set state for input value
     const onChangeName = e => {
         setName(e.target.value)
     }
@@ -68,87 +74,80 @@ export function UserFilter(props){
         setCreatedAt(date)
     }
 
+    // push query params to url and set state of parent's params
+    const pushQueryStringToUrl = (query) => {
+        const result = "?" + query.toString()
+        history.push({
+            pathname: '/user',
+            search: result
+        })
+        props.onFilterUser(result)
+    }
+
+    // handle filter when press enter input
     const onPressEnterName = () => {
-        if(name){
-            query.set('username', name)
-            const result = "?" + query.toString()
-            history.push({
-                pathname: '/user',
-                search: result
-            })
-            props.onFilterUser(result)
+        if(name.trim()){
+            query.set('username', name.trim())
+        }else{
+            query.delete('username')
         }
+        pushQueryStringToUrl(query)
     }
 
     const onPressEnterEmail = () => {
-        if(email){
-            query.set('email', email)
-            const result = "?" + query.toString()
-            history.push({
-                pathname: '/user',
-                search: result
-            })
-            props.onFilterUser(result)
+        if(email.trim()){
+            query.set('email', email.trim())
+        }else{
+            query.delete('email')
         }
+        pushQueryStringToUrl(query)
     }
 
     const onPressEnterAddress = () => {
-        if(address){
-            query.set('address', address)
-            const result = "?" + query.toString()
-            history.push({
-                pathname: '/user',
-                search: result
-            })
-            props.onFilterUser(result)
+        if(address.trim()){
+            query.set('address', address.trim())
+        }else{
+            query.delete('address')
         }
+        pushQueryStringToUrl(query)
     }
 
     const onPressEnterPhone = () => {
-        if(phone){
-            query.set('phone', phone)
-            const result = "?" + query.toString()
-            history.push({
-                pathname: '/user',
-                search: result
-            })
-            props.onFilterUser(result)
+        if(phone.trim()){
+            query.set('phone', phone.trim())
+        }else{
+            query.delete('phone')
         }
+        pushQueryStringToUrl(query)
     }
 
+    // hanlde when click filter button
     const onSearchUser = () => {
-        const query = new URLSearchParams()
-        if(name){
-            query.set('username', name)
+        if(name.trim()){
+            query.set('username', name.trim())
         }
-        if(email){
-            query.set('email', email)
+        if(email.trim()){
+            query.set('email', email.trim())
         }
-        if(address){
-            query.set('address', address)
+        if(address.trim()){
+            query.set('address', address.trim())
         }
-        if(phone){
-            query.set('phone', phone)
+        if(phone.trim()){
+            query.set('phone', phone.trim())
         }
         if(createdAt){
             const createdAtFormat = createdAt.format(dateFormat)
             query.set('created_at', createdAtFormat)
         }
-        if(name || email || address || phone || createdAt){
-            const result = "?" + query.toString()
-            history.push({
-                pathname: '/user',
-                search: result
-            })
-            props.onFilterUser(result)
+        if(name.trim() || email.trim() || address.trim() || phone.trim() || createdAt){
+            pushQueryStringToUrl(query)
         }
     }
 
+    // if clear filter, create a new instance of 'URLSearchParams' with no query param
     const onClearFilter = () => {
-        history.push({
-            pathname: '/user'
-        })
-        props.onFilterUser('')
+        const query = new URLSearchParams() 
+        pushQueryStringToUrl(query)
     }
 
     return (

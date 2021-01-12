@@ -53,11 +53,6 @@ export function SideBar({children}){
             </Header>
             <Content
               className="site-layout-background"
-              style={{
-                margin: '24px 16px',
-                padding: '24px 10px 24px 10px',
-                minHeight: 'auto',
-              }}
             >
               {children}
             </Content>

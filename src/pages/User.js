@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import '../index.css'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 const columns = [
   {
@@ -33,7 +34,7 @@ const columns = [
     title: 'Email',
     key: 'email',
     dataIndex: 'email',
-    width: '20%'
+    width: '15%'
   },
   {
     title: 'Phone',
@@ -45,8 +46,8 @@ const columns = [
     title: 'Created At',
     key: 'createdAt',
     dataIndex: 'createdAt',
-    width: '10%',
-    render: (text) => <p>{text}</p>
+    width: '15%',
+    render: text => <p>{moment(text, 'YYYY-MM-DD').format('DD-MM-YYYY')}</p>
   },
   {
     title: 'Action',
@@ -65,10 +66,12 @@ export function User() {
     const history = useHistory();
     const [users, setUsers] = useState([]);
     const [total, setTotal] = useState(0);
-    const [current, setCurrent] = useState(1);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10)
     const [param, setParam] = useState(window.location.search)
-    
+
     const listenToPopstate = () => {
+      // when browser back or next, run this function to set query url
       setParam(window.location.search)
     };
     
@@ -76,14 +79,16 @@ export function User() {
       window.addEventListener('popstate', listenToPopstate)
       return () => window.removeEventListener('popstate', listenToPopstate)
     }, [])
-
+    
     useEffect(() => {
       const token = localStorage.getItem('token')
       const fetchUser = async () => axios.get(
           `http://localhost:4000/api/user${param}`, { headers: {"Authorization" : `Bearer ${token}`} }
       ).then(res => {
           setUsers(res.data.users);
-          setTotal(res.data.total)
+          setTotal(res.data.total);
+          setPage(res.data.page)
+          setPageSize(res.data.page_size) 
       }).catch(error => {
         if(error.response.status === 401){
           history.replace('/login');
@@ -92,8 +97,21 @@ export function User() {
       fetchUser()
   }, [param, history]);
 
-    const onChangePage = value => {
-        setCurrent(value)
+    const onChangePage = (page, pageSize) => {
+      const query = new URLSearchParams(param)
+      query.set('page', page)
+      query.set('page_size', pageSize)
+      pushQueryStringToUrl(query)
+    }
+
+    // push query params to url if page, per_page change
+    const pushQueryStringToUrl = (query) => {
+      const result = "?" + query.toString()
+      history.push({
+          pathname: '/user',
+          search: result
+      })
+      setParam(result)
     }
 
     const onFilterUser = value => {
@@ -108,7 +126,7 @@ export function User() {
             columns={columns} 
             dataSource={users} 
             rowKey={record => record._id} 
-            pagination={{defaultCurrent: current, total: total, onChange: onChangePage, pageSize: 10}}
+            pagination={{current: page, pageSize: pageSize, total: total, showSizeChanger: true, onChange: onChangePage}}
             />
         </SideBar>
     )

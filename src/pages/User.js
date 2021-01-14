@@ -67,7 +67,12 @@ export function User() {
   }
 
   const handleOk = () => {
-    auth.remove(id)
+    auth.remove(id, auth.paginate('', (res) => {
+      setUsers(res.data.users);
+      setTotal(res.data.total);
+      setPage(res.data.page)
+      setPageSize(res.data.page_size)
+    }))
     setIsModalVisible(false)
   }
 

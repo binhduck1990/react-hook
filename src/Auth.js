@@ -79,7 +79,7 @@ function useProvideAuth() {
     ).then(res => {
       message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success()
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){

@@ -21,7 +21,7 @@ export default function App() {
           <PrivateRoute exact path="/user">
               <User/>
           </PrivateRoute>
-          <PrivateRoute exact path="/user/create">
+          <PrivateRoute exact path="/user/signup">
               <CreatedUser/>
           </PrivateRoute>
         </Switch>

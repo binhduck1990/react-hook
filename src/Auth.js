@@ -9,8 +9,8 @@ const authContext = createContext();
 export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>
-            {children}
-          </authContext.Provider>;
+          {children}
+         </authContext.Provider>;
 }
 
 // Hook for child components to get the auth object ...
@@ -25,23 +25,88 @@ function useProvideAuth() {
   
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signin = (email, password, cb) => {
+  const signin = (payload, cb_success = null, cb_error = null) => {
     axios.post(
-        'http://localhost:4000/api/user/login', {
-            email: email,
-            password: password
-        }
+      'http://localhost:4000/api/user/login', {
+        email: payload.email,
+        password: payload.password
+      }
     ).then(res => {
-        setUser(res.data.user)
-        localStorage.setItem('token', res.data.token)
-        cb()
+      setUser(res.data.user)
+      localStorage.setItem('token', res.data.token)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
     }).catch(error => {
-        message.error(error.response.data.message)
+      message.error(error.response.data.message)
+      if(typeof(cb_error) == "function"){
+        cb_error()
+      }
     })
   };
 
-  const signup = (email, password) => {
+  // signup user
+  const signup = (payload, cb_success = null, cb_error = null) => {
+    axios.post(
+      'http://localhost:4000/api/user', {
+          username: payload.name,
+          email: payload.email,
+          password: payload.password,
+          age: payload.age,
+          phone: payload.phone,
+          address: payload.address
+      }
+    ).then(res => {
+      message.success(res.data.message)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function"){
+        cb_error()
+      }
+    })
+  };
 
+  // remove user
+  const remove = (id, cb_success = null, cb_error = null) => {
+    axios.delete(
+      `http://localhost:4000/api/user/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    ).then(res => {
+      message.success(res.data.message)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function"){
+        cb_error()
+      }
+      message.error(error.response.data.message)
+    })
+  };
+
+  // user paginate
+  const paginate = (filter = '', cb_success = null, cb_error = null) => {
+    axios.get(
+      `http://localhost:4000/api/user/${filter}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    ).then(res => {
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      message.error(error.response.data.message)
+      if(typeof(cb_error) == "function"){
+        cb_error()
+      }
+    })
   };
 
   const signout = () => {
@@ -63,6 +128,8 @@ function useProvideAuth() {
     signup,
     signout,
     sendPasswordResetEmail,
-    confirmPasswordReset
+    confirmPasswordReset,
+    remove,
+    paginate
   };
 }

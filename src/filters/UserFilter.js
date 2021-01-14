@@ -18,7 +18,6 @@ export function UserFilter(props){
 
     // set value for filter if url has query param
     useEffect(() => {
-        console.log('123')
         // create a new instance of URLSearchParams to ignore useEffrect warning
         const query = new URLSearchParams(props.param) 
         if(query.has('username')){

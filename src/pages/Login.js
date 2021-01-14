@@ -7,67 +7,68 @@ import {
   } from "react-router-dom";
 
 export function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const auth = useAuth()
-    let history = useHistory();
-    let location = useLocation();
-  
-    const handleSubmit = () => {
-        let { from } = location.state || { from: { pathname: "/" } };
-        auth.signin(email, password, () => {
-            history.replace(from);
-        })
-    }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = useAuth()
+  let history = useHistory();
+  let location = useLocation();
 
-    const layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 8 },
-      };
+  const handleSubmit = () => {
+    let { from } = location.state || { from: { pathname: "/" } };
+    auth.signin({email, password}, (res) => {
+        history.replace(from);
+    })
+  }
 
-      const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 },
+  const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 8 },
     };
 
-    const onChangeEmail = (e) => {
-        setEmail(e.target.value)
-    }
+    const tailLayout = {
+      wrapperCol: { offset: 8, span: 8 },
+  };
 
-    const onChangePassword= (e) => {
-        setPassword(e.target.value)
-    }
+  const onChangeEmail = (e) => {
+      setEmail(e.target.value)
+  }
 
-    return (
-        <Form
-          {...layout}
-          name="basic"
-          onFinish={handleSubmit}
+  const onChangePassword= (e) => {
+      setPassword(e.target.value)
+  }
+
+  return (
+      <Form
+        {...layout}
+        name="basic"
+        onFinish={handleSubmit}
+        style={{marginTop: 100}}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: 'Please input your email!' }]}
         >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
-          >
-            <Input 
-                onChange={onChangeEmail}
-            />
-          </Form.Item>
-    
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password 
-                onChange={onChangePassword}
-            />
-          </Form.Item>
-    
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>   
-      );
-    };
+          <Input 
+              onChange={onChangeEmail}
+          />
+        </Form.Item>
+  
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <Input.Password 
+              onChange={onChangePassword}
+          />
+        </Form.Item>
+  
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>   
+    );
+  };

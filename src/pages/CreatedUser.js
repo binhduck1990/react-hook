@@ -5,7 +5,6 @@ import {
     useHistory,
     useLocation
 } from "react-router-dom";
-import { message } from 'antd';
 
 export function CreatedUser() {
     const [email, setEmail] = useState("");
@@ -22,16 +21,19 @@ export function CreatedUser() {
     const handleSubmit = () => {
         let { from } = location.state || { from: { pathname: "/user" } };
         const payload = {name, email, password, age, phone, address};
-        auth.signup(payload)
-        // history.replace(from);
+        auth.signup(payload, () => {
+            history.replace(from)
+        }, (errors) => {
+            
+        })
     }
 
     const layout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 8 },
-      };
+    };
 
-      const tailLayout = {
+    const tailLayout = {
         wrapperCol: { offset: 8, span: 8 },
     };
 
@@ -62,20 +64,23 @@ export function CreatedUser() {
     const onReset = () => {
         form.resetFields();
     }
-
+    
 return (
     <>
         <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
         <Form
             {...layout}
+            form={form}
             name="basic"
             onFinish={handleSubmit}
-            form={form}
         >
             <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please input your name!' }]}
+                label="Username"
+                name="username"
+                rules={[
+                    { required: true, message: 'Please input your name!' },
+                    {min: 8}
+                ]}
             >
                 <Input 
                     onChange={onChangeName}

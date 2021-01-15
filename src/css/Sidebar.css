@@ -20,10 +20,14 @@
   background: #fff;
   margin: 24px 16px;
   padding: 24px 10px 24px 10px;
-  min-height: auto;
 }
 
 .dropdown-header {
     float: right;
     margin-right: 16px;
 }
+
+/* section.ant-layout.site-layout {
+  height: 100vh;
+  overflow: auto;
+} */

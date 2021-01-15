@@ -82,7 +82,7 @@ export function User() {
 
   const columns = [
     {
-      title: 'Name',
+      title: 'Username',
       dataIndex: 'username',
       key: 'username',
       render: text => <Link to="/#">{text}</Link>,

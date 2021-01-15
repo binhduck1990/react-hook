@@ -62,8 +62,8 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      if(typeof(cb_error) == "function"){
-        cb_error()
+      if(typeof(cb_error) == "function" && error.response.status === 400){
+        cb_error(error.response.data.message)
       }
     })
   };

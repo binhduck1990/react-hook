@@ -14,7 +14,7 @@ export function Login() {
   let location = useLocation();
 
   const handleSubmit = () => {
-    let { from } = location.state || { from: { pathname: "/" } };
+    let { from } = location.state || { from: { pathname: "/user" } };
     auth.signin({email, password}, (res) => {
         history.replace(from);
     })

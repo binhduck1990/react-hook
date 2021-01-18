@@ -1,27 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button, notification } from 'antd';
 import { useAuth } from "../Auth"
+import {SideBar} from '../components/Sidebar'
 import {
     useHistory,
-    useLocation
+    useLocation,
+    useParams
 } from "react-router-dom";
 
-export function CreatedUser() {
+export function UpdatedUser() {
+    const {id} = useParams();
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [age, setAge] = useState('');
     const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [username, setUsername] = useState('');
+    const [address, setAddress] = useState('')
     const auth = useAuth()
     let history = useHistory();
     let location = useLocation();
     const [form] = Form.useForm();
+    
+    useEffect(() => { 
+        auth.detail(id, (res) => {
+          form.setFieldsValue({
+            username: res.data.user.username,
+            email: res.data.user.email,
+            age: res.data.user.age,
+            phone: res.data.user.phone,
+            address: res.data.user.address
+          })
+        })
+    }, [auth, id, form]);
   
     const handleSubmit = () => {
         let { from } = location.state || { from: { pathname: "/user" } };
-        const payload = { username, email, password, age, phone, address };
-        auth.signup(payload, () => {
+        const payload = {};
+        if(email) payload.email = email
+        if(age) payload.age = age
+        if(phone) payload.phone = phone
+        if(address) payload.address = address
+        if(username) payload.username = username
+
+        auth.update(id, payload, () => {
             history.replace(from)
         }, (errors) => {
             
@@ -40,7 +60,6 @@ export function CreatedUser() {
     const onChangeInput = (e, type) => {
         if(type === 'username') setUsername(e.target.value)
         if(type === 'email') setEmail(e.target.value)
-        if(type ==='password') setPassword(e.target.value)
         if(type === 'age') setAge(e.target.value)
         if(type === 'phone') setPhone(e.target.value)
         if(type === 'address') setAddress(e.target.value)
@@ -49,10 +68,9 @@ export function CreatedUser() {
     const onReset = () => {
         form.resetFields();
     }
-    
 return (
-    <>
-        <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
+    <SideBar>
+        <h1 style={{textAlign: 'center', margin: '15px 0px 20px 0px'}}>Update your account</h1>
         <Form
             {...layout}
             form={form}
@@ -64,7 +82,6 @@ return (
                 name="username"
                 rules={[
                     { required: true, message: 'Please input your name!' },
-                    { min: 8} 
                 ]}
             >
                 <Input 
@@ -83,18 +100,9 @@ return (
             </Form.Item>
 
             <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-                <Input.Password 
-                    onChange={(e) => {onChangeInput(e, 'password')}}
-                />
-            </Form.Item>
-
-            <Form.Item
                 label="Age"
                 name="age"
+                initialValue={age}
             >
                 <Input 
                     onChange={(e) => {onChangeInput(e, 'age')}}
@@ -104,6 +112,7 @@ return (
             <Form.Item
                 label="Address"
                 name="address"
+                initialValue={address}
             >
                 <Input 
                     onChange={(e) => {onChangeInput(e, 'address')}}
@@ -113,6 +122,7 @@ return (
             <Form.Item
                 label="Phone"
                 name="phone"
+                initialValue={phone}
             >
                 <Input 
                     onChange={(e) => {onChangeInput(e, 'phone')}}
@@ -121,13 +131,13 @@ return (
 
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit" style={{marginRight: 10}}>
-                    Create
+                    Update
                 </Button>
                 <Button type="danger" htmlType="button" onClick={onReset}>
                     Clear
                 </Button>
             </Form.Item>
         </Form>
-    </>
+    </SideBar>
     );
-};
+}

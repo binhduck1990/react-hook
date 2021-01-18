@@ -31,14 +31,14 @@ export function User() {
     return () => window.removeEventListener('popstate', listenToPopstate)
   }, [])
   
-  useEffect(() => {
+  useEffect(() => { 
     auth.paginate(param, (res) => {
       setUsers(res.data.users);
       setTotal(res.data.total);
       setPage(res.data.page)
       setPageSize(res.data.page_size)
     })
-}, [param, auth]);
+  }, [param, auth]);
 
   const onChangePage = (page, pageSize) => {
     const query = new URLSearchParams(param)
@@ -117,7 +117,7 @@ export function User() {
       key: 'createdAt',
       dataIndex: 'createdAt',
       width: '15%',
-      render: text => <p>{moment(text, 'YYYY-MM-DD').format('DD-MM-YYYY')}</p>
+      render: text => <>{moment(text, 'YYYY-MM-DD').format('DD-MM-YYYY')}</>
     },
     {
       title: 'Action',
@@ -125,7 +125,7 @@ export function User() {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Link to="/user">Update</Link>
+          <Link to={`user/${record._id}`}>Update</Link>
           <Link to="/user" onClick={() => showModal(record._id)}>Delete</Link>
         </Space>
       ),

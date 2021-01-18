@@ -10,28 +10,28 @@ import '../css/Sidebar.css'
 import { Link } from 'react-router-dom'
 
 const { Header, Sider, Content } = Layout;
-const menu = (
-    <Menu
-        style={{ width: 200 }}
-        theme={'light'}
-        mode={'inline'}
-    >
-      <Menu.Item key="0">
-        <p>Dang Quang Binh</p>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Link to="http://localhost:3000/user/detail">Detail Profile</Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">Log out</Menu.Item>
-    </Menu>
-  )
 
 export function SideBar({children}){
     const [collapsed, setCollapsed] = useState(false);
     const toggle = () => {
         setCollapsed(!collapsed)
     }
+    const menu = (
+      <Menu
+          style={{ width: 200 }}
+          theme={'light'}
+          mode={'inline'}
+      >
+        <Menu.Item key="0">
+          <p>Dang Quang Binh</p>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <Link to={`/user/profile`}>Detail Profile</Link>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="3">Log out</Menu.Item>
+      </Menu>
+    )
     return (
         <Layout>
           <Sider trigger={null} collapsible collapsed={collapsed}>

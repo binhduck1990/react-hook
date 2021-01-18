@@ -9,6 +9,8 @@ import {Login} from './pages/Login'
 import {PrivateRoute} from './pages/Protect'
 import {User} from './pages/User'
 import {CreatedUser} from './pages/CreatedUser'
+import {UserDetail} from './pages/UserDetail'
+import {UpdatedUser} from './pages/UpdatedUser'
 
 export default function App() {
   return (
@@ -19,10 +21,16 @@ export default function App() {
             <Login/>
           </Route>
           <PrivateRoute exact path="/user">
-              <User/>
+            <User/>
+          </PrivateRoute>
+          <PrivateRoute exact path="/user/profile">
+            <UserDetail/>
           </PrivateRoute>
           <PrivateRoute exact path="/user/signup">
-              <CreatedUser/>
+            <CreatedUser/>
+          </PrivateRoute>
+          <PrivateRoute exact path="/user/:id">
+            <UpdatedUser/>
           </PrivateRoute>
         </Switch>
       </Router>

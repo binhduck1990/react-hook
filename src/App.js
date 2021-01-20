@@ -23,7 +23,7 @@ export default function App() {
           <PrivateRoute exact path="/user">
             <User/>
           </PrivateRoute>
-          <PrivateRoute exact path="/user/profile">
+          <PrivateRoute exact path="/user/profile/:id">
             <UserDetail/>
           </PrivateRoute>
           <PrivateRoute exact path="/user/signup">

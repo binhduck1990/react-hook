@@ -38,16 +38,14 @@ function useProvideAuth() {
   };
 
   // signup user
-  const signup = (payload, cb_success = null, cb_error = null) => {
-    axios.post(
-      'http://localhost:4000/api/user', {
-          username: payload.username,
-          email: payload.email,
-          password: payload.password,
-          age: payload.age,
-          phone: payload.phone,
-          address: payload.address
+  const signup = (formData, cb_success = null, cb_error = null) => {
+    const config = {
+      "headers": {
+        "content-type": 'multipart/form-data'
       }
+    }
+    axios.post(
+      'http://localhost:4000/api/user', formData, config
     ).then(res => {
       message.success(res.data.message)
       if(typeof(cb_success) == "function"){
@@ -61,13 +59,15 @@ function useProvideAuth() {
   };
 
     // updated user
-    const update = (id, payload, cb_success = null, cb_error = null) => {
-      axios.put(
-        `http://localhost:4000/api/user/${id}`, payload, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+    const update = (id, formData, cb_success = null, cb_error = null) => {
+      const config = {
+        "headers": {
+          "content-type": 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
+      }
+      axios.put(
+        `http://localhost:4000/api/user/${id}`, formData, config
       ).then(res => {
         message.success(res.data.message)
         if(typeof(cb_success) == "function"){

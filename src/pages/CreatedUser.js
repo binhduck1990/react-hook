@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons'
 import { useAuth } from "../Auth"
 import {
     useHistory,
@@ -13,6 +14,7 @@ export function CreatedUser() {
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [username, setUsername] = useState('');
+    const [fileList, setFileList] = useState([]);
     const auth = useAuth()
     let history = useHistory();
     let location = useLocation();
@@ -20,8 +22,15 @@ export function CreatedUser() {
   
     const handleSubmit = () => {
         let { from } = location.state || { from: { pathname: "/user" } };
-        const payload = { username, email, password, age, phone, address };
-        auth.signup(payload, () => {
+        const formData = new FormData()
+        if(email) formData.append('email', email)
+        if(password) formData.append('password', password)
+        if(age) formData.append('age', age)
+        if(phone) formData.append('phone', phone)
+        if(address) formData.append('address', address)
+        if(username) formData.append('username', username)
+        if(fileList) formData.append('avatar', fileList[0])
+        auth.signup(formData, () => {
             history.replace(from)
         }, (errors) => {
             
@@ -49,6 +58,24 @@ export function CreatedUser() {
     const onReset = () => {
         form.resetFields();
     }
+
+    const props = {
+        onRemove: () => {
+            setFileList([])
+        },
+        beforeUpload(file){
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                file.url = reader.result
+                setFileList([file])
+            };
+            return false
+        },
+        fileList,
+        listType: 'picture',
+        maxCount: 1,
+      }
     
 return (
     <>
@@ -59,6 +86,17 @@ return (
             name="basic"
             onFinish={handleSubmit}
         >
+            <Form.Item
+                label="Avatar"
+                name="avatar"
+            >
+                <Upload
+                    {...props}
+                >
+                    <Button icon={<UploadOutlined />}>Upload avatar</Button>
+                </Upload>
+            </Form.Item>
+
             <Form.Item
                 label="Username"
                 name="username"

@@ -13,6 +13,8 @@ const { Header, Sider, Content } = Layout;
 
 export function SideBar({children}){
     const [collapsed, setCollapsed] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'))
+    const avatar = user ? `http://localhost:4000/images/${user.avatar}` : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
     const toggle = () => {
         setCollapsed(!collapsed)
     }
@@ -20,13 +22,12 @@ export function SideBar({children}){
       <Menu
           style={{ width: 200 }}
           theme={'light'}
-          mode={'inline'}
       >
         <Menu.Item key="0">
           <p>Dang Quang Binh</p>
         </Menu.Item>
         <Menu.Item key="1">
-          <Link to={`/user/profile`}>Detail Profile</Link>
+          <Link to={`/user/profile/${user._id}`}>Detail Profile</Link>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="3">Log out</Menu.Item>
@@ -38,7 +39,7 @@ export function SideBar({children}){
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
               <Menu.Item key="1" icon={<UserOutlined />}>
-                User
+                <Link to={`/user`}>User</Link>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -47,7 +48,7 @@ export function SideBar({children}){
                 {collapsed ? <MenuUnfoldOutlined className="trigger" onClick={toggle}/> : <MenuFoldOutlined className="trigger" onClick={toggle}/>}
                 <Dropdown className='dropdown-header' overlay={menu} trigger={['click']} placement='topLeft'>
                     <Link to="/#" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                    <Avatar style={{ backgroundColor: '#87d068', cursor: 'pointer'}} icon={<UserOutlined />} /> <DownOutlined />
+                    <Avatar src={avatar} style={{ backgroundColor: '#87d068', cursor: 'pointer'}}/> <DownOutlined />
                     </Link>
                 </Dropdown>
             </Header>

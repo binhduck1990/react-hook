@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons'
 import { useAuth } from "../Auth"
 import {SideBar} from '../components/Sidebar'
 import {
@@ -15,6 +16,7 @@ export function UpdatedUser() {
     const [age, setAge] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('')
+    const [fileList, setFileList] = useState([])
     const auth = useAuth()
     let history = useHistory();
     let location = useLocation();
@@ -29,20 +31,34 @@ export function UpdatedUser() {
             phone: res.data.user.phone,
             address: res.data.user.address
           })
+          if(res.data.user.avatar){
+            setFileList([{
+                uid: '-1',
+                name: res.data.user.avatar,
+                status: 'done',
+                url: `http://localhost:4000/images/${res.data.user.avatar}`
+              }])
+          }
         })
     }, [auth, id, form]);
   
     const handleSubmit = () => {
+        console.log('fileList', fileList[0])
         let { from } = location.state || { from: { pathname: "/user" } };
-        const payload = {};
-        if(email) payload.email = email
-        if(age) payload.age = age
-        if(phone) payload.phone = phone
-        if(address) payload.address = address
-        if(username) payload.username = username
+        const formData = new FormData()
+        if(email) formData.append('email', email)
+        if(age) formData.append('age', age)
+        if(phone) formData.append('phone', phone)
+        if(address) formData.append('address', address)
+        if(username) formData.append('username', username)
+        if(fileList.length && fileList[0].uid !== '-1'){
+            formData.append('avatar', fileList[0])
+        }else{
+            formData.append('avatar', '')
+        }
 
-        auth.update(id, payload, () => {
-            history.replace(from)
+        auth.update(id, formData, () => {
+            // history.replace(from)
         }, (errors) => {
             
         })
@@ -68,6 +84,24 @@ export function UpdatedUser() {
     const onReset = () => {
         form.resetFields();
     }
+
+    const props = {
+        onRemove: () => {
+            setFileList([])
+        },
+        beforeUpload(file){
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                file.url = reader.result
+                setFileList([file])
+            };
+            return false
+        },
+        fileList,
+        listType: 'picture',
+        maxCount: 1,
+      }
 return (
     <SideBar>
         <h1 style={{textAlign: 'center', margin: '15px 0px 20px 0px'}}>Update your account</h1>
@@ -77,6 +111,17 @@ return (
             name="basic"
             onFinish={handleSubmit}
         >
+            <Form.Item
+                label="Avatar"
+                name="avatar"
+            >
+                <Upload
+                    {...props}
+                >
+                    <Button icon={<UploadOutlined />}>Upload avatar</Button>
+                </Upload>
+            </Form.Item>
+
             <Form.Item
                 label="Username"
                 name="username"

@@ -85,7 +85,7 @@ export function User() {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      render: text => <Link to="/#">{text}</Link>,
+      render: (text, record) => <Link to={`user/profile/${record._id}`}>{text}</Link>,
       width: '20%'
     },
     {

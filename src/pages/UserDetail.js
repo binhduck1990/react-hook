@@ -9,7 +9,7 @@ import { useAuth } from '../Auth'
 export function UserDetail(){
     const auth = useAuth()
     const [user, setUser] = useState('')
-    const [avatar, setAvatar] = useState('')
+    const [avatar, setAvatar] = useState('https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png')
     const {id} = useParams('')
     useEffect(() => { 
         auth.detail(id, (res) => {

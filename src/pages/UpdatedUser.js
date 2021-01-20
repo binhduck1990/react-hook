@@ -58,7 +58,6 @@ export function UpdatedUser() {
         }
 
         auth.update(id, formData, () => {
-            // history.replace(from)
         }, (errors) => {
             
         })

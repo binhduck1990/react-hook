@@ -33,6 +33,7 @@ export function UserDetail(){
             <Descriptions.Item label="Adress">{user.address}</Descriptions.Item>
             <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
             <Descriptions.Item label="Age">{user.age}</Descriptions.Item>
+            <Descriptions.Item label="Gender">{user.gender}</Descriptions.Item>
             </Descriptions>
         </SideBar>
     )

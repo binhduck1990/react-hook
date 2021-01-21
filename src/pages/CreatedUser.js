@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Form, Input, Button, notification, Upload } from 'antd';
+import { Form, Input, Button, notification, Upload, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons'
 import { useAuth } from "../Auth"
 import {
@@ -8,13 +7,6 @@ import {
 } from "react-router-dom";
 
 export function CreatedUser() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [age, setAge] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [username, setUsername] = useState('');
-    const [fileList, setFileList] = useState([]);
     const auth = useAuth()
     let history = useHistory();
     let location = useLocation();
@@ -23,36 +15,29 @@ export function CreatedUser() {
     const handleSubmit = () => {
         let { from } = location.state || { from: { pathname: "/user" } };
         const formData = new FormData()
+        const email = form.getFieldValue('email')
+        const password = form.getFieldValue('password') 
+        const age = form.getFieldValue('age') 
+        const phone = form.getFieldValue('phone') 
+        const address = form.getFieldValue('address') 
+        const username = form.getFieldValue('username') 
+        const gender = form.getFieldValue('gender') 
+        const fileList = form.getFieldValue('fileList')
+
         if(email) formData.append('email', email)
         if(password) formData.append('password', password)
         if(age) formData.append('age', age)
         if(phone) formData.append('phone', phone)
         if(address) formData.append('address', address)
         if(username) formData.append('username', username)
+        if(gender) formData.append('gender', gender)
         if(fileList) formData.append('avatar', fileList[0])
+
         auth.signup(formData, () => {
             history.replace(from)
         }, (errors) => {
             
         })
-    }
-
-    const layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 8 },
-    };
-
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 },
-    };
-
-    const onChangeInput = (e, type) => {
-        if(type === 'username') setUsername(e.target.value)
-        if(type === 'email') setEmail(e.target.value)
-        if(type ==='password') setPassword(e.target.value)
-        if(type === 'age') setAge(e.target.value)
-        if(type === 'phone') setPhone(e.target.value)
-        if(type === 'address') setAddress(e.target.value)
     }
 
     const onReset = () => {
@@ -61,22 +46,40 @@ export function CreatedUser() {
 
     const props = {
         onRemove: () => {
-            setFileList([])
+            form.setFieldsValue({fileList: []})
         },
         beforeUpload(file){
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
                 file.url = reader.result
-                setFileList([file])
+                form.setFieldsValue({fileList: [file]})
             };
             return false
         },
-        fileList,
         listType: 'picture',
         maxCount: 1,
       }
-    
+
+    const onChangeGender = (e) => {
+        form.setFieldsValue({gender: e.target.value})
+    }
+
+    const options = [
+        { label: 'Male', value: 'male'},
+        { label: 'Female', value: 'female' },
+        { label: 'Other', value: 'other' },
+    ]
+
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 8 },
+    }
+
+    const tailLayout = {
+        wrapperCol: { offset: 8, span: 8 },
+    }
+
 return (
     <>
         <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
@@ -89,6 +92,8 @@ return (
             <Form.Item
                 label="Avatar"
                 name="avatar"
+                valuePropName="fileList"
+                getValueFromEvent={() => {}}
             >
                 <Upload
                     {...props}
@@ -105,9 +110,7 @@ return (
                     { min: 8} 
                 ]}
             >
-                <Input 
-                    onChange={(e) => {onChangeInput(e, 'username')}}
-                />
+                <Input/>
             </Form.Item>
 
             <Form.Item
@@ -115,9 +118,7 @@ return (
                 name="email"
                 rules={[{ required: true, message: 'Please input your email!' }]}
             >
-                <Input 
-                    onChange={(e) => {onChangeInput(e, 'email')}}
-                />
+                <Input/>
             </Form.Item>
 
             <Form.Item
@@ -125,36 +126,36 @@ return (
                 name="password"
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
-                <Input.Password 
-                    onChange={(e) => {onChangeInput(e, 'password')}}
-                />
+                <Input.Password/>
+            </Form.Item>
+
+            <Form.Item
+                label="Gender"
+                name="gender"
+                initialValue={'other'}
+            >
+                <Radio.Group options={options} onChange={onChangeGender}/>
             </Form.Item>
 
             <Form.Item
                 label="Age"
                 name="age"
             >
-                <Input 
-                    onChange={(e) => {onChangeInput(e, 'age')}}
-                />
+                <Input/>
             </Form.Item>
 
             <Form.Item
                 label="Address"
                 name="address"
             >
-                <Input 
-                    onChange={(e) => {onChangeInput(e, 'address')}}
-                />
+                <Input/>
             </Form.Item>
 
             <Form.Item
                 label="Phone"
                 name="phone"
             >
-                <Input 
-                    onChange={(e) => {onChangeInput(e, 'phone')}}
-                />
+                <Input/>
             </Form.Item>
 
             <Form.Item {...tailLayout}>

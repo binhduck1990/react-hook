@@ -1,74 +1,63 @@
-import React, { useState } from "react";
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 import { useAuth } from "../Auth"
 import {
+  Link,
     useHistory,
     useLocation
   } from "react-router-dom";
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 export function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const auth = useAuth()
   let history = useHistory();
   let location = useLocation();
 
   const handleSubmit = () => {
     let { from } = location.state || { from: { pathname: "/user" } };
-    auth.signin({email, password}, (res) => {
-        history.replace(from);
-    })
-  }
-
-  const layout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 8 },
-    };
-
-    const tailLayout = {
-      wrapperCol: { offset: 8, span: 8 },
-  };
-
-  const onChangeEmail = (e) => {
-      setEmail(e.target.value)
-  }
-
-  const onChangePassword= (e) => {
-      setPassword(e.target.value)
+    // auth.signin({email, password}, (res) => {
+    //     history.replace(from);
+    // })
   }
 
   return (
-      <Form
-        {...layout}
-        name="basic"
-        onFinish={handleSubmit}
-        style={{marginTop: 100}}
+    <Form
+      name="normal_login"
+      className="login-form"
+      initialValues={{ remember: true }}
+      onFinish={handleSubmit}
+    >
+      <Form.Item
+        name="email"
+        rules={[{ required: true, message: 'Please input your email!' }]}
       >
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}
-        >
-          <Input 
-              onChange={onChangeEmail}
-          />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: 'Please input your Password!' }]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Remember me</Checkbox>
         </Form.Item>
-  
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password 
-              onChange={onChangePassword}
-          />
-        </Form.Item>
-  
-        <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>   
-    );
-  };
+
+        <a className="login-form-forgot" href="">
+          Forgot password
+        </a>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Log in
+        </Button>
+        Or <Link to={'/user/signup'}>register now!</Link>
+      </Form.Item>
+    </Form>
+  )
+}

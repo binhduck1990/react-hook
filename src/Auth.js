@@ -44,6 +44,7 @@ function useProvideAuth() {
         "content-type": 'multipart/form-data'
       }
     }
+    console.log('config',config)
     axios.post(
       'http://localhost:4000/api/user', formData, config
     ).then(res => {

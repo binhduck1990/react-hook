@@ -7,17 +7,29 @@ import {
   DownOutlined
 } from '@ant-design/icons';
 import '../css/Sidebar.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { useAuth } from "../Auth"
 
 const { Header, Sider, Content } = Layout;
 
 export function SideBar({children}){
+  const auth = useAuth()
+  const history = useHistory()
   const [collapsed, setCollapsed] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'))
   const avatar = user ? `http://localhost:4000/images/${user.avatar}` : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
   const toggle = () => {
       setCollapsed(!collapsed)
   }
+
+  const logout = () => {
+    auth.signout(() => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      history.replace('/login')
+    })
+  }
+
   const menu = (
     <Menu
         style={{ width: 200 }}
@@ -27,7 +39,7 @@ export function SideBar({children}){
         <Link to={`/user/profile/${user._id}`}>Detail Profile</Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="2">Log out</Menu.Item>
+      <Menu.Item key="2" onClick={logout}>Log out</Menu.Item>
     </Menu>
   )
   return (

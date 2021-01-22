@@ -44,7 +44,6 @@ function useProvideAuth() {
         "content-type": 'multipart/form-data'
       }
     }
-    console.log('config',config)
     axios.post(
       'http://localhost:4000/api/user', formData, config
     ).then(res => {
@@ -141,16 +140,54 @@ function useProvideAuth() {
     })
   };
 
-  const signout = () => {
-
+  const signout = (cb_success = null, cb_error = null) => {
+    const config = {
+      "headers": {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+    axios.post(
+      `http://localhost:4000/api/user/logout`, {} ,config
+    ).then(res => {
+      message.success(res.data.message)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function" && error.response.status === 400){
+        cb_error(error.response.data.message)
+      }
+    })
   };
 
-  const sendPasswordResetEmail = email => {
-
+  const sendPasswordResetEmail = (email, cb_success = null, cb_error = null) => {
+    axios.post(
+      `http://localhost:4000/api/user/reset-password`, {email}
+    ).then(res => {
+      message.success(res.data.message)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function" && error.response.status === 400){
+        cb_error(error.response.data.message)
+      }
+    })
   };
 
-  const confirmPasswordReset = (code, password) => {
-
+  const confirmPasswordReset = (token, password, cb_success = null, cb_error = null) => {
+    axios.put(
+      `http://localhost:4000/api/user/reset-password/${token}`, {password}
+    ).then(res => {
+      message.success(res.data.message)
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function" && error.response.status === 400){
+        cb_error(error.response.data.message)
+      }
+    })
   };
   
   // Return the user object and auth methods

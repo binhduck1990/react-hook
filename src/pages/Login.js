@@ -11,16 +11,30 @@ export function Login() {
   const auth = useAuth()
   let history = useHistory();
   let location = useLocation();
+  const [form] = Form.useForm();
+  const email = localStorage.getItem('email')
+  if(email){
+    form.setFieldsValue({email})
+  }
 
   const handleSubmit = () => {
     let { from } = location.state || { from: { pathname: "/user" } };
-    // auth.signin({email, password}, (res) => {
-    //     history.replace(from);
-    // })
+    const email = form.getFieldValue('email')
+    const password = form.getFieldValue('password')
+    const remember = form.getFieldValue('remember')
+    auth.signin({email, password}, (res) => {
+      if(remember){
+        localStorage.setItem('email', email)
+      }else{
+        localStorage.removeItem('email')
+      }
+      history.replace(from)
+    })
   }
 
   return (
     <Form
+      form={form}
       name="normal_login"
       className="login-form"
       initialValues={{ remember: true }}
@@ -36,7 +50,7 @@ export function Login() {
         name="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
       >
-        <Input
+        <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
@@ -47,9 +61,9 @@ export function Login() {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        <Link className="login-form-forgot" to={'/user/forgot-password'}>
           Forgot password
-        </a>
+        </Link>
       </Form.Item>
 
       <Form.Item>

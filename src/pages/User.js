@@ -13,6 +13,8 @@ import { useAuth } from "../Auth"
 export function User() {
   const history = useHistory();
   const auth = useAuth()
+  const [loading, setLoading] = useState(true)
+  const [sortOrder, setSortOrder] = useState(false)
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -32,20 +34,19 @@ export function User() {
   }, [])
   
   useEffect(() => { 
+    const query = new URLSearchParams(param)
+    setLoading(true)
     auth.paginate(param, (res) => {
+      setLoading(false)
       setUsers(res.data.users);
       setTotal(res.data.total);
       setPage(res.data.page)
       setPageSize(res.data.page_size)
+      if(query.get('sort_by') !== sortOrder && query.get('sort_by')){
+        setSortOrder(query.get('sort_by'))
+      }
     })
   }, [param, auth]);
-
-  const onChangePage = (page, pageSize) => {
-    const query = new URLSearchParams(param)
-    query.set('page', page)
-    query.set('page_size', pageSize)
-    pushQueryStringToUrl(query)
-  }
 
   // push query params to url if page, per_page change
   const pushQueryStringToUrl = (query) => {
@@ -78,6 +79,27 @@ export function User() {
 
   const handleCancel = () => {
     setIsModalVisible(false)
+  }
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    const query = new URLSearchParams(param)
+    if(sorter.order === undefined){
+      setSortOrder(false)
+      query.delete('sort_field')
+      query.delete('sort_by')
+    }else{
+      setSortOrder(sorter.order)
+      query.set('sort_field', sorter.columnKey)
+      query.set('sort_by', sorter.order)
+    }
+
+    if(pagination.current !== page){
+      query.set('page', pagination.current)
+    }
+    if(pagination.pageSize !== pageSize){
+      query.set('page_size', pagination.pageSize)
+    }
+    pushQueryStringToUrl(query)
   }
 
   const columns = [
@@ -114,9 +136,11 @@ export function User() {
     },
     {
       title: 'Created At',
-      key: 'createdAt',
+      key: 'created_at',
       dataIndex: 'createdAt',
       width: '15%',
+      sorter: true,
+      sortOrder: sortOrder,
       render: text => <>{moment(text, 'YYYY-MM-DD').format('DD-MM-YYYY')}</>
     },
     {
@@ -136,11 +160,13 @@ export function User() {
     <SideBar>
       <UserFilter onFilterUser={onFilterUser} param={param}></UserFilter>
       <Table
+        loading={loading}
         style={{paddingLeft: 10, paddingRight: 10}}
         columns={columns} 
         dataSource={users} 
-        rowKey={record => record._id} 
-        pagination={{current: page, pageSize: pageSize, total: total, showSizeChanger: true, onChange: onChangePage}}
+        rowKey={record => record._id}
+        onChange={onChange}
+        pagination={{current: page, pageSize: pageSize, total: total, showSizeChanger: true}}
       />
       <Modal title="Delete user" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <p>Are you sure you want to delete ?</p>

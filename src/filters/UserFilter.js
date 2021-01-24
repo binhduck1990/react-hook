@@ -53,20 +53,19 @@ export function UserFilter(props){
       }, [props.param])
     
     // set state for input value
-    const onChangeName = e => {
-        setName(e.target.value)
-    }
-
-    const onChangeEmail = e => {
-        setEmail(e.target.value)
-    }
-
-    const onChangeAddress = e => {
-        setAddress(e.target.value)
-    }
-
-    const onChangePhone = e => {
-        setPhone(e.target.value)
+    const onChangeInput = (e, type) => {
+        if(type === 'name'){
+            setName(e.target.value)
+        }
+        if(type === 'email'){
+            setEmail(e.target.value)
+        }
+        if(type === 'address'){
+            setAddress(e.target.value)
+        }
+        if(type === 'phone'){
+            setPhone(e.target.value)
+        }
     }
 
     const onChangeCreatedAt = (date) => {
@@ -84,35 +83,23 @@ export function UserFilter(props){
     }
 
     // handle filter when press enter input
-    const onPressEnterName = () => {
-        if(name.trim()){
+    const onPressEnterInput = (e, type) => {
+        if(name.trim() && type === 'name'){
             query.set('username', name.trim())
         }else{
             query.delete('username')
         }
-        pushQueryStringToUrl(query)
-    }
-
-    const onPressEnterEmail = () => {
-        if(email.trim()){
+        if(email.trim() && type === 'email'){
             query.set('email', email.trim())
         }else{
             query.delete('email')
         }
-        pushQueryStringToUrl(query)
-    }
-
-    const onPressEnterAddress = () => {
-        if(address.trim()){
+        if(address.trim() && type === 'address'){
             query.set('address', address.trim())
         }else{
             query.delete('address')
         }
-        pushQueryStringToUrl(query)
-    }
-
-    const onPressEnterPhone = () => {
-        if(phone.trim()){
+        if(phone.trim() && type === 'phone'){
             query.set('phone', phone.trim())
         }else{
             query.delete('phone')
@@ -152,10 +139,10 @@ export function UserFilter(props){
     return (
         <div className="user-filter">
             <Row>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search name" value={name} onChange={onChangeName} onPressEnter={onPressEnterName}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search email" value={email} onChange={onChangeEmail} onPressEnter={onPressEnterEmail}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search address" value={address} onChange={onChangeAddress} onPressEnter={onPressEnterAddress}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search phone" value={phone} onChange={onChangePhone} onPressEnter={onPressEnterPhone}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search name" value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search email" value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search address" value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
+                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search phone" value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
             </Row>
             <Col span={24} style={{ marginTop: '10px', marginBottom: '10px' }}></Col>
             <Row>

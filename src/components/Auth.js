@@ -77,6 +77,7 @@ function useProvideAuth() {
 
   // remove user
   const remove = (id, cb_success = null, cb_error = null) => {
+    console.log('4', cb_success)
     axios.delete(
       `http://localhost:4000/api/user/${id}`, {
         headers: {
@@ -85,6 +86,7 @@ function useProvideAuth() {
       }
     ).then(res => {
       if(typeof(cb_success) == "function"){
+        console.log('2', cb_success)
         cb_success(res)
       }
     }).catch(error => {

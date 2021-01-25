@@ -25,11 +25,11 @@ function useProvideAuth() {
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user', JSON.stringify(res.data.user))
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -45,11 +45,11 @@ function useProvideAuth() {
       'http://localhost:4000/api/user', formData, config
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function" && error.response.status === 400){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -66,11 +66,11 @@ function useProvideAuth() {
         `http://localhost:4000/api/user/${id}`, formData, config
       ).then(res => {
         if(typeof(cb_success) == "function"){
-          cb_success(res.data.message)
+          cb_success(res)
         }
       }).catch(error => {
         if(typeof(cb_error) == "function"){
-          cb_error(error.response.data.message)
+          cb_error(error)
         }
       })
     }
@@ -85,11 +85,11 @@ function useProvideAuth() {
       }
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -104,11 +104,11 @@ function useProvideAuth() {
         }
       ).then(res => {
         if(typeof(cb_success) == "function"){
-          cb_success(res.data.message)
+          cb_success(res)
         }
       }).catch(error => {
         if(typeof(cb_error) == "function"){
-          cb_error(error.response.data.message)
+          cb_error(error)
         }
       })
     }
@@ -123,11 +123,11 @@ function useProvideAuth() {
       }
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -142,11 +142,11 @@ function useProvideAuth() {
       `http://localhost:4000/api/user/logout`, {} ,config
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -156,11 +156,11 @@ function useProvideAuth() {
       `http://localhost:4000/api/user/reset-password`, {email}
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }
@@ -170,11 +170,11 @@ function useProvideAuth() {
       `http://localhost:4000/api/user/reset-password/${token}`, {password}
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res.data.message)
+        cb_success(res)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error(error.response.data.message)
+        cb_error(error)
       }
     })
   }

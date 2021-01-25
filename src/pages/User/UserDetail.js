@@ -4,7 +4,7 @@ import {
     useParams
 } from "react-router-dom"
 import {useState, useEffect} from 'react'
-import {useAuth} from '../../Auth'
+import {useAuth} from '../.././components/Auth'
 
 export function UserDetail(){
     const auth = useAuth()

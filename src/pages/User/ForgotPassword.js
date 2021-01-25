@@ -1,5 +1,5 @@
 import {Form, Input, Button} from 'antd'
-import {useAuth} from "../../Auth"
+import {useAuth} from '../.././components/Auth'
 import {MailOutlined} from '@ant-design/icons'
 
 export function ForgotPassword() {

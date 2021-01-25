@@ -1,6 +1,6 @@
 import {Form, Input, Button, Upload, Radio} from 'antd'
 import {UploadOutlined} from '@ant-design/icons'
-import {useAuth} from "../../Auth"
+import {useAuth} from '../.././components/Auth'
 import {
     useHistory,
     useLocation

@@ -4,7 +4,7 @@ import {
   Switch,
   Route
 } from "react-router-dom"
-import {ProvideAuth} from "./Auth.js"
+import {ProvideAuth} from "./components/Auth.js"
 import {Login} from './pages/User/Login'
 import {PrivateRoute} from './components/Protect'
 import {User} from './pages/User/User'

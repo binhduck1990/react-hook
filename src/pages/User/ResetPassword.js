@@ -1,7 +1,7 @@
 import {
   useParams
 } from "react-router-dom"
-import {useAuth} from '../../Auth'
+import {useAuth} from '../.././components/Auth'
 import {Form, Button, Input} from 'antd'
 import {LockOutlined} from '@ant-design/icons'
 

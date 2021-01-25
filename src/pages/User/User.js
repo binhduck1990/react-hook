@@ -5,10 +5,10 @@ import {UserFilter} from './UserFilter'
 import {
   useHistory
 } from "react-router-dom"
-import '../../index.css'
+import './User.css'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
-import {useAuth} from "../../Auth"
+import {useAuth} from '../.././components/Auth'
 
 export function User() {
   const history = useHistory()

@@ -1,5 +1,5 @@
 import {Form, Input, Button, Checkbox} from 'antd'
-import {useAuth} from "../../Auth"
+import {useAuth} from '../.././components/Auth'
 import {
   Link,
     useHistory,

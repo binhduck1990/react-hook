@@ -1,0 +1,21 @@
+.user-filter {
+    margin-bottom: 30px;
+}
+.login-form {
+    max-width: 300px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 200px !important;
+}
+.login-form-forgot {
+float: right;
+}
+.ant-col-rtl .login-form-forgot {
+float: left;
+}
+.login-form-button {
+width: 100%;
+}
+.text-center{
+  text-align: center !important;
+}

@@ -1,21 +1,21 @@
-import { Layout, Menu, Avatar, Dropdown } from 'antd';
-import React, { useState } from "react";
+import {Layout, Menu, Avatar, Dropdown} from 'antd'
+import React, {useState} from "react"
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
   DownOutlined
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 import '../css/Sidebar.css'
-import { Link, useHistory } from 'react-router-dom'
-import { useAuth } from "../Auth"
+import {Link, useHistory} from 'react-router-dom'
+import {useAuth} from './Auth'
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout
 
 export function SideBar({children}){
   const auth = useAuth()
   const history = useHistory()
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false)
   const user = JSON.parse(localStorage.getItem('user'))
   const avatar = user ? `http://localhost:4000/images/${user.avatar}` : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
   const toggle = () => {

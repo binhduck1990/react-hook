@@ -1,20 +1,18 @@
-import React, { useState, useContext, createContext } from "react";
-import { message } from 'antd';
-import axios from 'axios';
-import FetchApi from './FetchApi'
+import React, {useContext, createContext} from "react"
+import axios from 'axios'
 
-const authContext = createContext();
+const authContext = createContext()
 
 export function ProvideAuth({ children }) {
-  const auth = useProvideAuth();
+  const auth = useProvideAuth()
   return <authContext.Provider value={auth}>
           {children}
-         </authContext.Provider>;
+         </authContext.Provider>
 }
 
 export const useAuth = () => {
-  return useContext(authContext);
-};
+  return useContext(authContext)
+}
 
 function useProvideAuth() {
   const signin = (payload, cb_success = null, cb_error = null) => {
@@ -27,15 +25,14 @@ function useProvideAuth() {
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user', JSON.stringify(res.data.user))
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
-      message.error(error.response.data.message)
       if(typeof(cb_error) == "function"){
-        cb_error()
+        cb_error(error.response.data.message)
       }
     })
-  };
+  }
 
   // signup user
   const signup = (formData, cb_success = null, cb_error = null) => {
@@ -47,16 +44,15 @@ function useProvideAuth() {
     axios.post(
       'http://localhost:4000/api/user', formData, config
     ).then(res => {
-      message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function" && error.response.status === 400){
         cb_error(error.response.data.message)
       }
     })
-  };
+  }
 
     // updated user
     const update = (id, formData, cb_success = null, cb_error = null) => {
@@ -69,16 +65,15 @@ function useProvideAuth() {
       axios.put(
         `http://localhost:4000/api/user/${id}`, formData, config
       ).then(res => {
-        message.success(res.data.message)
         if(typeof(cb_success) == "function"){
-          cb_success(res)
+          cb_success(res.data.message)
         }
       }).catch(error => {
-        if(typeof(cb_error) == "function" && error.response.status === 400){
+        if(typeof(cb_error) == "function"){
           cb_error(error.response.data.message)
         }
       })
-    };
+    }
 
   // remove user
   const remove = (id, cb_success = null, cb_error = null) => {
@@ -89,17 +84,15 @@ function useProvideAuth() {
         }
       }
     ).then(res => {
-      message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success()
+        cb_success(res.data.message)
       }
     }).catch(error => {
       if(typeof(cb_error) == "function"){
-        cb_error()
+        cb_error(error.response.data.message)
       }
-      message.error(error.response.data.message)
     })
-  };
+  }
 
     // detail user
     const detail = (id, cb_success = null, cb_error = null) => {
@@ -111,14 +104,14 @@ function useProvideAuth() {
         }
       ).then(res => {
         if(typeof(cb_success) == "function"){
-          cb_success(res)
+          cb_success(res.data.message)
         }
       }).catch(error => {
         if(typeof(cb_error) == "function"){
-          cb_error()
+          cb_error(error.response.data.message)
         }
       })
-    };
+    }
 
   // user paginate
   const paginate = (filter = '', cb_success = null, cb_error = null) => {
@@ -130,15 +123,14 @@ function useProvideAuth() {
       }
     ).then(res => {
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
-      message.error(error.response.data.message)
       if(typeof(cb_error) == "function"){
-        cb_error()
+        cb_error(error.response.data.message)
       }
     })
-  };
+  }
 
   const signout = (cb_success = null, cb_error = null) => {
     const config = {
@@ -149,46 +141,43 @@ function useProvideAuth() {
     axios.post(
       `http://localhost:4000/api/user/logout`, {} ,config
     ).then(res => {
-      message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
-      if(typeof(cb_error) == "function" && error.response.status === 400){
+      if(typeof(cb_error) == "function"){
         cb_error(error.response.data.message)
       }
     })
-  };
+  }
 
   const sendPasswordResetEmail = (email, cb_success = null, cb_error = null) => {
     axios.post(
       `http://localhost:4000/api/user/reset-password`, {email}
     ).then(res => {
-      message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
-      if(typeof(cb_error) == "function" && error.response.status === 400){
+      if(typeof(cb_error) == "function"){
         cb_error(error.response.data.message)
       }
     })
-  };
+  }
 
   const confirmPasswordReset = (token, password, cb_success = null, cb_error = null) => {
     axios.put(
       `http://localhost:4000/api/user/reset-password/${token}`, {password}
     ).then(res => {
-      message.success(res.data.message)
       if(typeof(cb_success) == "function"){
-        cb_success(res)
+        cb_success(res.data.message)
       }
     }).catch(error => {
-      if(typeof(cb_error) == "function" && error.response.status === 400){
+      if(typeof(cb_error) == "function"){
         cb_error(error.response.data.message)
       }
     })
-  };
+  }
   
   // Return the user object and auth methods
   return {
@@ -201,5 +190,5 @@ function useProvideAuth() {
     update,
     paginate,
     detail
-  };
+  }
 }

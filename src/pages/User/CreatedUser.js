@@ -1,86 +1,65 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button, notification, Upload, message, Radio } from 'antd';
+import { Form, Input, Button, Upload, Radio } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { useAuth } from "../Auth"
-import {SideBar} from '../components/Sidebar'
+import { useAuth } from "../../Auth"
 import {
-    useParams
-} from "react-router-dom";
+    useHistory,
+    useLocation
+} from "react-router-dom"
 
-export function UpdatedUser() {
-    const {id} = useParams();
+export function CreatedUser() {
     const auth = useAuth()
-    const [form] = Form.useForm();
-    
-    useEffect(() => { 
-        auth.detail(id, (res) => {
-          form.setFieldsValue({
-            username: res.data.user.username,
-            email: res.data.user.email,
-            age: res.data.user.age,
-            phone: res.data.user.phone,
-            address: res.data.user.address,
-            gender: res.data.user.gender,
-            avatar: [{
-                uid: '-1',
-                name: res.data.user.avatar,
-                status: 'done',
-                url: `http://localhost:4000/images/${res.data.user.avatar}`
-            }]
-          })
-        })
-    }, [auth, id, form]);
+    let history = useHistory()
+    let location = useLocation()
+    const [form] = Form.useForm()
   
     const handleSubmit = () => {
+        let { from } = location.state || { from: { pathname: "/user" } }
         const formData = new FormData()
         const email = form.getFieldValue('email')
+        const password = form.getFieldValue('password') 
         const age = form.getFieldValue('age') 
         const phone = form.getFieldValue('phone') 
         const address = form.getFieldValue('address') 
         const username = form.getFieldValue('username') 
         const gender = form.getFieldValue('gender') 
-        const fileList = form.getFieldValue('avatar')
+        const fileList = form.getFieldValue('fileList')
 
-        formData.append('email', email)
-        formData.append('age', age)
-        formData.append('phone', phone)
-        formData.append('address', address)
-        formData.append('username', username)
-        formData.append('gender', gender)
-        if(!fileList){
-            formData.append('default_avatar', true)
-        }else{
-            if(fileList[0].uid !== '-1'){
-                formData.append('avatar', fileList[0])
-            }
-        }
+        if(email) formData.append('email', email)
+        if(password) formData.append('password', password)
+        if(age) formData.append('age', age)
+        if(phone) formData.append('phone', phone)
+        if(address) formData.append('address', address)
+        if(username) formData.append('username', username)
+        if(gender) formData.append('gender', gender)
+        if(fileList) formData.append('avatar', fileList[0])
 
-        auth.update(id, formData, () => {
+        auth.signup(formData, () => {
+            history.replace(from)
         }, (errors) => {
             
         })
     }
 
     const onReset = () => {
-        form.resetFields();
+        form.resetFields()
     }
 
     const props = {
         onRemove: () => {
-            form.setFieldsValue({avatar: []})
+            form.setFieldsValue({fileList: []})
         },
         beforeUpload(file){
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 file.url = reader.result
-                form.setFieldsValue({avatar: [file]})
+                form.setFieldsValue({fileList: [file]})
             }
             return false
         },
         listType: 'picture',
         maxCount: 1,
-    }
+      }
 
     const onChangeGender = (e) => {
         form.setFieldsValue({gender: e.target.value})
@@ -94,16 +73,16 @@ export function UpdatedUser() {
 
     const layout = {
         labelCol: { span: 8 },
-        wrapperCol: { span: 8 }
+        wrapperCol: { span: 8 },
     }
 
     const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 }
+        wrapperCol: { offset: 8, span: 8 },
     }
 
 return (
-    <SideBar>
-        <h1 style={{textAlign: 'center', margin: '15px 0px 20px 0px'}}>Update your account</h1>
+    <>
+        <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
         <Form
             {...layout}
             form={form}
@@ -116,7 +95,9 @@ return (
                 valuePropName="fileList"
                 getValueFromEvent={() => {}}
             >
-                <Upload {...props}>
+                <Upload
+                    {...props}
+                >
                     <Button icon={<UploadOutlined />}>Upload avatar</Button>
                 </Upload>
             </Form.Item>
@@ -126,6 +107,7 @@ return (
                 name="username"
                 rules={[
                     { required: true, message: 'Please input your name!' },
+                    { min: 8} 
                 ]}
             >
                 <Input/>
@@ -140,8 +122,17 @@ return (
             </Form.Item>
 
             <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+                <Input.Password/>
+            </Form.Item>
+
+            <Form.Item
                 label="Gender"
                 name="gender"
+                initialValue={'other'}
             >
                 <Radio.Group options={options} onChange={onChangeGender}/>
             </Form.Item>
@@ -169,13 +160,13 @@ return (
 
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit" style={{marginRight: 10}}>
-                    Update
+                    Create
                 </Button>
                 <Button type="danger" htmlType="button" onClick={onReset}>
                     Clear
                 </Button>
             </Form.Item>
         </Form>
-    </SideBar>
-    );
+    </>
+    )
 }

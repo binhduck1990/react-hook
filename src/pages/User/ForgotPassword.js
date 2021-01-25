@@ -1,20 +1,12 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { useAuth } from "../Auth"
-import {
-  Link,
-    useHistory,
-    useLocation
-  } from "react-router-dom";
-import { MailOutlined } from '@ant-design/icons';
+import {Form, Input, Button} from 'antd'
+import {useAuth} from "../../Auth"
+import { MailOutlined } from '@ant-design/icons'
 
 export function ForgotPassword() {
   const auth = useAuth()
-  let history = useHistory();
-  let location = useLocation();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   const handleSubmit = () => {
-    let { from } = location.state || { from: { pathname: "/user" } };
     const email = form.getFieldValue('email')
     auth.sendPasswordResetEmail(email, (res) => {
       

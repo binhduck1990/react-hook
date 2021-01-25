@@ -4,15 +4,15 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import { ProvideAuth } from "./Auth.js";
-import {Login} from './pages/Login'
-import {PrivateRoute} from './pages/Protect'
-import {User} from './pages/User'
-import {CreatedUser} from './pages/CreatedUser'
-import {UserDetail} from './pages/UserDetail'
-import {UpdatedUser} from './pages/UpdatedUser'
-import {ForgotPassword} from './pages/ForgotPassword'
-import {ResetPassword} from './pages/ResetPassword'
+import {ProvideAuth} from "./Auth.js";
+import {Login} from './pages/User/Login'
+import {PrivateRoute} from './components/Protect'
+import {User} from './pages/User/User'
+import {CreatedUser} from './pages/User/CreatedUser'
+import {UserDetail} from './pages/User/UserDetail'
+import {UpdatedUser} from './pages/User/UpdatedUser'
+import {ForgotPassword} from './pages/User/ForgotPassword'
+import {ResetPassword} from './pages/User/ResetPassword'
 
 export default function App() {
   return (

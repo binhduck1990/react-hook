@@ -1,11 +1,9 @@
 import {
-    useParams,
-    Link
+  useParams
 } from "react-router-dom"
-import {useState, useEffect} from 'react'
-import { useAuth } from '../Auth'
+import {useAuth} from '../../Auth'
 import {Form, Button, Input} from 'antd'
-import { LockOutlined } from '@ant-design/icons';
+import {LockOutlined} from '@ant-design/icons'
 
 export function ResetPassword(){
     const auth = useAuth()

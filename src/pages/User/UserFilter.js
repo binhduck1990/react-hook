@@ -1,14 +1,14 @@
-import { Input, Button, DatePicker, Col, Row } from 'antd';
-import { useState, useEffect } from 'react';
+import { Input, Button, DatePicker, Col, Row } from 'antd'
+import { useState, useEffect } from 'react'
 import {
     useHistory
-  } from "react-router-dom";
-import { SearchOutlined } from '@ant-design/icons';
-import moment from 'moment';
+  } from "react-router-dom"
+import { SearchOutlined } from '@ant-design/icons'
+import moment from 'moment'
 
 export function UserFilter(props){
-    const history = useHistory();
-    const dateFormat = 'DD-MM-YYYY';
+    const history = useHistory()
+    const dateFormat = 'DD-MM-YYYY'
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [address, setAddress] = useState('')

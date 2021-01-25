@@ -1,24 +1,24 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { useAuth } from "../Auth"
+import {Form, Input, Button, Checkbox} from 'antd'
+import {useAuth} from "../../Auth"
 import {
   Link,
     useHistory,
     useLocation
-  } from "react-router-dom";
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+  } from "react-router-dom"
+import {UserOutlined, LockOutlined} from '@ant-design/icons'
 
 export function Login() {
   const auth = useAuth()
-  let history = useHistory();
-  let location = useLocation();
-  const [form] = Form.useForm();
+  let history = useHistory()
+  let location = useLocation()
+  const [form] = Form.useForm()
   const email = localStorage.getItem('email')
   if(email){
     form.setFieldsValue({email})
   }
 
   const handleSubmit = () => {
-    let { from } = location.state || { from: { pathname: "/user" } };
+    let { from } = location.state || { from: { pathname: "/user" } }
     const email = form.getFieldValue('email')
     const password = form.getFieldValue('password')
     const remember = form.getFieldValue('remember')

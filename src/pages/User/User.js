@@ -1,32 +1,32 @@
-import { Table, Space, Modal } from 'antd';
-import { useState, useEffect } from 'react';
-import {SideBar} from '../components/Sidebar'
-import {UserFilter} from '../filters/UserFilter'
+import {Table, Space, Modal} from 'antd'
+import {useState, useEffect} from 'react'
+import {SideBar} from '../../components/Sidebar'
+import {UserFilter} from './UserFilter'
 import {
   useHistory
-} from "react-router-dom";
-import '../index.css'
+} from "react-router-dom"
+import '../../index.css'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-import { useAuth } from "../Auth"
+import { useAuth } from "../../Auth"
 
 export function User() {
-  const history = useHistory();
+  const history = useHistory()
   const auth = useAuth()
   const [loading, setLoading] = useState(true)
   const [sortOrder, setSortOrder] = useState(false)
-  const [users, setUsers] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
+  const [users, setUsers] = useState([])
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [id, setId] = useState('')
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const [param, setParam] = useState(window.location.search)
 
   const listenToPopstate = () => {
     // when browser back or next, run this function to set query url
     setParam(window.location.search)
-  };
+  }
   
   useEffect(() => {
     window.addEventListener('popstate', listenToPopstate)
@@ -38,15 +38,15 @@ export function User() {
     setLoading(true)
     auth.paginate(param, (res) => {
       setLoading(false)
-      setUsers(res.data.users);
-      setTotal(res.data.total);
+      setUsers(res.data.users)
+      setTotal(res.data.total)
       setPage(res.data.page)
       setPageSize(res.data.page_size)
       if(query.get('sort_by') !== sortOrder && query.get('sort_by')){
         setSortOrder(query.get('sort_by'))
       }
     })
-  }, [param, auth]);
+  }, [param, auth, sortOrder])
 
   // push query params to url if page, per_page change
   const pushQueryStringToUrl = (query) => {
@@ -69,8 +69,8 @@ export function User() {
 
   const handleOk = () => {
     auth.remove(id, auth.paginate('', (res) => {
-      setUsers(res.data.users);
-      setTotal(res.data.total);
+      setUsers(res.data.users)
+      setTotal(res.data.total)
       setPage(res.data.page)
       setPageSize(res.data.page_size)
     }))
@@ -154,7 +154,7 @@ export function User() {
         </Space>
       ),
     },
-  ];
+  ]
 
   return (
     <SideBar>

@@ -1,10 +1,10 @@
-import { Descriptions, Image } from 'antd';
-import { SideBar } from '../components/Sidebar'
+import {Descriptions, Image} from 'antd'
+import {SideBar} from '../../components/Sidebar'
 import {
     useParams
 } from "react-router-dom"
 import {useState, useEffect} from 'react'
-import { useAuth } from '../Auth'
+import {useAuth} from '../../Auth'
 
 export function UserDetail(){
     const auth = useAuth()
@@ -18,7 +18,7 @@ export function UserDetail(){
             setAvatar(`http://localhost:4000/images/${res.data.user.avatar}`)
           }
         })
-    }, [auth, id]);
+    }, [auth, id])
     return (
         <SideBar>
             <Descriptions title="User Profile" column={1} style={{padding: 15}} bordered={true}>

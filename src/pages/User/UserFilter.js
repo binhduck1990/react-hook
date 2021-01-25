@@ -1,9 +1,9 @@
-import { Input, Button, DatePicker, Col, Row } from 'antd'
-import { useState, useEffect } from 'react'
+import {Input, Button, DatePicker, Col, Row} from 'antd'
+import {useState, useEffect} from 'react'
 import {
     useHistory
   } from "react-router-dom"
-import { SearchOutlined } from '@ant-design/icons'
+import {SearchOutlined} from '@ant-design/icons'
 import moment from 'moment'
 
 export function UserFilter(props){

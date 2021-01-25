@@ -6,9 +6,9 @@ import {
   useHistory
 } from "react-router-dom"
 import '../../index.css'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import moment from 'moment'
-import { useAuth } from "../../Auth"
+import {useAuth} from "../../Auth"
 
 export function User() {
   const history = useHistory()

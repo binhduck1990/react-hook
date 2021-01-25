@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
-import {ProvideAuth} from "./Auth.js";
+} from "react-router-dom"
+import {ProvideAuth} from "./Auth.js"
 import {Login} from './pages/User/Login'
 import {PrivateRoute} from './components/Protect'
 import {User} from './pages/User/User'
@@ -43,5 +43,5 @@ export default function App() {
         </Switch>
       </Router>
     </ProvideAuth>
-  );
+  )
 }

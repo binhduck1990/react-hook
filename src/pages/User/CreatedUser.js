@@ -87,19 +87,6 @@ return (
             onFinish={handleSubmit}
         >
             <Form.Item
-                label="Avatar"
-                name="avatar"
-                valuePropName="fileList"
-                getValueFromEvent={() => {}}
-            >
-                <Upload
-                    {...props}
-                >
-                    <Button icon={<UploadOutlined />}>Upload avatar</Button>
-                </Upload>
-            </Form.Item>
-
-            <Form.Item
                 label="Username"
                 name="username"
                 rules={[
@@ -124,6 +111,19 @@ return (
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
                 <Input.Password/>
+            </Form.Item>
+
+            <Form.Item
+                label="Avatar"
+                name="avatar"
+                valuePropName="fileList"
+                getValueFromEvent={() => {}}
+            >
+                <Upload
+                    {...props}
+                >
+                    <Button icon={<UploadOutlined />}>Upload avatar</Button>
+                </Upload>
             </Form.Item>
 
             <Form.Item

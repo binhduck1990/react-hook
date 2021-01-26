@@ -22,13 +22,13 @@ export default function App() {
           <Route path="/login">
             <Login/>
           </Route>
-          <Route exact path="/user/signup">
+          <Route exact path="/signup">
             <CreatedUser/>
           </Route>
-          <Route exact path="/user/forgot-password">
+          <Route exact path="/forgot-password">
             <ForgotPassword/>
           </Route>
-          <Route exact path="/user/reset-password/:token">
+          <Route exact path="/reset-password/:token">
             <ResetPassword/>
           </Route>
           <PrivateRoute exact path="/user">

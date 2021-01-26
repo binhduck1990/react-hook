@@ -57,7 +57,7 @@ export function Login() {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Link className="login-form-forgot" to={'/user/forgot-password'}>
+        <Link className="login-form-forgot" to={'/forgot-password'}>
           Forgot password
         </Link>
       </Form.Item>
@@ -66,7 +66,7 @@ export function Login() {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <Link to={'/user/signup'}>register now!</Link>
+        Or <Link to={'/signup'}>register now!</Link>
       </Form.Item>
     </Form>
   )

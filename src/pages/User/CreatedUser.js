@@ -1,10 +1,7 @@
 import {Form, Input, Button, Upload, Radio} from 'antd'
 import {UploadOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
-import {
-    useHistory,
-    useLocation
-} from "react-router-dom"
+import {useHistory, useLocation} from "react-router-dom"
 
 export function CreatedUser() {
     const auth = useAuth()
@@ -66,18 +63,18 @@ export function CreatedUser() {
     }
 
     const options = [
-        { label: 'Male', value: 'male'},
+        { label: 'Male', value: 'male' },
         { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' },
+        { label: 'Other', value: 'other' }
     ]
 
     const layout = {
         labelCol: { span: 8 },
-        wrapperCol: { span: 8 },
+        wrapperCol: { span: 8 }
     }
 
     const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 },
+        wrapperCol: { offset: 8, span: 8 }
     }
 
 return (

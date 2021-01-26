@@ -1,10 +1,6 @@
 import {Form, Input, Button, Checkbox} from 'antd'
 import {useAuth} from '../.././components/Auth'
-import {
-  Link,
-    useHistory,
-    useLocation
-  } from "react-router-dom"
+import {Link, useHistory, useLocation} from "react-router-dom"
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
 
 export function Login() {

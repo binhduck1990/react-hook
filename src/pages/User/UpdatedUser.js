@@ -20,12 +20,16 @@ export function UpdatedUser() {
             age: res.data.user.age,
             phone: res.data.user.phone,
             address: res.data.user.address,
-            gender: res.data.user.gender,
-            avatar: [{
+            gender: res.data.user.gender ? res.data.user.gender : 'other',
+            avatar: res.data.user.avatar ? [{
                 uid: '-1',
                 name: res.data.user.avatar,
                 status: 'done',
                 url: `http://localhost:4000/images/${res.data.user.avatar}`
+            }] : [{
+                uid: '-1',
+                status: 'done',
+                name: 'choose file to upload'
             }]
           })
         })
@@ -50,11 +54,10 @@ export function UpdatedUser() {
         if(!fileList){
             formData.append('default_avatar', true)
         }else{
-            if(fileList[0].uid !== '-1'){
+            if(fileList[0] instanceof File){
                 formData.append('avatar', fileList[0])
             }
         }
-
         auth.update(id, formData, () => {
         }, (errors) => {
             

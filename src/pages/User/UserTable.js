@@ -1,55 +1,60 @@
-import {Table, Space, Popconfirm, Tooltip} from 'antd'
+import {Table, Space, Popconfirm, Tooltip, Avatar, Image} from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import moment from 'moment'
-import {useState, useEffect} from 'react'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 
 export function UserTable(props){
   const history = useHistory()
-  const [sortCreatedAt, setSortCreatedAt] = useState(false)
-  const [sortAge, setSortAge] = useState(false)
   const {users, page, pageSize, total, loading, param, removeUser} = props
   const query = new URLSearchParams(param)
-  console.log('query', query.getAll('sort_by'))
-  // set value for filter if url has query param
-  useEffect(() => {
-    // create a new instance of URLSearchParams to ignore useEffrect warning
-    const query = new URLSearchParams(param) 
-    if(query.has('sort_field') && query.has('sort_by')){
-      const sortBy = query.get('sort_by') === 'desc' ? 'descend' : query.get('sort_by') === 'asc' ? 'ascend' : false
-      if(query.get('sort_field') === 'createdAt'){
-        setSortCreatedAt(sortBy)
-      }
-      if(query.get('sort_field') === 'age'){
-        setSortAge(sortBy)
-      }
-    }else{
-      setSortCreatedAt(false)
-      setSortAge(false)
+
+  // push query params to url and set state of parent's params
+  const pushQueryStringToUrl = (query) => {
+    const result = "?" + query.toString()
+    history.push({
+        pathname: '/user',
+        search: result
+    })
+    props.onFilterUser(result)
+  }
+
+  const onChange = (pagination) => {
+    if(pagination.current !== page || pagination.pageSize !== pageSize){
+      query.set('page', pagination.current)
+      query.set('page_size', pagination.pageSize)
+      pushQueryStringToUrl(query)
     }
-  }, [param])
+  }
 
   const columns = [
+    {
+      title: '',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (text, record) => (
+        <Avatar src={<Image src={`http://localhost:4000/images/${record.avatar}`}/>}/>
+      ),
+      width: '5%'
+    },
     {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => (
         <Link to={`user/profile/${record._id}`}>
-          <Tooltip placement="topLeft" title="View Profile">
+          <Tooltip placement="topRight" title="View Profile">
             {text}
           </Tooltip>  
         </Link>
       ),
-      width: '20%'
+      width: '15%'
     },
     {
       title: 'Age',
       dataIndex: 'age',
       key: 'age',
       width: '10%',
-      sorter: true,
-      sortOrder: sortAge,
+      sorter: (a, b) => a.age - b.age
     },
     {
       title: 'Address',
@@ -74,8 +79,7 @@ export function UserTable(props){
       key: 'created_at',
       dataIndex: 'createdAt',
       width: '15%',
-      sorter: true,
-      sortOrder: sortCreatedAt,
+      sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
       render: text => <>{moment(text, 'YYYY-MM-DD').format('DD-MM-YYYY')}</>
     },
     {
@@ -85,13 +89,13 @@ export function UserTable(props){
       render: (text, record) => (
         <Space size="middle">
           <Link to={`user/${record._id}`}>
-            <Tooltip placement="topLeft" title="Edit Profile">
+            <Tooltip placement="topRight" title="Edit Profile">
               <EditOutlined />
             </Tooltip>
             </Link>
           <Popconfirm title="Sure to delete?" onConfirm={(id) => removeUser(record._id)}>
             <Link to={'#'}>
-              <Tooltip placement="topLeft" title="Remove User">
+              <Tooltip placement="topRight" title="Remove User">
                 <DeleteOutlined />
               </Tooltip>
               </Link>
@@ -100,43 +104,6 @@ export function UserTable(props){
       )
     }
   ]
-
-  // push query params to url and set state of parent's params
-  const pushQueryStringToUrl = (query) => {
-    const result = "?" + query.toString()
-    history.push({
-        pathname: '/user',
-        search: result
-    })
-    props.onFilterUser(result)
-  }
-
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('sorter', sorter)
-    // if(sortOrder !== sorter.order){
-    //   if(sorter.order === undefined){
-    //     setSortAge(false)
-    //     setSortCreatedAt(false)
-    //     query.delete('sort_field')
-    //     query.delete('sort_by')
-    //   }else{
-    //     setSortOrder(sorter.order)
-    //     query.set('sort_field', sorter.columnKey)
-    //     if(sorter.order === 'descend'){
-    //       query.set('sort_by', 'desc')
-    //     }
-    //     if(sorter.order === 'ascend'){
-    //       query.set('sort_by', 'asc')
-    //     }
-    //   }
-    // }
-
-    if(pagination.current !== page || pagination.pageSize !== pageSize){
-      query.set('page', pagination.current)
-      query.set('page_size', pagination.pageSize)
-    }
-    pushQueryStringToUrl(query)
-  }
   
   return (
     <Table

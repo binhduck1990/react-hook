@@ -1,61 +1,64 @@
-import React, {useEffect} from "react"
-import {Form, Input, Button, Upload, Radio} from 'antd'
-import {UploadOutlined} from '@ant-design/icons'
+import './User.css'
+import React, {useEffect, useState} from "react"
+import {Form, Input, Button, Upload, Radio, InputNumber, DatePicker, Space} from 'antd'
+import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
 import {SideBar} from '../../components/Sidebar'
-import {
-    useParams
-} from "react-router-dom"
+import {useParams} from "react-router-dom"
+import moment from 'moment'
 
 export function UpdatedUser() {
     const {id} = useParams()
     const auth = useAuth()
+    const [user, setUser] = useState({})
     const [form] = Form.useForm()
     
     useEffect(() => { 
         auth.detail(id, (res) => {
-          form.setFieldsValue({
-            username: res.data.user.username,
-            email: res.data.user.email,
-            age: res.data.user.age,
-            phone: res.data.user.phone,
-            address: res.data.user.address,
-            gender: res.data.user.gender ? res.data.user.gender : 'other',
-            avatar: res.data.user.avatar ? [{
-                uid: '-1',
-                name: res.data.user.avatar,
-                status: 'done',
-                url: `http://localhost:4000/images/${res.data.user.avatar}`
-            }] : [{
-                uid: '-1',
-                status: 'done',
-                name: 'choose file to upload'
-            }]
-          })
+            setUser(res.data.user)
+            form.setFieldsValue({
+                username: res.data.user.username,
+                email: res.data.user.email,
+                age: res.data.user.age,
+                birthday: res.data.user.birthday ? moment(res.data.user.birthday, 'DD-MM-YYYY') : undefined,
+                hobbies: res.data.user.hobbies,
+                phone: res.data.user.phone,
+                address: res.data.user.address,
+                gender: res.data.user.gender ? res.data.user.gender : 'other',
+                avatar: res.data.user.avatar ? [{
+                    uid: '-1',
+                    name: res.data.user.avatar,
+                    status: 'done',
+                    url: `http://localhost:4000/images/${res.data.user.avatar}`
+                    }] : [{
+                        uid: '-1',
+                        status: 'done',
+                        name: 'choose file to upload'
+                }]
+            })
         })
     }, [auth, id, form])
   
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         const formData = new FormData()
-        const email = form.getFieldValue('email')
-        const age = form.getFieldValue('age') 
-        const phone = form.getFieldValue('phone') 
-        const address = form.getFieldValue('address') 
-        const username = form.getFieldValue('username') 
-        const gender = form.getFieldValue('gender') 
-        const fileList = form.getFieldValue('avatar')
-
-        formData.append('email', email)
+        const {email, age, phone, address, username, gender, avatar, birthday, hobbies} = values
         formData.append('age', age)
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('username', username)
+        formData.append('email', email)
         formData.append('gender', gender)
-        if(!fileList){
+        if(hobbies.length){
+            hobbies.forEach((item) => formData.append("hobbies[]", item))
+        }
+        if(birthday instanceof moment){
+            formData.append('birthday', birthday.format())
+        }
+        if(!avatar){
             formData.append('default_avatar', true)
         }else{
-            if(fileList[0] instanceof File){
-                formData.append('avatar', fileList[0])
+            if(avatar[0] instanceof File){
+                formData.append('avatar', avatar[0])
             }
         }
         auth.update(id, formData, () => {
@@ -65,7 +68,26 @@ export function UpdatedUser() {
     }
 
     const onReset = () => {
-        form.resetFields()
+        form.setFieldsValue({
+            username: user.username,
+            email: user.email,
+            age: user.age,
+            birthday: user.birthday,
+            hobbies: user.hobbies,
+            phone: user.phone,
+            address: user.address,
+            gender: user.gender ? user.gender : 'other',
+            avatar: user.avatar ? [{
+                uid: '-1',
+                name: user.avatar,
+                status: 'done',
+                url: `http://localhost:4000/images/${user.avatar}`
+                }] : [{
+                    uid: '-1',
+                    status: 'done',
+                    name: 'choose file to upload'
+            }]
+        })
     }
 
     const props = {
@@ -95,20 +117,23 @@ export function UpdatedUser() {
         { label: 'Other', value: 'other' },
     ]
 
-    const layout = {
+    const formItemLayout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 8 }
     }
 
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 }
+    const formItemLayoutWithOutLabel = {
+        wrapperCol: {
+            xs: { span: 8},
+            sm: { span: 8, offset: 8 },
+        }
     }
 
 return (
     <SideBar>
         <h1 style={{textAlign: 'center', margin: '15px 0px 20px 0px'}}>Update your account</h1>
         <Form
-            {...layout}
+            {...formItemLayout}
             form={form}
             name="basic"
             onFinish={handleSubmit}
@@ -149,11 +174,19 @@ return (
                 <Radio.Group options={options} onChange={onChangeGender}/>
             </Form.Item>
 
+            <Form.Item 
+                label="Birthday"
+                name="birthday"
+            >
+                <DatePicker format={'DD-MM-YYYY'}/>
+            </Form.Item>
+
             <Form.Item
                 label="Age"
                 name="age"
+                rules={[{ type: 'number', min: 0, max: 99 }]}
             >
-                <Input/>
+                <InputNumber/>
             </Form.Item>
 
             <Form.Item
@@ -170,13 +203,55 @@ return (
                 <Input/>
             </Form.Item>
 
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" style={{marginRight: 10}}>
-                    Update
-                </Button>
-                <Button type="danger" htmlType="button" onClick={onReset}>
-                    Clear
-                </Button>
+            <Form.List
+                name="hobbies"
+            >
+                {(fields, { add, remove }, { errors }) => (
+                <>
+                    <Form.Item {...formItemLayout} label="Hobbies">
+                        <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            style={{ width: '60%' }}
+                            icon={<PlusOutlined />}
+                        >
+                            Add your hobby
+                        </Button>
+                    </Form.Item>
+                    {fields.map((field, index) => (
+                        <Form.Item
+                            {...formItemLayoutWithOutLabel}
+                            key={field.key}
+                        >
+                            <Form.Item
+                                {...field}
+                                rules={[
+                                    { max: 10, message: 'Your hobby should max 10 characters'},
+                                    { required: true, message: 'Please input your hobby!' }
+                                ]}
+                                noStyle
+                            >
+                            <Input style={{ width: '60%' }} />
+                            </Form.Item>
+                            <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                onClick={() => remove(field.name)}
+                            />
+                        </Form.Item>
+                    ))}
+                </>
+                )}
+            </Form.List>
+
+            <Form.Item {...formItemLayoutWithOutLabel}>
+                <Space>
+                    <Button type="primary" htmlType="submit">
+                        Update
+                    </Button>
+                    <Button htmlType="button" onClick={onReset}>
+                        Reset
+                    </Button>
+                </Space>
             </Form.Item>
         </Form>
     </SideBar>

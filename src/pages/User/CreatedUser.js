@@ -1,7 +1,8 @@
-import {Form, Input, Button, Upload, Radio} from 'antd'
-import {UploadOutlined} from '@ant-design/icons'
+import {Form, Input, Button, Upload, Radio, InputNumber, Space, DatePicker} from 'antd'
+import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
 import {useHistory, useLocation} from "react-router-dom"
+import moment from 'moment'
 
 export function CreatedUser() {
     const auth = useAuth()
@@ -9,18 +10,10 @@ export function CreatedUser() {
     let location = useLocation()
     const [form] = Form.useForm()
   
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         let { from } = location.state || { from: { pathname: "/user" } }
+        const {email, password, age, phone, address, username, gender, avatar, birthday, hobbies} = values
         const formData = new FormData()
-        const email = form.getFieldValue('email')
-        const password = form.getFieldValue('password') 
-        const age = form.getFieldValue('age') 
-        const phone = form.getFieldValue('phone') 
-        const address = form.getFieldValue('address') 
-        const username = form.getFieldValue('username') 
-        const gender = form.getFieldValue('gender') 
-        const fileList = form.getFieldValue('fileList')
-
         if(email) formData.append('email', email)
         if(password) formData.append('password', password)
         if(age) formData.append('age', age)
@@ -28,8 +21,13 @@ export function CreatedUser() {
         if(address) formData.append('address', address)
         if(username) formData.append('username', username)
         if(gender) formData.append('gender', gender)
-        if(fileList) formData.append('avatar', fileList[0])
-
+        if(avatar) formData.append('avatar', avatar[0])
+        if(hobbies.length){
+            hobbies.forEach((item) => formData.append("hobbies[]", item))
+        }
+        if(birthday instanceof moment){
+            formData.append('birthday', birthday.format())
+        }
         auth.signup(formData, () => {
             history.replace(from)
         }, (errors) => {
@@ -68,20 +66,23 @@ export function CreatedUser() {
         { label: 'Other', value: 'other' }
     ]
 
-    const layout = {
+    const formItemLayout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 8 }
     }
 
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 8 }
+    const formItemLayoutWithOutLabel = {
+        wrapperCol: {
+            xs: { span: 8},
+            sm: { span: 8, offset: 8 },
+        }
     }
 
 return (
     <>
         <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
         <Form
-            {...layout}
+            {...formItemLayout}
             form={form}
             name="basic"
             onFinish={handleSubmit}
@@ -137,8 +138,16 @@ return (
             <Form.Item
                 label="Age"
                 name="age"
+                rules={[{ type: 'number', min: 0, max: 99 }]}
             >
-                <Input/>
+                <InputNumber/>
+            </Form.Item>
+
+            <Form.Item 
+                label="Birthday"
+                name="birthday"
+            >
+                <DatePicker format={'DD-MM-YYYY'}/>
             </Form.Item>
 
             <Form.Item
@@ -155,13 +164,55 @@ return (
                 <Input/>
             </Form.Item>
 
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" style={{marginRight: 10}}>
-                    Create
-                </Button>
-                <Button type="danger" htmlType="button" onClick={onReset}>
-                    Clear
-                </Button>
+            <Form.List
+                name="hobbies"
+            >
+                {(fields, { add, remove }, { errors }) => (
+                <>
+                    <Form.Item {...formItemLayout} label="Hobbies">
+                        <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            style={{ width: '60%' }}
+                            icon={<PlusOutlined />}
+                        >
+                            Add your hobby
+                        </Button>
+                    </Form.Item>
+                    {fields.map((field, index) => (
+                        <Form.Item
+                            {...formItemLayoutWithOutLabel}
+                            key={field.key}
+                        >
+                            <Form.Item
+                                {...field}
+                                rules={[
+                                    { max: 10, message: 'Your hobby should max 10 characters'},
+                                    { required: true, message: 'Please input your hobby!' }
+                                ]}
+                                noStyle
+                            >
+                            <Input style={{ width: '60%' }} />
+                            </Form.Item>
+                            <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                onClick={() => remove(field.name)}
+                            />
+                        </Form.Item>
+                    ))}
+                </>
+                )}
+            </Form.List>
+
+            <Form.Item {...formItemLayoutWithOutLabel}>
+                <Space>
+                    <Button type="primary" htmlType="submit">
+                        Signup
+                    </Button>
+                    <Button htmlType="button" onClick={onReset}>
+                        Reset
+                    </Button>
+                </Space>
             </Form.Item>
         </Form>
     </>

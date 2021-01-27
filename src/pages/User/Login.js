@@ -13,13 +13,10 @@ export function Login() {
     form.setFieldsValue({email})
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (values) => {
     let { from } = location.state || { from: { pathname: "/user" } }
-    const email = form.getFieldValue('email')
-    const password = form.getFieldValue('password')
-    const remember = form.getFieldValue('remember')
-    auth.signin({email, password}, (res) => {
-      if(remember){
+    auth.signin(values, (res) => {
+      if(values.remember){
         localStorage.setItem('email', email)
       }else{
         localStorage.removeItem('email')

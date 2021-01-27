@@ -72,7 +72,7 @@ export function UpdatedUser() {
             username: user.username,
             email: user.email,
             age: user.age,
-            birthday: user.birthday,
+            birthday: user.birthday ? moment(user.birthday, 'DD-MM-YYYY') : undefined,
             hobbies: user.hobbies,
             phone: user.phone,
             address: user.address,

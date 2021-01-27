@@ -74,7 +74,7 @@ export function CreatedUser() {
     const formItemLayoutWithOutLabel = {
         wrapperCol: {
             xs: { span: 8},
-            sm: { span: 8, offset: 8 },
+            sm: { span: 8, offset: 8 }
         }
     }
 

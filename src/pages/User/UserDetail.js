@@ -23,8 +23,8 @@ export function UserDetail(){
             <Descriptions title="User Profile" column={1} style={{padding: 15}} bordered={true}>
             <Descriptions.Item label="Avatar">
                 <Image
-                width={200}
-                src={avatar}
+                    width={200}
+                    src={avatar}
                 />
             </Descriptions.Item>
             <Descriptions.Item label="Username">{user.username}</Descriptions.Item>

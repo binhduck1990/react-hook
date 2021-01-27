@@ -226,7 +226,7 @@ return (
                             <Form.Item
                                 {...field}
                                 rules={[
-                                    { max: 10, message: 'Your hobby should max 10 characters'},
+                                    { max: 10, message: 'Your hobby max 50 characters'},
                                     { required: true, message: 'Please input your hobby!' }
                                 ]}
                                 noStyle

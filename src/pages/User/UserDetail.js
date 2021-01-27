@@ -1,8 +1,9 @@
-import {Descriptions, Image} from 'antd'
+import {Descriptions, Image, Tag} from 'antd'
 import {SideBar} from '../../components/Sidebar'
 import {useParams} from "react-router-dom"
 import {useState, useEffect} from 'react'
 import {useAuth} from '../.././components/Auth'
+import moment from 'moment'
 
 export function UserDetail(){
     const auth = useAuth()
@@ -32,6 +33,16 @@ export function UserDetail(){
             <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
             <Descriptions.Item label="Age">{user.age}</Descriptions.Item>
             <Descriptions.Item label="Gender">{user.gender}</Descriptions.Item>
+            <Descriptions.Item label="Birthday">{moment(user.birthday).format('DD-MM-YYYY')}</Descriptions.Item>
+            <Descriptions.Item label="Hobbies">
+                {user.hobbies && user.hobbies.map(tag => {
+                    return (
+                        <Tag color={'geekblue'} key={tag}>
+                            {tag.toUpperCase()}
+                        </Tag>
+                    )
+                })}
+            </Descriptions.Item>
             </Descriptions>
         </SideBar>
     )

@@ -27,7 +27,7 @@ export function UserDetail(){
                 src={avatar}
                 />
             </Descriptions.Item>
-            <Descriptions.Item label="UserName">{user.username}</Descriptions.Item>
+            <Descriptions.Item label="Username">{user.username}</Descriptions.Item>
             <Descriptions.Item label="Phone">{user.phone}</Descriptions.Item>
             <Descriptions.Item label="Adress">{user.address}</Descriptions.Item>
             <Descriptions.Item label="Email">{user.email}</Descriptions.Item>

@@ -2,6 +2,7 @@ import {Form, Input, Button, Checkbox} from 'antd'
 import {useAuth} from '../.././components/Auth'
 import {Link, useHistory, useLocation} from "react-router-dom"
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
+import {io} from "socket.io-client"
 
 export function Login() {
   const auth = useAuth()

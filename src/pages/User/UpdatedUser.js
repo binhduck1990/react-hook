@@ -48,7 +48,7 @@ export function UpdatedUser() {
         formData.append('username', username)
         formData.append('email', email)
         formData.append('gender', gender)
-        if(hobbies.length){
+        if(hobbies && hobbies.length){
             hobbies.forEach((item) => formData.append("hobbies[]", item))
         }
         if(birthday instanceof moment){

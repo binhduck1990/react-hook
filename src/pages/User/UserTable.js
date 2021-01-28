@@ -1,10 +1,13 @@
-import {Table, Space, Popconfirm, Tooltip, Avatar, Image} from 'antd'
+import {Table, Space, Popconfirm, Tooltip, Avatar, Image, Tag} from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import moment from 'moment'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
+import {io} from "socket.io-client"
+import {useState, useEffect} from 'react'
 
 export function UserTable(props){
   const history = useHistory()
+  const [status, setStatus] = useState('offline')
   const {users, page, pageSize, total, loading, param, removeUser} = props
   const query = new URLSearchParams(param)
 
@@ -25,6 +28,13 @@ export function UserTable(props){
       pushQueryStringToUrl(query)
     }
   }
+
+  useEffect(() => {
+    const socket = io("http://localhost:5000")
+    socket.on("online", (socket) => {
+      setStatus(socket)
+    })
+  }, [])
 
   const columns = [
     {
@@ -60,7 +70,16 @@ export function UserTable(props){
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: '20%'
+      width: '15%'
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: () => (
+        <Tag color="green">{status}</Tag>
+      ),
+      width: '5%'
     },
     {
       title: 'Email',

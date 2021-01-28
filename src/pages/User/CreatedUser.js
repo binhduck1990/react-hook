@@ -11,7 +11,7 @@ export function CreatedUser() {
     const [form] = Form.useForm()
   
     const handleSubmit = (values) => {
-        let { from } = location.state || { from: { pathname: "/user" } }
+        let { from } = location.state || { from: { pathname: "/login" } }
         const {email, password, age, phone, address, username, gender, avatar, birthday, hobbies} = values
         const formData = new FormData()
         if(email) formData.append('email', email)
@@ -22,7 +22,7 @@ export function CreatedUser() {
         if(username) formData.append('username', username)
         if(gender) formData.append('gender', gender)
         if(avatar) formData.append('avatar', avatar[0])
-        if(hobbies.length){
+        if(hobbies && hobbies.length){
             hobbies.forEach((item) => formData.append("hobbies[]", item))
         }
         if(birthday instanceof moment){

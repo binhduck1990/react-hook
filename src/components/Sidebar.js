@@ -4,7 +4,8 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  DownOutlined
+  DownOutlined,
+  WechatOutlined
 } from '@ant-design/icons'
 import '../css/Sidebar.css'
 import {Link, useHistory} from 'react-router-dom'
@@ -54,12 +55,12 @@ export function SideBar({children}){
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-            {collapsed ? <MenuUnfoldOutlined className="trigger" onClick={toggle}/> : <MenuFoldOutlined className="trigger" onClick={toggle}/>}
-            <Dropdown className='dropdown-header' overlay={menu} trigger={['click']} placement='topLeft'>
-                <Link to="/#" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                  <Avatar src={avatar} style={{ backgroundColor: '#87d068', cursor: 'pointer'}}/> <DownOutlined />
-                </Link>
-            </Dropdown>
+          {collapsed ? <MenuUnfoldOutlined className="trigger" onClick={toggle}/> : <MenuFoldOutlined className="trigger" onClick={toggle}/>}
+          <Dropdown className='dropdown-header' overlay={menu} trigger={['click']} placement='topLeft'>
+            <Link to="/#" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+              <Avatar src={avatar} style={{ backgroundColor: '#87d068', cursor: 'pointer'}}/> <DownOutlined />
+            </Link>
+          </Dropdown>
         </Header>
         <Content
           className="site-layout-background"

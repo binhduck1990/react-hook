@@ -2,12 +2,13 @@ import {Table, Space, Popconfirm, Tooltip, Avatar, Image, Tag} from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import moment from 'moment'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import {io} from "socket.io-client"
 import {useState, useEffect} from 'react'
+import {useAuth} from '../.././components/Auth'
 
 export function UserTable(props){
   const history = useHistory()
-  const [status, setStatus] = useState('offline')
+  const auth = useAuth()
+  const [userIds, setUserIds] = useState([])
   const {users, page, pageSize, total, loading, param, removeUser} = props
   const query = new URLSearchParams(param)
 
@@ -29,11 +30,11 @@ export function UserTable(props){
     }
   }
 
-  useEffect(() => {
-    const socket = io("http://localhost:5000")
-    socket.on("online", (socket) => {
-      setStatus(socket)
-    })
+  useEffect(() => { 
+    auth.socket.emit("status") 
+    auth.socket.on('userIds', function(userIds){
+      setUserIds(userIds)
+    })   
   }, [])
 
   const columns = [
@@ -51,13 +52,26 @@ export function UserTable(props){
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => (
-        <Link to={`user/profile/${record._id}`}>
-          <Tooltip placement="topRight" title="View Profile">
-            {text}
-          </Tooltip>  
-        </Link>
+        <>
+          <Space>
+            {userIds.includes(record._id) ? 
+              <Tooltip placement="topRight" title="Online">
+                <div style={{width: 10, height: 10, borderRadius: 1, background: '#25c325', borderRadius: '50%'}}></div>
+              </Tooltip>
+                  :
+              <Tooltip placement="topRight" title="Offline">
+                <div style={{width: 10, height: 10, borderRadius: 1, background: 'red', borderRadius: '50%'}}></div>
+              </Tooltip>
+            }
+            <Link to={`user/profile/${record._id}`}>
+              <Tooltip placement="topRight" title="View Profile">
+                {text}
+              </Tooltip>  
+            </Link>
+          </Space>
+        </>
       ),
-      width: '15%'
+      width: '20%'
     },
     {
       title: 'Age',
@@ -70,16 +84,7 @@ export function UserTable(props){
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: '15%'
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: () => (
-        <Tag color="green">{status}</Tag>
-      ),
-      width: '5%'
+      width: '20%'
     },
     {
       title: 'Email',
@@ -104,7 +109,7 @@ export function UserTable(props){
     {
       title: 'Action',
       key: 'action',
-      width: '10%',
+      width: '5%',
       render: (text, record) => (
         <Space size="middle">
           <Link to={`user/${record._id}`}>

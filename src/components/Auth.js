@@ -1,5 +1,6 @@
 import React, {useContext, createContext} from "react"
 import axios from 'axios'
+import {io} from "socket.io-client"
 
 const authContext = createContext()
 
@@ -17,6 +18,15 @@ export const useAuth = () => {
 }
 
 function useProvideAuth() {
+  const host = "http://localhost:5000";
+  const socket = io(host, {
+      transports: ['websocket'],  // https://stackoverflow.com/a/52180905/8987128
+      allowUpgrades: false,
+      reconnect: false,
+      secure: true,
+      rejectUnauthorized: false
+  })
+
   const signin = (payload, cb_success = null, cb_error = null) => {
     axios.post(
       'http://localhost:4000/api/user/login', {
@@ -193,6 +203,7 @@ function useProvideAuth() {
     remove,
     update,
     paginate,
-    detail
+    detail,
+    socket
   }
 }

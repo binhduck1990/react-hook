@@ -2,7 +2,6 @@ import {Form, Input, Button, Checkbox} from 'antd'
 import {useAuth} from '../.././components/Auth'
 import {Link, useHistory, useLocation} from "react-router-dom"
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {io} from "socket.io-client"
 
 export function Login() {
   const auth = useAuth()
@@ -22,7 +21,12 @@ export function Login() {
       }else{
         localStorage.removeItem('email')
       }
-      history.replace(from)
+      const user = JSON.parse(localStorage.getItem('user'))
+      auth.socket.emit("userId", user._id, (data) => {
+        if(data){
+          history.replace(from)
+        }
+      })
     })
   }
 

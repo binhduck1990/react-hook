@@ -23,7 +23,7 @@ export function Login() {
       }
       const userId = res.data.user._id
       // const token = res.data.token
-      auth.socket.emit('login', userId, (data) => {
+      auth.socket.emit('userId', userId, (data) => {
         if(data){
           history.replace(from)
         }

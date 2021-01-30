@@ -17,12 +17,13 @@ export function Login() {
     let { from } = location.state || { from: { pathname: "/user" } }
     auth.signin(values, (res) => {
       if(values.remember){
-        localStorage.setItem('email', email)
+        localStorage.setItem('email', values.email)
       }else{
         localStorage.removeItem('email')
       }
-      const user = JSON.parse(localStorage.getItem('user'))
-      auth.socket.emit("userId", user._id, (data) => {
+      const userId = res.data.user._id
+      // const token = res.data.token
+      auth.socket.emit('login', userId, (data) => {
         if(data){
           history.replace(from)
         }

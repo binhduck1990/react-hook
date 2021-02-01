@@ -22,8 +22,8 @@ export function SideBar({children}){
     auth.signout(() => {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      auth.socket.emit('logout', user._id, (data) => {
-        if(data){
+      auth.socket.emit('logout', user._id, (confirmation) => {
+        if(confirmation){
           history.replace('/login')
         }
       })
@@ -32,8 +32,8 @@ export function SideBar({children}){
 
   const menu = (
     <Menu
-        style={{ width: 200 }}
-        theme={'light'}
+      style={{ width: 200 }}
+      theme={'light'}
     >
       <Menu.Item key="1">
         <Link to={`/user/profile/${user._id}`}>Detail Profile</Link>

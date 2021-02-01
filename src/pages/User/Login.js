@@ -14,20 +14,14 @@ export function Login() {
   }
 
   const handleSubmit = (values) => {
-    let { from } = location.state || { from: { pathname: "/user" } }
+    let { from } = location.state || { from: { pathname: "/" } }
     auth.signin(values, (res) => {
       if(values.remember){
         localStorage.setItem('email', values.email)
       }else{
         localStorage.removeItem('email')
       }
-      const userId = res.data.user._id
-      // const token = res.data.token
-      auth.socket.emit('userId', userId, (data) => {
-        if(data){
-          history.replace(from)
-        }
-      })
+      history.replace(from)
     })
   }
 

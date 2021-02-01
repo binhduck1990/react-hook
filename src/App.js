@@ -13,13 +13,17 @@ import {UserDetail} from './pages/User/UserDetail'
 import {UpdatedUser} from './pages/User/UpdatedUser'
 import {ForgotPassword} from './pages/User/ForgotPassword'
 import {ResetPassword} from './pages/User/ResetPassword'
+import {Index} from './pages/Index'
 
 export default function App() {
   return (
     <ProvideAuth>
       <Router>
         <Switch>
-          <Route path="/login">
+          <PrivateRoute exact path="/">
+            <Index/>
+          </PrivateRoute>
+          <Route exact path="/login">
             <Login/>
           </Route>
           <Route exact path="/signup">

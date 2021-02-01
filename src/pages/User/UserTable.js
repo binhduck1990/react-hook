@@ -1,15 +1,15 @@
-import {Table, Space, Popconfirm, Tooltip, Avatar, Image, Tag} from 'antd'
+import {Table, Space, Popconfirm, Tooltip, Avatar, Image} from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import moment from 'moment'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
-import {useState, useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useAuth} from '../.././components/Auth'
 
 export function UserTable(props){
   const history = useHistory()
   const auth = useAuth()
-  const [userIds, setUserIds] = useState([])
-  const {users, page, pageSize, total, loading, param, removeUser} = props
+  const [status, setStatus] = useState([])
+  const {users, page, pageSize, total, loading, param, removeUser, onFilterUser} = props
   const query = new URLSearchParams(param)
 
   // push query params to url and set state of parent's params
@@ -19,7 +19,7 @@ export function UserTable(props){
         pathname: '/user',
         search: result
     })
-    props.onFilterUser(result)
+    onFilterUser(result)
   }
 
   const onChange = (pagination) => {
@@ -30,12 +30,14 @@ export function UserTable(props){
     }
   }
 
-  useEffect(() => { 
-    auth.socket.emit("status") 
-    auth.socket.on('userIds', function(userIds){
-      setUserIds(userIds)
-    })   
-  }, [])
+  useEffect(() => {
+    auth.socket.on('online', function(data){
+      setStatus(data)
+    })
+    auth.socket.on('offline', function(data){
+      setStatus(data)
+    }) 
+  }, [auth.socket])
 
   const columns = [
     {
@@ -51,16 +53,17 @@ export function UserTable(props){
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
+      sorter: (a, b) => a.status - b.status,
       render: (text, record) => (
         <>
           <Space>
-            {userIds.includes(record._id) ? 
+            {status.includes(record._id) ? 
               <Tooltip placement="topRight" title="Online">
-                <div style={{width: 10, height: 10, borderRadius: 1, background: '#25c325', borderRadius: '50%'}}></div>
+                <div style={{width: 10, height: 10, background: '#25c325', borderRadius: '50%'}}></div>
               </Tooltip>
                   :
               <Tooltip placement="topRight" title="Offline">
-                <div style={{width: 10, height: 10, borderRadius: 1, background: 'red', borderRadius: '50%'}}></div>
+                <div style={{width: 10, height: 10, background: 'red', borderRadius: '50%'}}></div>
               </Tooltip>
             }
             <Link to={`user/profile/${record._id}`}>

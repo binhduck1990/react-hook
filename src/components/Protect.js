@@ -1,7 +1,13 @@
 import {Route, Redirect} from "react-router-dom"
+import {useAuth} from './Auth'
   
 export function PrivateRoute({ children, ...rest }) {
-  let token = localStorage.getItem('token')
+  const auth = useAuth()
+  const token = localStorage.getItem('token')
+  if(token){
+    const userId = JSON.parse(localStorage.getItem('user'))._id
+    auth.socket.emit('login', userId)
+  }
   return (
     <Route
       {...rest}

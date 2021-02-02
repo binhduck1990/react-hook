@@ -1,4 +1,4 @@
-import {Table, Space, Popconfirm, Tooltip, Avatar, Image} from 'antd'
+import {Table, Space, Popconfirm, Tooltip, Avatar, Image, Badge} from 'antd'
 import {Link, useHistory} from 'react-router-dom'
 import moment from 'moment'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
@@ -58,11 +58,11 @@ export function UserTable(props){
           <Space>
             {status.includes(record._id) ? 
               <Tooltip placement="topRight" title="Online">
-                <div style={{width: 10, height: 10, background: '#25c325', borderRadius: '50%'}}></div>
+                <div style={{width: 7, height: 7, background: '#25c325', borderRadius: '50%'}}></div>
               </Tooltip>
                   :
               <Tooltip placement="topRight" title="Offline">
-                <div style={{width: 10, height: 10, background: 'red', borderRadius: '50%'}}></div>
+                <div style={{width: 7, height: 7, background: '#9e8e8e', borderRadius: '50%'}}></div>
               </Tooltip>
             }
             <Link to={`user/profile/${record._id}`}>

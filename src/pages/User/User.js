@@ -52,6 +52,10 @@ export function User() {
     })
   }
 
+  const resetUsers = (users) => {
+    setUsers(users)
+  }
+
   return (
     <SideBar>
       <UserFilter onFilterUser={onFilterUser} param={param}></UserFilter>
@@ -64,6 +68,7 @@ export function User() {
         param={param}
         removeUser={removeUser}
         onFilterUser={onFilterUser}
+        resetUsers={resetUsers}
       >    
       </UserTable>
     </SideBar>

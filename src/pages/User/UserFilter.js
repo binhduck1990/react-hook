@@ -151,7 +151,7 @@ export function UserFilter(props){
                     </Button>
                 </Col>
                 <Col span={3} style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-                    <Button style={{ width: '100%' }} type="primary" danger onClick={onClearFilter}>
+                    <Button style={{ width: '100%' }} onClick={onClearFilter}>
                         Clear
                     </Button>
                 </Col>

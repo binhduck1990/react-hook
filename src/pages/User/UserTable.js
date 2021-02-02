@@ -53,7 +53,6 @@ export function UserTable(props){
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      sorter: (a, b) => a.status - b.status,
       render: (text, record) => (
         <>
           <Space>

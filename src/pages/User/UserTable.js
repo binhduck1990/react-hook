@@ -41,7 +41,7 @@ export function UserTable(props){
 
   const columns = [
     {
-      title: '',
+      title: 'Avatar',
       dataIndex: 'avatar',
       key: 'avatar',
       render: (text, record) => (

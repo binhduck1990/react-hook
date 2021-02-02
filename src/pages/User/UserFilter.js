@@ -13,7 +13,6 @@ export function UserFilter(props){
     const [phone, setPhone] = useState('')
     const [createdAt, setCreatedAt] = useState('')
     const query = new URLSearchParams(props.param)
-
     // set value for filter if url has query param
     useEffect(() => {
         // create a new instance of URLSearchParams to ignore useEffrect warning

@@ -1,6 +1,6 @@
 import '../css/Sidebar.css'
 import {Layout, Menu, Avatar, Dropdown} from 'antd'
-import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined, MessageOutlined} from '@ant-design/icons'
+import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined} from '@ant-design/icons'
 import {Link, useHistory} from 'react-router-dom'
 import {useAuth} from './Auth'
 import {useState} from 'react'

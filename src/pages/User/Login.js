@@ -14,7 +14,7 @@ export function Login() {
   }
 
   const handleSubmit = (values) => {
-    let { from } = location.state || { from: { pathname: "/" } }
+    let { from } = location.state || { from: { pathname: "/user" } }
     auth.signin(values, (res) => {
       if(values.remember){
         localStorage.setItem('email', values.email)

@@ -146,6 +146,25 @@ function useProvideAuth() {
     })
   }
 
+    // get all users
+    const index = (filter = '', cb_success = null, cb_error = null) => {
+      axios.get(
+        `http://localhost:4000/api/user/all/${filter}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      ).then(res => {
+        if(typeof(cb_success) == "function"){
+          cb_success(res)
+        }
+      }).catch(error => {
+        if(typeof(cb_error) == "function"){
+          cb_error(error)
+        }
+      })
+    }
+
   const signout = (cb_success = null, cb_error = null) => {
     const config = {
       "headers": {
@@ -204,6 +223,7 @@ function useProvideAuth() {
     update,
     paginate,
     detail,
-    socket
+    socket,
+    index
   }
 }

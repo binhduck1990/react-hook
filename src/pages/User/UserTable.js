@@ -118,7 +118,7 @@ export function UserTable(props){
             <Tooltip placement="topRight" title="Edit Profile">
               <EditOutlined />
             </Tooltip>
-            </Link>
+          </Link>
           <Popconfirm title="Sure to delete?" onConfirm={(id) => removeUser(record._id)}>
             <Link to={'#'}>
               <Tooltip placement="topRight" title="Remove User">

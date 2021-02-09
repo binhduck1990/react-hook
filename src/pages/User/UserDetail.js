@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom"
 import {useState, useEffect} from 'react'
 import {useAuth} from '../.././components/Auth'
 import moment from 'moment'
+import {Chat} from 'react-chat-popup'
 
 export function UserDetail(){
     const auth = useAuth()
@@ -44,6 +45,9 @@ export function UserDetail(){
                 })}
             </Descriptions.Item>
             </Descriptions>
+            <Chat
+                title="Chat to Binh"
+            />
         </SideBar>
     )
 }

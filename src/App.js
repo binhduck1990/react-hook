@@ -13,6 +13,7 @@ import {UserDetail} from './pages/User/UserDetail'
 import {UpdatedUser} from './pages/User/UpdatedUser'
 import {ForgotPassword} from './pages/User/ForgotPassword'
 import {ResetPassword} from './pages/User/ResetPassword'
+import {Index} from './pages/index'
 
 export default function App() {
   return (
@@ -31,6 +32,9 @@ export default function App() {
           <Route exact path="/reset-password/:token">
             <ResetPassword/>
           </Route>
+          <PrivateRoute exact path="/">
+            <Index/>
+          </PrivateRoute>
           <PrivateRoute exact path="/user">
             <User/>
           </PrivateRoute>

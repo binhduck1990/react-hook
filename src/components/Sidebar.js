@@ -1,17 +1,22 @@
 import '../css/Sidebar.css'
 import {Layout, Menu, Avatar, Dropdown} from 'antd'
-import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined} from '@ant-design/icons'
-import {Link, useHistory} from 'react-router-dom'
+import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined, TeamOutlined} from '@ant-design/icons'
+import {Link, useHistory, useLocation} from 'react-router-dom'
 import {useAuth} from './Auth'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 const { Header, Sider, Content } = Layout
 
 export function SideBar({children}){
   const auth = useAuth()
   const history = useHistory()
+  const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
-  const [key, setKey] = useState('about')
+  const items = [
+    { key: '1', label: 'Users', path: '/user', icon: <TeamOutlined/>},
+    { key: '2', label: 'About Binh', path: '/', icon: <UserOutlined/>}
+  ]
+  const [key, setKey] = useState(items.find(_item => location.pathname.startsWith(_item.path)).key)
   const user = JSON.parse(localStorage.getItem('user'))
   const avatar = `http://localhost:4000/images/${user.avatar}`
 
@@ -31,6 +36,10 @@ export function SideBar({children}){
     })
   }
 
+  useEffect(() => {
+    setKey(items.find(_item => location.pathname.startsWith(_item.path)).key)
+  }, [location])
+
   const menu = (
     <Menu
       style={{ width: 200 }}
@@ -44,21 +53,19 @@ export function SideBar({children}){
     </Menu>
   )
 
-  const handleClick = e => {
-    setKey(e.key)
+  const onClickMenu = (item) => {
+    const clicked = items.find(_item => _item.key === item.key)
+    history.push(clicked.path)
   }
 
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" selectedKeys={[key]} onClick={handleClick}>
-          <Menu.Item key="about" icon={<UserOutlined />}>
-            <Link to={`/`}>About Binh</Link>
-          </Menu.Item>
-          <Menu.Item key="users" icon={<UserOutlined />}>
-            <Link to={`/user`}>Users</Link>
-          </Menu.Item>
+        <Menu theme="dark" mode="inline" selectedKeys={[key]} onClick={onClickMenu}>
+          {items.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon}>{item.label}</Menu.Item>
+          ))}
         </Menu>
       </Sider>
       <Layout className="site-layout">

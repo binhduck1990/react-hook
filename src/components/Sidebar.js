@@ -1,5 +1,5 @@
 import '../css/Sidebar.css'
-import {Layout, Menu, Avatar, Dropdown} from 'antd'
+import {Layout, Menu, Avatar, Dropdown, Tabs} from 'antd'
 import {MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, DownOutlined, TeamOutlined} from '@ant-design/icons'
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import {useAuth} from './Auth'
@@ -14,7 +14,7 @@ export function SideBar({children}){
   const [collapsed, setCollapsed] = useState(false)
   const items = [
     { key: '1', label: 'Users', path: '/user', icon: <TeamOutlined/>},
-    { key: '2', label: 'About Binh', path: '/', icon: <UserOutlined/>}
+    { key: '2', label: 'Profile', path: '/', icon: <UserOutlined/>}
   ]
   const [key, setKey] = useState(items.find(_item => location.pathname.startsWith(_item.path)).key)
   const user = JSON.parse(localStorage.getItem('user'))

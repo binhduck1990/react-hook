@@ -11,6 +11,7 @@ export function SideBar({children}){
   const auth = useAuth()
   const history = useHistory()
   const [collapsed, setCollapsed] = useState(false)
+  const [key, setKey] = useState('about')
   const user = JSON.parse(localStorage.getItem('user'))
   const avatar = `http://localhost:4000/images/${user.avatar}`
 
@@ -43,15 +44,19 @@ export function SideBar({children}){
     </Menu>
   )
 
+  const handleClick = e => {
+    setKey(e.key)
+  }
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
+        <Menu theme="dark" mode="inline" selectedKeys={[key]} onClick={handleClick}>
+          <Menu.Item key="about" icon={<UserOutlined />}>
             <Link to={`/`}>About Binh</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
+          <Menu.Item key="users" icon={<UserOutlined />}>
             <Link to={`/user`}>Users</Link>
           </Menu.Item>
         </Menu>

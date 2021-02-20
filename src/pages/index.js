@@ -35,7 +35,7 @@ export function Index(){
                 setIsOpen(!isOpen)
             }
         })
-    }, [auth.socket, messageList])
+    }, [auth.socket, messageList, isOpen])
     
     const onMessageWasSent = (newMessage) => {
         const sender = senderId ? senderId : JSON.parse(localStorage.getItem('user'))._id

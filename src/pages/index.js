@@ -29,7 +29,7 @@ export function Index(){
             setSenderId(data.receiver)
             setReceiverId(data.sender)
             let messageListCopy = [...messageList]
-            messageListCopy.push({author: 'them', data: {text: data.message}, type: 'text'})
+            messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
             setMessageList(messageListCopy)
             if(!isOpen){
                 setIsOpen(!isOpen)
@@ -43,22 +43,26 @@ export function Index(){
                 const chats = []
                 for(let i = 0; i < res.data.chats.length; i++){
                     if(res.data.chats[i].sender === senderId){
-                        chats.push({author: 'me', data: {text: res.data.chats[i].message}, type: 'text'})
+                        chats.push({author: 'me', data: {[res.data.chats[i].message_type]: res.data.chats[i].message}, type: res.data.chats[i].message_type})
                     }else{
-                        chats.push({author: 'them', data: {text: res.data.chats[i].message}, type: 'text'})
+                        chats.push({author: 'them', data: {[res.data.chats[i].message_type]: res.data.chats[i].message}, type: res.data.chats[i].message_type})
                     }
                 }
                 setMessageList(chats)
             })
         }
     }, [isOpen, receiverId])
-    
+    console.log('messageList', messageList)
     const onMessageWasSent = (newMessage) => {
         if(senderId && receiverId){
             let messageListCopy = [...messageList]
             messageListCopy.push(newMessage)
             setMessageList(messageListCopy)
-            auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.text})
+            if(newMessage.type === 'text'){
+                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.text, type: 'text'})
+            }else if(newMessage.type === 'emoji'){
+                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.emoji, type: 'emoji'})
+            }
         }
     }
 

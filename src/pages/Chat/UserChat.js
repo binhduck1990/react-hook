@@ -6,6 +6,9 @@ export function UserChat(props){
     const {TabPane} = Tabs
     const {users, messageList, onMessageWasSent, onClickChat, isOpen} = props
     const admin = users.filter(user => user.role === 'admin')[0]
+    const onFilesSelected = (file) => {
+        console.log('file', file)
+    }
     return (
         <Tabs defaultActiveKey="1" type="card">
             <TabPane tab="Profile" key="1">
@@ -42,6 +45,7 @@ export function UserChat(props){
                     onMessageWasSent={onMessageWasSent}
                     handleClick={() => onClickChat(admin)}
                     isOpen={isOpen}
+                    onFilesSelected={onFilesSelected}
                 />
             </TabPane>
             <TabPane tab="Describe Project" key="2">

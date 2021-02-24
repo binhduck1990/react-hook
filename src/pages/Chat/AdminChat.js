@@ -6,7 +6,9 @@ import {MessageOutlined} from '@ant-design/icons'
 export function AdminChat(props){
     const {users, messageList, onMessageWasSent, onClickUserToChat, onClickChat, receiverId, isOpen} = props
     const receiver = users.filter(user => user._id === receiverId)[0]
-
+    const onFilesSelected = (file) => {
+        console.log('file', file)
+    }
     return (
         <>
             <List
@@ -35,6 +37,7 @@ export function AdminChat(props){
                     onMessageWasSent={onMessageWasSent}
                     handleClick={() => onClickChat(receiver)}
                     isOpen={isOpen}
+                    onFilesSelected={onFilesSelected}
                 />
             }
         </>

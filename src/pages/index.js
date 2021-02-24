@@ -63,6 +63,7 @@ export function Index(){
             }else if(newMessage.type === 'emoji'){
                 auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.emoji, type: 'emoji'})
             }
+            console.log('newMessage', newMessage)
         }
     }
 

@@ -66,26 +66,26 @@ function useProvideAuth() {
     })
   }
 
-    // updated user
-    const update = (id, formData, cb_success = null, cb_error = null) => {
-      const config = {
-        "headers": {
-          "content-type": 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+  // updated user
+  const update = (id, formData, cb_success = null, cb_error = null) => {
+    const config = {
+      "headers": {
+        "content-type": 'multipart/form-data',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
-      axios.put(
-        `http://localhost:4000/api/user/${id}`, formData, config
-      ).then(res => {
-        if(typeof(cb_success) == "function"){
-          cb_success(res)
-        }
-      }).catch(error => {
-        if(typeof(cb_error) == "function"){
-          cb_error(error)
-        }
-      })
     }
+    axios.put(
+      `http://localhost:4000/api/user/${id}`, formData, config
+    ).then(res => {
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function"){
+        cb_error(error)
+      }
+    })
+  }
 
   // remove user
   const remove = (id, cb_success = null, cb_error = null) => {
@@ -108,24 +108,24 @@ function useProvideAuth() {
     })
   }
 
-    // detail user
-    const detail = (id, cb_success = null, cb_error = null) => {
-      axios.get(
-        `http://localhost:4000/api/user/${id}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+  // detail user
+  const detail = (id, cb_success = null, cb_error = null) => {
+    axios.get(
+      `http://localhost:4000/api/user/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      ).then(res => {
-        if(typeof(cb_success) == "function"){
-          cb_success(res)
-        }
-      }).catch(error => {
-        if(typeof(cb_error) == "function"){
-          cb_error(error)
-        }
-      })
-    }
+      }
+    ).then(res => {
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function"){
+        cb_error(error)
+      }
+    })
+  }
 
   // user paginate
   const paginate = (filter = '', cb_success = null, cb_error = null) => {
@@ -146,24 +146,24 @@ function useProvideAuth() {
     })
   }
 
-    // get all users
-    const index = (filter = '', cb_success = null, cb_error = null) => {
-      axios.get(
-        `http://localhost:4000/api/user/all/${filter}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+  // get all users
+  const index = (filter = '', cb_success = null, cb_error = null) => {
+    axios.get(
+      `http://localhost:4000/api/user/all/${filter}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      ).then(res => {
-        if(typeof(cb_success) == "function"){
-          cb_success(res)
-        }
-      }).catch(error => {
-        if(typeof(cb_error) == "function"){
-          cb_error(error)
-        }
-      })
-    }
+      }
+    ).then(res => {
+      if(typeof(cb_success) == "function"){
+        cb_success(res)
+      }
+    }).catch(error => {
+      if(typeof(cb_error) == "function"){
+        cb_error(error)
+      }
+    })
+  }
 
   const signout = (cb_success = null, cb_error = null) => {
     const config = {

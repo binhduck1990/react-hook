@@ -3,7 +3,7 @@ import {Descriptions, Image, Tabs, Tag} from 'antd'
 import moment from 'moment'
 import {chat, createdChat} from '../../components/Chat'
 import {useState, useEffect} from 'react'
-import { useAuth } from '../../components/Auth'
+import {useAuth} from '../../components/Auth'
 
 export function UserChat(props){
     const {TabPane} = Tabs
@@ -19,7 +19,11 @@ export function UserChat(props){
         auth.socket.on('chat', function(data){
             if(isOpen){
                 let messageListCopy = [...messageList]
-                messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
+                if(data.message_type === 'file'){
+                    messageListCopy.push({author: 'them', data: {url: `http://localhost:4000/images/${data.message}`, fileName: data.message}, type: data.message_type})
+                }else{
+                    messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
+                }
                 setMessageList(messageListCopy)
             }else{
                 setIsOpen(true)
@@ -57,12 +61,11 @@ export function UserChat(props){
             messageListCopy.push(newMessage)
             setMessageList(messageListCopy)
             if(newMessage.type === 'text'){
-                console.log('duck', senderId, receiverId, newMessage.data.text)
                 auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.text, type: 'text'})
             }else if(newMessage.type === 'emoji'){
                 auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.emoji, type: 'emoji'})
             }else if(newMessage.type === 'file'){
-                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.url, type: 'file', fileName: newMessage.fileName})
+                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.fileName, type: 'file'})
             }
         }
     }

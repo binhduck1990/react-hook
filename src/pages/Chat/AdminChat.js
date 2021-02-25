@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import {MessageOutlined} from '@ant-design/icons'
 import {useState, useEffect} from 'react'
 import {useAuth} from '../../components/Auth'
-import {chat} from '../../components/Chat'
+import {chat, createdChat} from '../../components/Chat'
 
 export function AdminChat(props){
     const auth = useAuth()
@@ -22,7 +22,11 @@ export function AdminChat(props){
         auth.socket.on('chat', function(data){
             if(receiverId && data.sender === receiverId){
                 let messageListCopy = [...messageList]
-                messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
+                if(data.message_type === 'file'){
+                    messageListCopy.push({author: 'them', data: {url: `http://localhost:4000/images/${data.message}`, fileName: data.message}, type: data.message_type})
+                }else{
+                    messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
+                }
                 setMessageList(messageListCopy)
             }else{
                 setReceiverId(data.sender)
@@ -64,7 +68,7 @@ export function AdminChat(props){
             }else if(newMessage.type === 'emoji'){
                 auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.emoji, type: 'emoji'})
             }else if(newMessage.type === 'file'){
-                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.url, type: 'file', fileName: newMessage.fileName})
+                auth.socket.emit('chat', {sender: senderId, receiver: receiverId, message: newMessage.data.fileName, type: 'file'})
             }
         }
     }
@@ -74,7 +78,14 @@ export function AdminChat(props){
     }
 
     const onFilesSelected = (file) => {
-        console.log('file', file)
+        const formData = new FormData()
+        formData.append('avatar', file[0])
+        formData.append('sender', senderId)
+        formData.append('receiver', receiverId)
+        formData.append('type', 'file')
+        createdChat(formData, (res) => {
+            onMessageWasSent({author: 'me', type : 'file', data : {url: `http://localhost:4000/images/${res.data.chat.message}`, fileName: res.data.chat.message}})
+        })
     }
 
     return (

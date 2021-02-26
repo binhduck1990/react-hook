@@ -43,12 +43,16 @@ export function UpdatedUser() {
     const handleSubmit = (values) => {
         const formData = new FormData()
         const {email, age, phone, address, username, gender, avatar, birthday, hobbies} = values
-        formData.append('age', age)
         formData.append('phone', phone)
         formData.append('address', address)
         formData.append('username', username)
         formData.append('email', email)
         formData.append('gender', gender)
+        if(age !== null){
+            formData.append('age', age)
+        }else{
+            formData.append('age', '')
+        }
         if(hobbies && hobbies.length){
             hobbies.forEach((item) => formData.append("hobbies[]", item))
         }

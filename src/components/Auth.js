@@ -37,7 +37,7 @@ function useProvideAuth() {
       window.location.href = '/500'
     }else if(error.response.status === 400 && typeof(cb_error) == 'function'){
       let message = ''
-      if(isArray(error.response.data.message)){
+      if(Array.isArray(error.response.data.message)){
         message = error.response.data.message[0].msg
       }else{
         message = error.response.data.message

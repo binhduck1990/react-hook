@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import {MessageOutlined} from '@ant-design/icons'
 import {useState, useEffect} from 'react'
 import {useAuth} from '../../components/Auth'
-import {chat, createdChat} from '../../components/Chat'
 
 export function AdminChat(props){
     const auth = useAuth()
@@ -36,7 +35,7 @@ export function AdminChat(props){
 
     useEffect(() => { 
         if(receiverId){
-            chat(`?sender=${senderId}&receiver=${receiverId}`, (res) => {
+            auth.chat(`?sender=${senderId}&receiver=${receiverId}`, (res) => {
                 const chats = []
                 for(let i = 0; i < res.data.chats.length; i++){
                     if(res.data.chats[i].message_type === 'file'){
@@ -83,7 +82,7 @@ export function AdminChat(props){
         formData.append('sender', senderId)
         formData.append('receiver', receiverId)
         formData.append('type', 'file')
-        createdChat(formData, (res) => {
+        auth.createdChat(formData, (res) => {
             onMessageWasSent({author: 'me', type : 'file', data : {url: `http://localhost:4000/images/${res.data.chat.message}`, fileName: res.data.chat.message}})
         })
     }

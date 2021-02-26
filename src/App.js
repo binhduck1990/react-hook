@@ -14,6 +14,8 @@ import {UpdatedUser} from './pages/User/UpdatedUser'
 import {ForgotPassword} from './pages/User/ForgotPassword'
 import {ResetPassword} from './pages/User/ResetPassword'
 import {Index} from './pages/index'
+import {Page404} from './pages/404'
+import {Page500} from './pages/500'
 
 export default function App() {
   return (
@@ -44,6 +46,12 @@ export default function App() {
           <PrivateRoute exact path="/user/:id">
             <UpdatedUser/>
           </PrivateRoute>
+          <Route exact path="/404">
+            <Page404/>
+          </Route>
+          <Route exact path="/500">
+            <Page500/>
+          </Route>
         </Switch>
       </Router>
     </ProvideAuth>

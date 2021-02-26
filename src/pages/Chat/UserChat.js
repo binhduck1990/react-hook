@@ -1,7 +1,6 @@
 import {Launcher} from 'react-chat-window'
 import {Descriptions, Image, Tabs, Tag} from 'antd'
 import moment from 'moment'
-import {chat, createdChat} from '../../components/Chat'
 import {useState, useEffect} from 'react'
 import {useAuth} from '../../components/Auth'
 
@@ -33,7 +32,7 @@ export function UserChat(props){
 
     useEffect(() => { 
         if(isOpen){
-            chat(`?sender=${senderId}&receiver=${receiverId}`, (res) => {
+            auth.chat(`?sender=${senderId}&receiver=${receiverId}`, (res) => {
                 const chats = []
                 for(let i = 0; i < res.data.chats.length; i++){
                     if(res.data.chats[i].message_type === 'file'){
@@ -80,7 +79,7 @@ export function UserChat(props){
         formData.append('sender', senderId)
         formData.append('receiver', receiverId)
         formData.append('type', 'file')
-        createdChat(formData, (res) => {
+        auth.createdChat(formData, (res) => {
             onMessageWasSent({author: 'me', type : 'file', data : {url: `http://localhost:4000/images/${res.data.chat.message}`, fileName: res.data.chat.message}})
         })
     }

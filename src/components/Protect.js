@@ -1,12 +1,14 @@
-import {Route, Redirect} from "react-router-dom"
+import {Route, Redirect} from 'react-router-dom'
 import {useAuth} from './Auth'
   
 export function PrivateRoute({ children, ...rest }) {
   const auth = useAuth()
   const token = localStorage.getItem('token')
   if(token){
-    const userId = JSON.parse(localStorage.getItem('user'))._id
-    auth.socket.emit('login', userId)
+    const userId = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))._id : ''
+    if(userId){
+      auth.socket.emit('login', userId)
+    } 
   }
   return (
     <Route
@@ -17,7 +19,7 @@ export function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: '/login',
               state: { from: location }
             }}
           />

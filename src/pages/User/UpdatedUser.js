@@ -6,6 +6,7 @@ import {useAuth} from '../.././components/Auth'
 import {SideBar} from '../../components/Sidebar'
 import {useParams} from "react-router-dom"
 import moment from 'moment'
+import {notification} from "antd/lib/index"
 
 export function UpdatedUser() {
     const {id} = useParams()
@@ -61,9 +62,14 @@ export function UpdatedUser() {
                 formData.append('avatar', avatar[0])
             }
         }
-        auth.update(id, formData, () => {
-        }, (errors) => {
-            
+        auth.update(id, formData, (res) => {
+            notification.success({
+                message: res.data.message
+            })
+        }, (error) => {
+            notification.error({
+                message: error
+            })
         })
     }
 

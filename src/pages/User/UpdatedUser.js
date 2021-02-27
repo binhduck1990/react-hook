@@ -4,13 +4,14 @@ import {Form, Input, Button, Upload, Radio, InputNumber, DatePicker, Space} from
 import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
 import {SideBar} from '../../components/Sidebar'
-import {useParams} from "react-router-dom"
+import {useParams, useHistory} from "react-router-dom"
 import moment from 'moment'
 import {notification} from "antd/lib/index"
 
 export function UpdatedUser() {
     const {id} = useParams()
     const auth = useAuth()
+    const history = useHistory()
     const [user, setUser] = useState({})
     const [form] = Form.useForm()
     
@@ -71,9 +72,7 @@ export function UpdatedUser() {
                 message: res.data.message
             })
         }, (error) => {
-            notification.error({
-                message: error
-            })
+            auth.handleError(error, history)
         })
     }
 

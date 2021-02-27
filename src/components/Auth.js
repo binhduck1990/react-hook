@@ -1,6 +1,7 @@
 import React, {useContext, createContext} from 'react'
 import axios from 'axios'
 import {io} from 'socket.io-client'
+import {notification} from "antd/lib/index"
 
 const authContext = createContext()
 
@@ -27,22 +28,24 @@ function useProvideAuth() {
       rejectUnauthorized: false
   })
 
-  const handleError = (error, cb_error = null) => {
+  const handleError = (error, history) => {
     if(error.response.status === 401){
       localStorage.removeItem('token')
-      window.location.href = '/login'
+      history.replace('/login')
     }else if(error.response.status === 404){
-      window.location.href = '/404'
+      history.replace('/404')
     }else if(error.response.status === 500){
-      window.location.href = '/500'
-    }else if(error.response.status === 400 && typeof(cb_error) == 'function'){
+      history.replace('/500')
+    }else if(error.response.status === 400){
       let message = ''
       if(Array.isArray(error.response.data.message)){
         message = error.response.data.message[0].msg
       }else{
         message = error.response.data.message
       }
-      cb_error(message)
+      notification.error({
+        message: message
+      })
     }
   }
 
@@ -96,7 +99,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_success) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -258,6 +263,7 @@ function useProvideAuth() {
     socket,
     index,
     chat,
-    createdChat
+    createdChat,
+    handleError
   }
 }

@@ -4,9 +4,11 @@ import {useParams} from "react-router-dom"
 import {useState, useEffect} from 'react'
 import {useAuth} from '../.././components/Auth'
 import moment from 'moment'
+import {useHistory} from "react-router-dom"
 
 export function UserDetail(){
     const auth = useAuth()
+    const history = useHistory()
     const [user, setUser] = useState('')
     const [avatar, setAvatar] = useState('')
     const {id} = useParams('')
@@ -16,8 +18,10 @@ export function UserDetail(){
           if(res.data.user.avatar){
             setAvatar(`http://localhost:4000/images/${res.data.user.avatar}`)
           }
+        }, (error) => {
+            auth.handleError(error, history)
         })
-    }, [auth, id])
+    }, [auth, id, history])
 
     return (
         <SideBar>

@@ -1,15 +1,22 @@
 import {Form, Input, Button} from 'antd'
 import {useAuth} from '../.././components/Auth'
 import {MailOutlined} from '@ant-design/icons'
+import {notification} from "antd/lib/index"
+import {useHistory} from "react-router-dom"
 
 export function ForgotPassword() {
   const auth = useAuth()
+  const history = useHistory()
   const [form] = Form.useForm()
 
   const handleSubmit = () => {
     const email = form.getFieldValue('email')
     auth.sendPasswordResetEmail(email, (res) => {
-      
+      notification.success({
+          message: res.data.message
+      })
+    }, (error) => {
+        auth.handleError(error, history)
     })
   }
 

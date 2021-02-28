@@ -22,6 +22,8 @@ export function Login() {
         localStorage.removeItem('email')
       }
       history.replace(from)
+    }, (error) => {
+      auth.handleError(error, history)
     })
   }
 

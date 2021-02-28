@@ -30,8 +30,8 @@ export function CreatedUser() {
         }
         auth.signup(formData, () => {
             history.replace(from)
-        }, (errors) => {
-            
+        }, (error) => {
+            auth.handleError(error, history)
         })
     }
 

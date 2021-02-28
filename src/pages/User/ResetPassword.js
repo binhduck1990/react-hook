@@ -2,15 +2,22 @@ import {useParams} from "react-router-dom"
 import {useAuth} from '../.././components/Auth'
 import {Form, Button, Input} from 'antd'
 import {LockOutlined} from '@ant-design/icons'
+import {notification} from "antd/lib/index"
+import {useHistory} from "react-router-dom"
 
 export function ResetPassword(){
   const auth = useAuth()
+  const history = useHistory()
   const [form] = Form.useForm()
   const {token} = useParams('')
   const handleSubmit = () => {
     const password = form.getFieldValue('password')
     auth.confirmPasswordReset(token, password, (res) => {
-
+      notification.success({
+          message: res.data.message
+      })
+    }, (error) => {
+        auth.handleError(error, history)
     })
   }
 

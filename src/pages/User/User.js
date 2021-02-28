@@ -4,9 +4,11 @@ import {SideBar} from '../../components/Sidebar'
 import {UserFilter} from './UserFilter'
 import {UserTable} from './UserTable'
 import {useAuth} from '../.././components/Auth'
+import {useHistory} from "react-router-dom"
 
 export function User() {
   const auth = useAuth()
+  const history = useHistory()
   const [loading, setLoading] = useState(true)
   const [users, setUsers] = useState([])
   const [total, setTotal] = useState(0)
@@ -32,8 +34,10 @@ export function User() {
       setTotal(res.data.total)
       setPage(res.data.page)
       setPageSize(res.data.page_size)
+    }, (error) => {
+      auth.handleError(error, history)
     })
-  }, [param, auth])
+  }, [param, auth, history])
 
   const onFilterUser = value => {
     setParam(value)
@@ -48,6 +52,8 @@ export function User() {
         setTotal(res.data.total)
         setPage(res.data.page)
         setPageSize(res.data.page_size)
+      }, (error) => {
+        auth.handleError(error, history)
       })
     })
   }

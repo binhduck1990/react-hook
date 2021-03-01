@@ -1,8 +1,28 @@
 import {Launcher} from 'react-chat-window'
-import {Descriptions, Image, Tabs, Tag} from 'antd'
+import {Descriptions, Image, Tabs, Tag, List} from 'antd'
 import moment from 'moment'
 import {useState, useEffect} from 'react'
 import {useAuth} from '../../components/Auth'
+import {Link} from 'react-router-dom'
+
+const backend = [
+    'Api: Create, update, delete, detail, pagination base on MVC model',
+    'Database mongodb: Use mongoose to save user and chat message',
+    'Authentication: JWT register, login, logout, refresh token, reset password by email',
+    'Redis: Save black list token when user logout',
+    'Validator: Use Express-validator to validate data',
+    'Upload image: Use Multer to upload avatar for user when create, update profile and send image through chat',
+    'Permission: Check permision by role, default is user, Binh is admin',
+    'SocketIO: Realtime online status when user login, realtime chat messege bettwen user and admin'
+]
+
+const frontend = [
+    'React: Use react Hook to write function component with useState, useEffect, useMemo, UseAuth',
+    'Libary: Use antdesign for my project: component, icon, handle form data',
+    'Api: Use axios to get data from server',
+    'Users: Create, update, delete, detail, pagination users show online status, sorter, filter base on url: refresh page, back and next browser',
+    'Chat: User after register can only chat with admin is Binh, Binh can reply to everyone'
+]
 
 export function UserChat(props){
     const {TabPane} = Tabs
@@ -94,7 +114,7 @@ export function UserChat(props){
                         src={`http://localhost:4000/images/${admin.avatar}`}
                     />
                 </Descriptions.Item>
-                <Descriptions.Item label="adminname">{admin.username}</Descriptions.Item>
+                <Descriptions.Item label="Username">{admin.username}</Descriptions.Item>
                 <Descriptions.Item label="Phone">{admin.phone}</Descriptions.Item>
                 <Descriptions.Item label="Adress">{admin.address}</Descriptions.Item>
                 <Descriptions.Item label="Email">{admin.email}</Descriptions.Item>
@@ -125,10 +145,21 @@ export function UserChat(props){
                 />
             </TabPane>
             <TabPane tab="Describe Project" key="2">
-            Content of Tab Pane 2
-            </TabPane>
-            <TabPane tab="Contact" key="3">
-            Content of Tab Pane 3
+                <List
+                    size="large"
+                    header={<Link to={'#'}>Backend - Nodejs Express</Link>}
+                    bordered
+                    dataSource={backend}
+                    renderItem={item => <List.Item>{item}</List.Item>}
+                />
+                <List
+                    style={{marginTop: 15}}
+                    size="large"
+                    header={<Link to={'#'}>Frontend - Reactjs</Link>}
+                    bordered
+                    dataSource={frontend}
+                    renderItem={item => <List.Item>{item}</List.Item>}
+                />
             </TabPane>
         </Tabs>
     )

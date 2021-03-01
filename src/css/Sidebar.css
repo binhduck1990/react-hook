@@ -27,7 +27,6 @@
     margin-right: 16px;
 }
 
-/* section.ant-layout.site-layout {
-  height: 100vh;
-  overflow: auto;
-} */
+.ant-layout-sider-children {
+  height: 800px !important;
+}

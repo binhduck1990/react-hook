@@ -16,6 +16,7 @@ export function ResetPassword(){
       notification.success({
           message: res.data.message
       })
+      history.replace('/login')
     }, (error) => {
         auth.handleError(error, history)
     })

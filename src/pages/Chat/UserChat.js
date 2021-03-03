@@ -72,7 +72,7 @@ export function UserChat(props){
                 setMessageList(chats)
             })
         }
-    }, [isOpen, senderId, receiverId])
+    }, [auth, isOpen, senderId, receiverId])
 
     const onMessageWasSent = (newMessage) => {
         if(senderId && receiverId){

@@ -4,6 +4,7 @@ import {MenuUnfoldOutlined, MenuFoldOutlined, MessageOutlined, DownOutlined, Tea
 import {Link, useHistory, useLocation} from 'react-router-dom'
 import {useAuth} from './Auth'
 import {useState, useEffect} from 'react'
+import {notification} from "antd/lib/index"
 
 const { Header, Sider, Content } = Layout
 
@@ -25,7 +26,10 @@ export function SideBar({children}){
   }
 
   const logout = () => {
-    auth.signout(() => {
+    auth.signout((res) => {
+      notification.success({
+        message: res.data.message
+      })
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       auth.socket.emit('logout', user._id, (confirmation) => {

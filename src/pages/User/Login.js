@@ -2,6 +2,7 @@ import {Form, Input, Button, Checkbox} from 'antd'
 import {useAuth} from '../.././components/Auth'
 import {Link, useHistory, useLocation} from "react-router-dom"
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
+import {notification} from "antd/lib/index"
 
 export function Login() {
   const auth = useAuth()
@@ -16,6 +17,9 @@ export function Login() {
   const handleSubmit = (values) => {
     let { from } = location.state || { from: { pathname: "/" } }
     auth.signin(values, (res) => {
+      notification.success({
+        message: res.data.message
+     })
       if(values.remember){
         localStorage.setItem('email', values.email)
       }else{

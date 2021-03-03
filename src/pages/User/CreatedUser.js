@@ -3,6 +3,7 @@ import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/ico
 import {useAuth} from '../.././components/Auth'
 import {useHistory, useLocation} from "react-router-dom"
 import moment from 'moment'
+import {notification} from "antd/lib/index"
 
 export function CreatedUser() {
     const auth = useAuth()
@@ -28,7 +29,10 @@ export function CreatedUser() {
         if(birthday instanceof moment){
             formData.append('birthday', birthday.format())
         }
-        auth.signup(formData, () => {
+        auth.signup(formData, (res) => {
+            notification.success({
+                message: res.data.message
+            })
             history.replace(from)
         }, (error) => {
             auth.handleError(error, history)

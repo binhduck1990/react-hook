@@ -36,7 +36,7 @@ function useProvideAuth() {
       history.replace('/404')
     }else if(error.response.status === 500){
       history.replace('/500')
-    }else if(error.response.status === 400){
+    }else if(error.response.status === 400 || error.response.status === 403){
       let message = ''
       if(Array.isArray(error.response.data.message)){
         message = error.response.data.message[0].msg
@@ -62,7 +62,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -80,7 +82,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -99,7 +103,7 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      if(typeof(cb_success) == 'function'){
+      if(typeof(cb_error) == 'function'){
         cb_error(error)
       }
     })
@@ -118,7 +122,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -135,7 +141,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -152,7 +160,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -169,7 +179,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -186,7 +198,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -198,7 +212,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -210,7 +226,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
 
@@ -226,7 +244,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
   
@@ -244,7 +264,9 @@ function useProvideAuth() {
         cb_success(res)
       }
     }).catch(error => {
-      handleError(error, cb_error)
+      if(typeof(cb_error) == 'function'){
+        cb_error(error)
+      }
     })
   }
   

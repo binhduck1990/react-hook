@@ -1,7 +1,7 @@
 import React, {useContext, createContext} from 'react'
 import axios from 'axios'
 import {io} from 'socket.io-client'
-import {notification} from "antd/lib/index"
+import {notification} from 'antd'
 
 const authContext = createContext()
 
@@ -43,7 +43,7 @@ function useProvideAuth() {
       }else{
         message = error.response.data.message
       }
-      notification.error({
+      notification['error']({
         message: message
       })
     }

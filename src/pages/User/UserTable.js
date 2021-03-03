@@ -14,7 +14,7 @@ export function UserTable(props){
 
   // push query params to url and set state of parent's params
   const pushQueryStringToUrl = (query) => {
-    const result = "?" + query.toString()
+    const result = '?' + query.toString()
     history.push({
         pathname: '/user',
         search: result
@@ -58,16 +58,16 @@ export function UserTable(props){
         <>
           <Space>
             {status.includes(record._id) ? 
-              <Tooltip placement="topRight" title="Online">
+              <Tooltip placement='topRight' title='Online'>
                 <div style={{width: 7, height: 7, background: '#25c325', borderRadius: '50%'}}></div>
               </Tooltip>
                   :
-              <Tooltip placement="topRight" title="Offline">
+              <Tooltip placement='topRight' title='Offline'>
                 <div style={{width: 7, height: 7, background: 'grey', borderRadius: '50%'}}></div>
               </Tooltip>
             }
             <Link to={`user/profile/${record._id}`}>
-              <Tooltip placement="topRight" title="View Profile">
+              <Tooltip placement='topRight' title='View Profile'>
                 {text}
               </Tooltip>  
             </Link>
@@ -114,15 +114,15 @@ export function UserTable(props){
       key: 'action',
       width: '5%',
       render: (text, record) => (
-        <Space size="middle">
+        <Space size='middle'>
           <Link to={`user/${record._id}`}>
-            <Tooltip placement="topRight" title="Edit Profile">
+            <Tooltip placement='topRight' title='Edit Profile'>
               <EditOutlined />
             </Tooltip>
           </Link>
-          <Popconfirm title="Sure to delete?" onConfirm={(id) => removeUser(record._id)}>
+          <Popconfirm title='Sure to delete?' onConfirm={(id) => removeUser(record._id)}>
             <Link to={'#'}>
-              <Tooltip placement="topRight" title="Remove User">
+              <Tooltip placement='topRight' title='Remove User'>
                 <DeleteOutlined />
               </Tooltip>
               </Link>

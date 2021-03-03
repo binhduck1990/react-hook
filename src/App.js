@@ -1,10 +1,6 @@
-import React from "react"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom"
-import {ProvideAuth} from "./components/Auth.js"
+import React from 'react'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {ProvideAuth} from './components/Auth.js'
 import {Login} from './pages/User/Login'
 import {PrivateRoute} from './components/Protect'
 import {User} from './pages/User/User'
@@ -22,34 +18,34 @@ export default function App() {
     <ProvideAuth>
       <Router>
         <Switch>
-          <Route exact path="/login">
+          <Route exact path='/login'>
             <Login/>
           </Route>
-          <Route exact path="/signup">
+          <Route exact path='/signup'>
             <CreatedUser/>
           </Route>
-          <Route exact path="/forgot-password">
+          <Route exact path='/forgot-password'>
             <ForgotPassword/>
           </Route>
-          <Route exact path="/reset-password/:token">
+          <Route exact path='/reset-password/:token'>
             <ResetPassword/>
           </Route>
-          <PrivateRoute exact path="/">
+          <PrivateRoute exact path='/'>
             <Index/>
           </PrivateRoute>
-          <PrivateRoute exact path="/user">
+          <PrivateRoute exact path='/user'>
             <User/>
           </PrivateRoute>
-          <PrivateRoute exact path="/user/profile/:id">
+          <PrivateRoute exact path='/user/profile/:id'>
             <UserDetail/>
           </PrivateRoute>
-          <PrivateRoute exact path="/user/:id">
+          <PrivateRoute exact path='/user/:id'>
             <UpdatedUser/>
           </PrivateRoute>
-          <Route exact path="/404">
+          <Route exact path='/404'>
             <Page404/>
           </Route>
-          <Route exact path="/500">
+          <Route exact path='/500'>
             <Page500/>
           </Route>
         </Switch>

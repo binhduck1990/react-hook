@@ -1,4 +1,4 @@
-import { Result, Button } from 'antd'
+import {Result, Button} from 'antd'
 
 export function Page500(){
     return (

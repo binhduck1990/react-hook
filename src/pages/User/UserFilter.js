@@ -1,6 +1,6 @@
 import {Input, Button, DatePicker, Col, Row} from 'antd'
 import {useState, useEffect} from 'react'
-import {useHistory} from "react-router-dom"
+import {useHistory} from 'react-router-dom'
 import {SearchOutlined} from '@ant-design/icons'
 import moment from 'moment'
 
@@ -71,7 +71,7 @@ export function UserFilter(props){
 
     // push query params to url and set state of parent's params
     const pushQueryStringToUrl = (query) => {
-        const result = "?" + query.toString()
+        const result = '?' + query.toString()
         history.push({
             pathname: '/user',
             search: result
@@ -134,23 +134,23 @@ export function UserFilter(props){
     }
 
     return (
-        <div className="user-filter">
+        <div className='user-filter'>
             <Row>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search name" value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search email" value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search address" value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><Input placeholder="search phone" value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search name' value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search email' value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search address' value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search phone' value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
             </Row>
-            <Col span={24} style={{ marginTop: '10px', marginBottom: '10px' }}></Col>
+            <Col span={24} style={{ marginTop: '10px', marginBottom: '10px'}}></Col>
             <Row>
-                <Col span={6} style={{ paddingRight: '10px', paddingLeft: '10px' }}><DatePicker style={{ width: '100%' }} format={dateFormat} value={createdAt} onChange={onChangeCreatedAt}/></Col>
-                <Col span={3} style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-                    <Button style={{ width: '100%' }} type="primary" icon={<SearchOutlined />} onClick={onSearchUser}>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><DatePicker style={{ width: '100%' }} format={dateFormat} value={createdAt} onChange={onChangeCreatedAt}/></Col>
+                <Col span={3} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                    <Button style={{width: '100%' }} type='primary' icon={<SearchOutlined />} onClick={onSearchUser}>
                         Search
                     </Button>
                 </Col>
-                <Col span={3} style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-                    <Button style={{ width: '100%' }} onClick={onClearFilter}>
+                <Col span={3} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                    <Button style={{width: '100%'}} onClick={onClearFilter}>
                         Clear
                     </Button>
                 </Col>

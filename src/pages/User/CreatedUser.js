@@ -1,9 +1,8 @@
-import {Form, Input, Button, Upload, Radio, InputNumber, Space, DatePicker} from 'antd'
+import {Form, Input, Button, Upload, Radio, InputNumber, Space, DatePicker, notification} from 'antd'
 import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
-import {useHistory, useLocation} from "react-router-dom"
+import {useHistory, useLocation} from 'react-router-dom'
 import moment from 'moment'
-import {notification} from "antd/lib/index"
 
 export function CreatedUser() {
     const auth = useAuth()
@@ -12,7 +11,7 @@ export function CreatedUser() {
     const [form] = Form.useForm()
   
     const handleSubmit = (values) => {
-        let { from } = location.state || { from: { pathname: "/login" } }
+        let { from } = location.state || { from: { pathname: '/login' } }
         const {email, password, age, phone, address, username, gender, avatar, birthday, hobbies} = values
         const formData = new FormData()
         if(email) formData.append('email', email)
@@ -24,13 +23,13 @@ export function CreatedUser() {
         if(gender) formData.append('gender', gender)
         if(avatar) formData.append('avatar', avatar[0])
         if(hobbies && hobbies.length){
-            hobbies.forEach((item) => formData.append("hobbies[]", item))
+            hobbies.forEach((item) => formData.append('hobbies[]', item))
         }
         if(birthday instanceof moment){
             formData.append('birthday', birthday.format())
         }
         auth.signup(formData, (res) => {
-            notification.success({
+            notification['success']({
                 message: res.data.message
             })
             history.replace(from)
@@ -65,20 +64,20 @@ export function CreatedUser() {
     }
 
     const options = [
-        { label: 'Male', value: 'male' },
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' }
+        {label: 'Male', value: 'male'},
+        {label: 'Female', value: 'female'},
+        {label: 'Other', value: 'other'}
     ]
 
     const formItemLayout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 8 }
+        labelCol: {span: 8},
+        wrapperCol: {span: 8}
     }
 
     const formItemLayoutWithOutLabel = {
         wrapperCol: {
-            xs: { span: 8},
-            sm: { span: 8, offset: 8 }
+            xs: {span: 8},
+            sm: {span: 8, offset: 8}
         }
     }
 
@@ -88,12 +87,12 @@ return (
         <Form
             {...formItemLayout}
             form={form}
-            name="basic"
+            name='basic'
             onFinish={handleSubmit}
         >
             <Form.Item
-                label="Username"
-                name="username"
+                label='Username'
+                name='username'
                 rules={[
                     { required: true, message: 'Please input your name!' },
                     { min: 8} 
@@ -103,25 +102,25 @@ return (
             </Form.Item>
 
             <Form.Item
-                label="Email"
-                name="email"
+                label='Email'
+                name='email'
                 rules={[{ required: true, message: 'Please input your email!' }]}
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item
-                label="Password"
-                name="password"
+                label='Password'
+                name='password'
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
                 <Input.Password/>
             </Form.Item>
 
             <Form.Item
-                label="Avatar"
-                name="avatar"
-                valuePropName="fileList"
+                label='Avatar'
+                name='avatar'
+                valuePropName='fileList'
                 getValueFromEvent={() => {}}
             >
                 <Upload
@@ -132,50 +131,50 @@ return (
             </Form.Item>
 
             <Form.Item
-                label="Gender"
-                name="gender"
+                label='Gender'
+                name='gender'
                 initialValue={'other'}
             >
                 <Radio.Group options={options} onChange={onChangeGender}/>
             </Form.Item>
 
             <Form.Item
-                label="Age"
-                name="age"
+                label='Age'
+                name='age'
                 rules={[{ type: 'number', min: 0, max: 99 }]}
             >
                 <InputNumber/>
             </Form.Item>
 
             <Form.Item 
-                label="Birthday"
-                name="birthday"
+                label='Birthday'
+                name='birthday'
             >
                 <DatePicker format={'DD-MM-YYYY'}/>
             </Form.Item>
 
             <Form.Item
-                label="Address"
-                name="address"
+                label='Address'
+                name='address'
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item
-                label="Phone"
-                name="phone"
+                label='Phone'
+                name='phone'
             >
                 <Input/>
             </Form.Item>
 
             <Form.List
-                name="hobbies"
+                name='hobbies'
             >
                 {(fields, { add, remove }, { errors }) => (
                 <>
-                    <Form.Item {...formItemLayout} label="Hobbies">
+                    <Form.Item {...formItemLayout} label='Hobbies'>
                         <Button
-                            type="dashed"
+                            type='dashed'
                             onClick={() => add()}
                             style={{ width: '60%' }}
                             icon={<PlusOutlined />}
@@ -199,7 +198,7 @@ return (
                             <Input style={{ width: '60%' }} />
                             </Form.Item>
                             <MinusCircleOutlined
-                                className="dynamic-delete-button"
+                                className='dynamic-delete-button'
                                 onClick={() => remove(field.name)}
                             />
                         </Form.Item>
@@ -210,10 +209,10 @@ return (
 
             <Form.Item {...formItemLayoutWithOutLabel}>
                 <Space>
-                    <Button type="primary" htmlType="submit">
+                    <Button type='primary' htmlType='submit'>
                         Signup
                     </Button>
-                    <Button htmlType="button" onClick={onReset}>
+                    <Button htmlType='button' onClick={onReset}>
                         Reset
                     </Button>
                 </Space>

@@ -1,9 +1,8 @@
-import {useParams} from "react-router-dom"
+import {useParams} from 'react-router-dom'
 import {useAuth} from '../.././components/Auth'
-import {Form, Button, Input} from 'antd'
+import {Form, Button, Input, notification} from 'antd'
 import {LockOutlined} from '@ant-design/icons'
-import {notification} from "antd/lib/index"
-import {useHistory} from "react-router-dom"
+import {useHistory} from 'react-router-dom'
 
 export function ResetPassword(){
   const auth = useAuth()
@@ -13,7 +12,7 @@ export function ResetPassword(){
   const handleSubmit = () => {
     const password = form.getFieldValue('password')
     auth.confirmPasswordReset(token, password, (res) => {
-      notification.success({
+      notification['success']({
           message: res.data.message
       })
       history.replace('/login')
@@ -25,8 +24,8 @@ export function ResetPassword(){
   return (
     <Form
       form={form}
-      name="normal_login"
-      className="login-form"
+      name='normal_login'
+      className='login-form'
       onFinish={handleSubmit}
     >
       <Form.Item>
@@ -34,29 +33,29 @@ export function ResetPassword(){
       </Form.Item>
 
       <Form.Item
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        name='password'
+        rules={[{required: true, message: 'Please input your password!'}]}
       >
         <Input.Password 
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
+          prefix={<LockOutlined className='site-form-item-icon'/>}
+          type='password'
+          placeholder='Password'
         />
       </Form.Item>
 
       <Form.Item
-        name="password-confirm"
-        rules={[{ required: true, message: 'Please input your confirm password!' }]}
+        name='password-confirm'
+        rules={[{required: true, message: 'Please input your confirm password!'}]}
       >
         <Input.Password 
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Confirm password"
+          prefix={<LockOutlined className='site-form-item-icon'/>}
+          type='password'
+          placeholder='Confirm password'
         />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type='primary' htmlType='submit' className='login-form-button'>
           Reset Password
         </Button>
       </Form.Item>

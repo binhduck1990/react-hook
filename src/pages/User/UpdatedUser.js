@@ -1,12 +1,11 @@
 import './User.css'
-import React, {useEffect, useState} from "react"
-import {Form, Input, Button, Upload, Radio, InputNumber, DatePicker, Space} from 'antd'
+import React, {useEffect, useState} from 'react'
+import {Form, Input, Button, Upload, Radio, InputNumber, DatePicker, Space, notification} from 'antd'
 import {UploadOutlined, MinusCircleOutlined, PlusOutlined} from '@ant-design/icons'
 import {useAuth} from '../.././components/Auth'
 import {SideBar} from '../../components/Sidebar'
-import {useParams, useHistory} from "react-router-dom"
+import {useParams, useHistory} from 'react-router-dom'
 import moment from 'moment'
-import {notification} from "antd/lib/index"
 
 export function UpdatedUser() {
     const {id} = useParams()
@@ -55,7 +54,7 @@ export function UpdatedUser() {
             formData.append('age', '')
         }
         if(hobbies && hobbies.length){
-            hobbies.forEach((item) => formData.append("hobbies[]", item))
+            hobbies.forEach((item) => formData.append('hobbies[]', item))
         }
         if(birthday instanceof moment){
             formData.append('birthday', birthday.format())
@@ -68,7 +67,7 @@ export function UpdatedUser() {
             }
         }
         auth.update(id, formData, (res) => {
-            notification.success({
+            notification['success']({
                 message: res.data.message
             })
         }, (error) => {
@@ -121,20 +120,20 @@ export function UpdatedUser() {
     }
 
     const options = [
-        { label: 'Male', value: 'male'},
-        { label: 'Female', value: 'female' },
-        { label: 'Other', value: 'other' },
+        {label: 'Male', value: 'male'},
+        {label: 'Female', value: 'female'},
+        {label: 'Other', value: 'other'}
     ]
 
     const formItemLayout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 8 }
+        labelCol: {span: 8},
+        wrapperCol: {span: 8}
     }
 
     const formItemLayoutWithOutLabel = {
         wrapperCol: {
-            xs: { span: 8},
-            sm: { span: 8, offset: 8 },
+            xs: {span: 8},
+            sm: {span: 8, offset: 8 }
         }
     }
 
@@ -144,31 +143,31 @@ return (
         <Form
             {...formItemLayout}
             form={form}
-            name="basic"
+            name='basic'
             onFinish={handleSubmit}
         >
             <Form.Item
-                label="Username"
-                name="username"
+                label='Username'
+                name='username'
                 rules={[
-                    { required: true, message: 'Please input your name!' },
+                    {required: true, message: 'Please input your name!'},
                 ]}
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: 'Please input your email!' }]}
+                label='Email'
+                name='email'
+                rules={[{required: true, message: 'Please input your email!'}]}
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item
-                label="Avatar"
-                name="avatar"
-                valuePropName="fileList"
+                label='Avatar'
+                name='avatar'
+                valuePropName='fileList'
                 getValueFromEvent={() => {}}
             >
                 <Upload {...props}>
@@ -177,51 +176,51 @@ return (
             </Form.Item>
 
             <Form.Item
-                label="Gender"
-                name="gender"
+                label='Gender'
+                name='gender'
             >
                 <Radio.Group options={options} onChange={onChangeGender}/>
             </Form.Item>
 
             <Form.Item 
-                label="Birthday"
-                name="birthday"
+                label='Birthday'
+                name='birthday'
             >
                 <DatePicker format={'DD-MM-YYYY'}/>
             </Form.Item>
 
             <Form.Item
-                label="Age"
-                name="age"
-                rules={[{ type: 'number', min: 0, max: 99 }]}
+                label='Age'
+                name='age'
+                rules={[{type: 'number', min: 0, max: 99}]}
             >
                 <InputNumber/>
             </Form.Item>
 
             <Form.Item
-                label="Address"
-                name="address"
+                label='Address'
+                name='address'
             >
                 <Input/>
             </Form.Item>
 
             <Form.Item
-                label="Phone"
-                name="phone"
+                label='Phone'
+                name='phone'
             >
                 <Input/>
             </Form.Item>
 
             <Form.List
-                name="hobbies"
+                name='hobbies'
             >
                 {(fields, { add, remove }, { errors }) => (
                 <>
-                    <Form.Item {...formItemLayout} label="Hobbies">
+                    <Form.Item {...formItemLayout} label='Hobbies'>
                         <Button
-                            type="dashed"
+                            type='dashed'
                             onClick={() => add()}
-                            style={{ width: '60%' }}
+                            style={{width: '60%'}}
                             icon={<PlusOutlined />}
                         >
                             Add your hobby
@@ -235,15 +234,15 @@ return (
                             <Form.Item
                                 {...field}
                                 rules={[
-                                    { max: 10, message: 'Your hobby max 50 characters'},
-                                    { required: true, message: 'Please input your hobby!' }
+                                    {max: 10, message: 'Your hobby max 50 characters'},
+                                    {required: true, message: 'Please input your hobby!'}
                                 ]}
                                 noStyle
                             >
-                            <Input style={{ width: '60%' }} />
+                            <Input style={{width: '60%'}} />
                             </Form.Item>
                             <MinusCircleOutlined
-                                className="dynamic-delete-button"
+                                className='dynamic-delete-button'
                                 onClick={() => remove(field.name)}
                             />
                         </Form.Item>
@@ -254,10 +253,10 @@ return (
 
             <Form.Item {...formItemLayoutWithOutLabel}>
                 <Space>
-                    <Button type="primary" htmlType="submit">
+                    <Button type='primary' htmlType='submit'>
                         Update
                     </Button>
-                    <Button htmlType="button" onClick={onReset}>
+                    <Button htmlType='button' onClick={onReset}>
                         Reset
                     </Button>
                 </Space>

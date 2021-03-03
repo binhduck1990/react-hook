@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import {UserChat} from './Chat/UserChat'
 import {AdminChat} from './Chat/AdminChat'
 import {useAuth} from '../components/Auth'
+import {Spin} from 'antd'
 import '../index.css'
 
 export function Index(){
@@ -23,13 +24,19 @@ export function Index(){
             {userLogin.role !== 'admin' && isLoading &&
                 <UserChat 
                     users={users}
-                ></UserChat>
+                >
+                </UserChat>
             }
             {userLogin.role === 'admin' && isLoading &&
                 <AdminChat
                     users={users}
                 >
                 </AdminChat>
+            }
+            {!isLoading && 
+                <div className="spin">
+                    <Spin />
+                </div>
             }
         </SideBar>
     )

@@ -18,7 +18,7 @@ const backend = [
 
 const frontend = [
     'React: Use react Hook to write function component with useState, useEffect, useMemo, UseAuth',
-    'Libary: Use antdesign for my project: component, icon, handle form data',
+    'Library: Use antdesign for my project: component, icon, handle form data',
     'Api: Use axios to get data from server',
     'Users: Create, update, delete, detail, pagination users show online status, sorter, filter base on url: refresh page, back and next browser',
     'Chat: User after register can only chat with admin is Binh, Binh can reply to everyone'

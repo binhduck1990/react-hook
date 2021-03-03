@@ -1,8 +1,7 @@
-import {Form, Input, Button, Checkbox} from 'antd'
+import {Form, Input, Button, Checkbox, notification} from 'antd'
 import {useAuth} from '../.././components/Auth'
-import {Link, useHistory, useLocation} from "react-router-dom"
+import {Link, useHistory, useLocation} from 'react-router-dom'
 import {UserOutlined, LockOutlined} from '@ant-design/icons'
-import {notification} from "antd/lib/index"
 
 export function Login() {
   const auth = useAuth()
@@ -15,11 +14,11 @@ export function Login() {
   }
 
   const handleSubmit = (values) => {
-    let { from } = location.state || { from: { pathname: "/" } }
+    let { from } = location.state || { from: { pathname: '/' } }
     auth.signin(values, (res) => {
-      notification.success({
+      notification['success']({
         message: res.data.message
-     })
+      })
       if(values.remember){
         localStorage.setItem('email', values.email)
       }else{
@@ -34,39 +33,39 @@ export function Login() {
   return (
     <Form
       form={form}
-      name="normal_login"
-      className="login-form"
+      name='normal_login'
+      className='login-form'
       initialValues={{ remember: true }}
       onFinish={handleSubmit}
     >
       <Form.Item
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
+        name='email'
+        rules={[{required: true, message: 'Please input your email!'}]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input prefix={<UserOutlined className='site-form-item-icon'/>} placeholder='Email' />
       </Form.Item>
       <Form.Item
-        name="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
+        name='password'
+        rules={[{required: true, message: 'Please input your Password!'}]}
       >
         <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
+          prefix={<LockOutlined className='site-form-item-icon'/>}
+          type='password'
+          placeholder='Password'
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+        <Form.Item name='remember' valuePropName='checked' noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Link className="login-form-forgot" to={'/forgot-password'}>
+        <Link className='login-form-forgot' to={'/forgot-password'}>
           Forgot password
         </Link>
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type='primary' htmlType='submit' className='login-form-button'>
           Log in
         </Button>
         Or <Link to={'/signup'}>register now!</Link>

@@ -5,7 +5,7 @@ import {UserFilter} from './UserFilter'
 import {UserTable} from './UserTable'
 import {useAuth} from '../.././components/Auth'
 import {useHistory} from "react-router-dom"
-import {notification} from "antd/lib/index"
+import {notification} from 'antd'
 
 export function User() {
   const auth = useAuth()
@@ -47,7 +47,7 @@ export function User() {
   const removeUser = (id) => {
     auth.remove(id, (res_remove) => {
       setLoading(true)
-      notification.success({
+      notification['success']({
         message: res_remove.data.message
       })
       auth.paginate(param, (res) => {

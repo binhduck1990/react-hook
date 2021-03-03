@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom'
 
 export function UserDetail(){
     const auth = useAuth()
+    const apiDomain = process.env.REACT_APP_API
     const history = useHistory()
     const [user, setUser] = useState('')
     const [avatar, setAvatar] = useState('')
@@ -17,12 +18,12 @@ export function UserDetail(){
         auth.detail(id, (res) => {
           setUser(res.data.user)
           if(res.data.user.avatar){
-            setAvatar(`http://localhost:4000/images/${res.data.user.avatar}`)
+            setAvatar(`${apiDomain}/images/${res.data.user.avatar}`)
           }
         }, (error) => {
             auth.handleError(error, history)
         })
-    }, [auth, id, history])
+    }, [auth, apiDomain, id, history])
 
     return (
         <SideBar>

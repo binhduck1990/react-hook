@@ -10,6 +10,7 @@ import moment from 'moment'
 export function UpdatedUser() {
     const {id} = useParams()
     const auth = useAuth()
+    const apiDomain = process.env.REACT_APP_API
     const history = useHistory()
     const [user, setUser] = useState({})
     const [form] = Form.useForm()
@@ -30,7 +31,7 @@ export function UpdatedUser() {
                     uid: '-1',
                     name: res.data.user.avatar,
                     status: 'done',
-                    url: `http://localhost:4000/images/${res.data.user.avatar}`
+                    url: `${apiDomain}/images/${res.data.user.avatar}`
                     }] : [{
                         uid: '-1',
                         status: 'done',
@@ -38,7 +39,7 @@ export function UpdatedUser() {
                 }]
             })
         })
-    }, [auth, id, form])
+    }, [auth, apiDomain, id, form])
   
     const handleSubmit = (values) => {
         const formData = new FormData()
@@ -89,7 +90,7 @@ export function UpdatedUser() {
                 uid: '-1',
                 name: user.avatar,
                 status: 'done',
-                url: `http://localhost:4000/images/${user.avatar}`
+                url: `${apiDomain}/images/${user.avatar}`
                 }] : [{
                     uid: '-1',
                     status: 'done',

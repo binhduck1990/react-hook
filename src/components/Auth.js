@@ -19,8 +19,10 @@ export const useAuth = () => {
 }
 
 function useProvideAuth() {
-  const host = 'http://localhost:5000';
-  const socket = io(host, {
+  const socketDomain = process.env.REACT_APP_SOCKET
+  const apiDomain = process.env.REACT_APP_API
+
+  const socket = io(socketDomain, {
       transports: ['websocket'],  // https://stackoverflow.com/a/52180905/8987128
       allowUpgrades: false,
       reconnect: false,
@@ -51,7 +53,7 @@ function useProvideAuth() {
 
   const signin = (payload, cb_success = null, cb_error = null) => {
     axios.post(
-      'http://localhost:4000/api/user/login', {
+      `${apiDomain}/api/user/login`, {
         email: payload.email,
         password: payload.password
       }
@@ -76,7 +78,7 @@ function useProvideAuth() {
       }
     }
     axios.post(
-      'http://localhost:4000/api/user', formData, config
+      `${apiDomain}/api/user`, formData, config
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)
@@ -97,7 +99,7 @@ function useProvideAuth() {
       }
     }
     axios.put(
-      `http://localhost:4000/api/user/${id}`, formData, config
+      `${apiDomain}/api/user/${id}`, formData, config
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)
@@ -112,7 +114,7 @@ function useProvideAuth() {
   // remove user
   const remove = (id, cb_success = null, cb_error = null) => {
     axios.delete(
-      `http://localhost:4000/api/user/${id}`, {
+      `${apiDomain}/api/user/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -131,7 +133,7 @@ function useProvideAuth() {
   // detail user
   const detail = (id, cb_success = null, cb_error = null) => {
     axios.get(
-      `http://localhost:4000/api/user/${id}`, {
+      `${apiDomain}/api/user/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -150,7 +152,7 @@ function useProvideAuth() {
   // user paginate
   const paginate = (filter = '', cb_success = null, cb_error = null) => {
     axios.get(
-      `http://localhost:4000/api/user/${filter}`, {
+      `${apiDomain}/api/user/${filter}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -169,7 +171,7 @@ function useProvideAuth() {
   // get all users
   const index = (filter = '', cb_success = null, cb_error = null) => {
     axios.get(
-      `http://localhost:4000/api/user/all/${filter}`, {
+      `${apiDomain}/api/user/all/${filter}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -192,7 +194,7 @@ function useProvideAuth() {
       }
     }
     axios.post(
-      `http://localhost:4000/api/user/logout`, {} ,config
+      `${apiDomain}/api/user/logout`, {} ,config
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)
@@ -206,7 +208,7 @@ function useProvideAuth() {
 
   const sendPasswordResetEmail = (email, cb_success = null, cb_error = null) => {
     axios.post(
-      `http://localhost:4000/api/user/reset-password`, {email}
+      `${apiDomain}/api/user/reset-password`, {email}
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)
@@ -220,7 +222,7 @@ function useProvideAuth() {
 
   const confirmPasswordReset = (token, password, cb_success = null, cb_error = null) => {
     axios.put(
-      `http://localhost:4000/api/user/reset-password/${token}`, {password}
+      `${apiDomain}/api/user/reset-password/${token}`, {password}
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)
@@ -234,7 +236,7 @@ function useProvideAuth() {
 
   const chat = (filter = '', cb_success = null, cb_error = null) => {
     axios.get(
-      `http://localhost:4000/api/chat/${filter}`, {
+      `${apiDomain}/api/chat/${filter}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -258,7 +260,7 @@ function useProvideAuth() {
       }
     }
     axios.post(
-      `http://localhost:4000/api/chat`, formData, config
+      `${apiDomain}/api/chat`, formData, config
     ).then(res => {
       if(typeof(cb_success) == 'function'){
         cb_success(res)

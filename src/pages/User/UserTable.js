@@ -8,6 +8,7 @@ import {useAuth} from '../.././components/Auth'
 export function UserTable(props){
   const history = useHistory()
   const auth = useAuth()
+  const apiDomain = process.env.REACT_APP_API
   const [status, setStatus] = useState([])
   const {users, page, pageSize, total, loading, param, removeUser, onFilterUser} = props
   const query = new URLSearchParams(param)
@@ -45,7 +46,7 @@ export function UserTable(props){
       dataIndex: 'avatar',
       key: 'avatar',
       render: (text, record) => (
-        <Avatar src={<Image src={`http://localhost:4000/images/${record.avatar}`}/>}/>
+        <Avatar src={<Image src={`${apiDomain}/images/${record.avatar}`}/>}/>
       ),
       width: '5%'
     },

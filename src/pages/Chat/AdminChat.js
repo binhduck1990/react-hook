@@ -7,6 +7,7 @@ import {useAuth} from '../../components/Auth'
 
 export function AdminChat(props){
     const auth = useAuth()
+    const apiDomain = process.env.REACT_APP_API
     const {users} = props
     const [messageList, setMessageList] = useState([])
     const [senderId] = useState(JSON.parse(localStorage.getItem('user'))._id)
@@ -22,7 +23,7 @@ export function AdminChat(props){
             if(receiverId && data.sender === receiverId){
                 let messageListCopy = [...messageList]
                 if(data.message_type === 'file'){
-                    messageListCopy.push({author: 'them', data: {url: `http://localhost:4000/images/${data.message}`, fileName: data.message}, type: data.message_type})
+                    messageListCopy.push({author: 'them', data: {url: `${apiDomain}/images/${data.message}`, fileName: data.message}, type: data.message_type})
                 }else{
                     messageListCopy.push({author: 'them', data: {[data.message_type]: data.message}, type: data.message_type})
                 }
@@ -31,7 +32,7 @@ export function AdminChat(props){
                 setReceiverId(data.sender)
             }
         })
-    }, [auth.socket, receiverId, messageList])
+    }, [auth.socket, apiDomain, receiverId, messageList])
 
     useEffect(() => { 
         if(receiverId){
@@ -40,9 +41,9 @@ export function AdminChat(props){
                 for(let i = 0; i < res.data.chats.length; i++){
                     if(res.data.chats[i].message_type === 'file'){
                         if(res.data.chats[i].sender === senderId){
-                            chats.push({author: 'me', data: {url: `http://localhost:4000/images/${res.data.chats[i].message}`, fileName: res.data.chats[i].message}, type: res.data.chats[i].message_type}) 
+                            chats.push({author: 'me', data: {url: `${apiDomain}/images/${res.data.chats[i].message}`, fileName: res.data.chats[i].message}, type: res.data.chats[i].message_type}) 
                         }else{
-                            chats.push({author: 'them', data: {url: `http://localhost:4000/images/${res.data.chats[i].message}`, fileName: res.data.chats[i].message}, type: res.data.chats[i].message_type})
+                            chats.push({author: 'them', data: {url: `${apiDomain}/images/${res.data.chats[i].message}`, fileName: res.data.chats[i].message}, type: res.data.chats[i].message_type})
                         }   
                     }else{
                         if(res.data.chats[i].sender === senderId){
@@ -55,7 +56,7 @@ export function AdminChat(props){
                 setMessageList(chats)
             })
         }
-    }, [senderId, receiverId])
+    }, [auth, apiDomain, senderId, receiverId])
   
     const onMessageWasSent = (newMessage) => {
         if(senderId && receiverId){
@@ -83,7 +84,7 @@ export function AdminChat(props){
         formData.append('receiver', receiverId)
         formData.append('type', 'file')
         auth.createdChat(formData, (res) => {
-            onMessageWasSent({author: 'me', type : 'file', data : {url: `http://localhost:4000/images/${res.data.chat.message}`, fileName: res.data.chat.message}})
+            onMessageWasSent({author: 'me', type : 'file', data : {url: `${apiDomain}/images/${res.data.chat.message}`, fileName: res.data.chat.message}})
         })
     }
 
@@ -98,7 +99,7 @@ export function AdminChat(props){
                     actions={[<Space onClick={() => {onClickUserToChat(user)}}><Link to={'/#'}><MessageOutlined/><span style={{paddingLeft: 10}}>Reply</span></Link></Space>]}
                 >
                     <List.Item.Meta
-                    avatar={<Avatar src={`http://localhost:4000/images/${user.avatar}`} />}
+                    avatar={<Avatar src={`${apiDomain}/images/${user.avatar}`} />}
                     title={user.username}
                     description={user.email}
                     />
@@ -109,7 +110,7 @@ export function AdminChat(props){
                 <Launcher
                     agentProfile={{
                         teamName: `Reply to ${receiver.username}`,
-                        imageUrl: `http://localhost:4000/images/${receiver.avatar}`
+                        imageUrl: `${apiDomain}/images/${receiver.avatar}`
                     }}
                     messageList={messageList}
                     onMessageWasSent={onMessageWasSent}

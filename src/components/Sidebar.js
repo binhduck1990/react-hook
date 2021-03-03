@@ -9,6 +9,7 @@ const {Header, Sider, Content} = Layout
 
 export function SideBar({children}){
   const auth = useAuth()
+  const apiDomain = process.env.REACT_APP_API
   const history = useHistory()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
@@ -18,7 +19,7 @@ export function SideBar({children}){
   ]
   const [key] = useState(items.find(_item => location.pathname.startsWith(_item.path)).key)
   const user = JSON.parse(localStorage.getItem('user'))
-  const avatar = `http://localhost:4000/images/${user.avatar}`
+  const avatar = `${apiDomain}/images/${user.avatar}`
 
   const toggle = () => {
       setCollapsed(!collapsed)

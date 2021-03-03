@@ -12,6 +12,7 @@ export function UserDetail(){
     const [user, setUser] = useState('')
     const [avatar, setAvatar] = useState('')
     const {id} = useParams('')
+
     useEffect(() => { 
         auth.detail(id, (res) => {
           setUser(res.data.user)

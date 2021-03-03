@@ -13,6 +13,7 @@ export function UpdatedUser() {
     const apiDomain = process.env.REACT_APP_API
     const history = useHistory()
     const [user, setUser] = useState({})
+    const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
     
     useEffect(() => { 
@@ -40,40 +41,48 @@ export function UpdatedUser() {
             })
         })
     }, [auth, apiDomain, id, form])
-  
-    const handleSubmit = (values) => {
-        const formData = new FormData()
-        const {email, age, phone, address, username, gender, avatar, birthday, hobbies} = values
-        formData.append('phone', phone)
-        formData.append('address', address)
-        formData.append('username', username)
-        formData.append('email', email)
-        formData.append('gender', gender)
-        if(age !== null){
-            formData.append('age', age)
-        }else{
-            formData.append('age', '')
-        }
-        if(hobbies && hobbies.length){
-            hobbies.forEach((item) => formData.append('hobbies[]', item))
-        }
-        if(birthday instanceof moment){
-            formData.append('birthday', birthday.format())
-        }
-        if(!avatar){
-            formData.append('default_avatar', true)
-        }else{
-            if(avatar[0] instanceof File){
-                formData.append('avatar', avatar[0])
+
+    useEffect(() => {
+        if(loading){
+            const formData = new FormData()
+            const {email, age, phone, address, username, gender, avatar, birthday, hobbies} = form.getFieldsValue()
+            formData.append('phone', phone)
+            formData.append('address', address)
+            formData.append('username', username)
+            formData.append('email', email)
+            formData.append('gender', gender)
+            if(age !== null){
+                formData.append('age', age)
+            }else{
+                formData.append('age', '')
             }
-        }
-        auth.update(id, formData, (res) => {
-            notification['success']({
-                message: res.data.message
+            if(hobbies && hobbies.length){
+                hobbies.forEach((item) => formData.append('hobbies[]', item))
+            }
+            if(birthday instanceof moment){
+                formData.append('birthday', birthday.format())
+            }
+            if(!avatar){
+                formData.append('default_avatar', true)
+            }else{
+                if(avatar[0] instanceof File){
+                    formData.append('avatar', avatar[0])
+                }
+            }
+            auth.update(id, formData, (res) => {
+                setLoading(false)
+                notification['success']({
+                    message: res.data.message
+                })
+            }, (error) => {
+                setLoading(false)
+                auth.handleError(error, history)
             })
-        }, (error) => {
-            auth.handleError(error, history)
-        })
+        }
+    }, [auth, history, id, loading, form])
+  
+    const handleSubmit = () => {
+        setLoading(true)
     }
 
     const onReset = () => {
@@ -254,7 +263,9 @@ return (
 
             <Form.Item {...formItemLayoutWithOutLabel}>
                 <Space>
-                    <Button type='primary' htmlType='submit'>
+                    <Button type='primary' htmlType='submit'
+                        loading={loading}
+                    >
                         Update
                     </Button>
                     <Button htmlType='button' onClick={onReset}>

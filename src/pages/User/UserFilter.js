@@ -136,10 +136,10 @@ export function UserFilter(props){
     return (
         <div className='user-filter'>
             <Row>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search name' value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search email' value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search address' value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='search phone' value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search name' value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search email' value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search address' value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
+                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search phone' value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
             </Row>
             <Col span={24} style={{ marginTop: '10px', marginBottom: '10px'}}></Col>
             <Row>

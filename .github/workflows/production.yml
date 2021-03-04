@@ -26,8 +26,8 @@ jobs:
 
     - name: Build App  
       env:
-        REACT_APP_API=http://chat.xemboi.today
-        REACT_APP_SOCKET=http://socket.xemboi.today  
+        REACT_APP_API: http://chat.xemboi.today
+        REACT_APP_SOCKET: http://socket.xemboi.today  
       run: npm run build --if-present
 
     - name: Rename folder build to build_production

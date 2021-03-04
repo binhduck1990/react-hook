@@ -56,7 +56,7 @@ export function CreatedUser() {
             return false
         },
         listType: 'picture',
-        maxCount: 1,
+        maxCount: 1
       }
 
     const onChangeGender = (e) => {

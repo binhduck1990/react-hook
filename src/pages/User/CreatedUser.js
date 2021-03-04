@@ -44,14 +44,14 @@ export function CreatedUser() {
 
     const props = {
         onRemove: () => {
-            form.setFieldsValue({fileList: []})
+            form.setFieldsValue({avatar: []})
         },
         beforeUpload(file){
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 file.url = reader.result
-                form.setFieldsValue({fileList: [file]})
+                form.setFieldsValue({avatar: [file]})
             }
             return false
         },

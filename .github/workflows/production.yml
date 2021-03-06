@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_API: http://chat.xemboi.today
+      REACT_APP_SOCKET: http://socket.xemboi.today  
+      CI: false
     strategy:
       matrix:
         node-version: [10.x]
@@ -21,17 +25,24 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
+    - name: Cache node_modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-     
+        
     - name: Install dependencies 
       run: npm ci
 
     - name: Build App  
-      env:
-        REACT_APP_API: http://chat.xemboi.today
-        REACT_APP_SOCKET: http://socket.xemboi.today  
-      run: npm run build --if-present
+      run: REACT_APP_ENV=production npm run build --if-present
 
     - name: Rename folder build to build_production
-      run: mv build build_production
+      run: |
+        rm -rf build_production 
+        mv build build_production
     - name: Create local changes
       run: |
         git add .

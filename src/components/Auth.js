@@ -102,6 +102,7 @@ function useProvideAuth() {
       `${apiDomain}/api/user/${id}`, formData, config
     ).then(res => {
       if(typeof(cb_success) == 'function'){
+        localStorage.setItem('user', JSON.stringify(res.data.user))
         cb_success(res)
       }
     }).catch(error => {

@@ -93,7 +93,7 @@ export function AdminChat(props){
             <List
                 itemLayout="vertical"
                 dataSource={users.filter(user => user.role !== 'admin')}
-                style={{padding: 20}}
+                style={{paddingLeft: 20}}
                 renderItem={user => (
                 <List.Item
                     actions={[<Space onClick={() => {onClickUserToChat(user)}}><Link to={'/#'}><MessageOutlined/><span style={{paddingLeft: 10}}>Reply</span></Link></Space>]}

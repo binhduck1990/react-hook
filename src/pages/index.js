@@ -21,7 +21,7 @@ export function Index(){
         }, (error) => {
             auth.handleError(error, history)
         })
-    }, [auth])
+    }, [auth, history])
 
     return (
         <SideBar>

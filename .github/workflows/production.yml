@@ -10,8 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REACT_APP_API: http://chat.xemboi.today
-      REACT_APP_SOCKET: http://socket.xemboi.today  
+      REACT_APP_API: http://chat.binhdq.com
+      REACT_APP_SOCKET: http://socket.binhdq.com  
       CI: false
     strategy:
       matrix:

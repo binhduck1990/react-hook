@@ -9,9 +9,15 @@ import {UserDetail} from './pages/User/UserDetail'
 import {UpdatedUser} from './pages/User/UpdatedUser'
 import {ForgotPassword} from './pages/User/ForgotPassword'
 import {ResetPassword} from './pages/User/ResetPassword'
+import {Setting} from './pages/Setting/Setting'
 import {Index} from './pages/index'
 import {Page404} from './pages/404'
 import {Page500} from './pages/500'
+import {notification} from 'antd'
+notification.config({
+  top: 80,
+  duration: 2
+})
 
 export default function App() {
   return (
@@ -41,6 +47,9 @@ export default function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/user/:id'>
             <UpdatedUser/>
+          </PrivateRoute>
+          <PrivateRoute exact path='/setting'>
+            <Setting/>
           </PrivateRoute>
           <Route exact path='/404'>
             <Page404/>

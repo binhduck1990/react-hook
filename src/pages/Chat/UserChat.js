@@ -31,9 +31,19 @@ export function UserChat(props){
     const apiDomain = process.env.REACT_APP_API
     const admin = users.filter(user => user.role === 'admin')[0]
     const [messageList, setMessageList] = useState([])
+    const [status, setStatus] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [senderId] = useState(JSON.parse(localStorage.getItem('user'))._id)
     const [receiverId] = useState(admin._id)
+
+    useEffect(() => {
+        auth.socket.on('online', function(data){
+          setStatus(data)
+        })
+        auth.socket.on('offline', function(data){
+          setStatus(data)
+        }) 
+      }, [auth.socket])
 
     useEffect(() => {
         auth.socket.on('chat', function(data){
@@ -112,9 +122,10 @@ export function UserChat(props){
                 <Descriptions.Item label="Avatar">
                     <Image
                         width={200}
-                        src={`${apiDomain}images/${admin.avatar}`}
+                        src={`${apiDomain}/images/${admin.avatar}`}
                     />
                 </Descriptions.Item>
+                <Descriptions.Item label="Status">{status.includes(admin._id) ? <Tag color="#87d068">Online</Tag> :  <Tag color="#f50">Offline</Tag>}</Descriptions.Item>
                 <Descriptions.Item label="Username">{admin.username}</Descriptions.Item>
                 <Descriptions.Item label="Phone">{admin.phone}</Descriptions.Item>
                 <Descriptions.Item label="Adress">{admin.address}</Descriptions.Item>
@@ -135,7 +146,7 @@ export function UserChat(props){
                 <Launcher
                     agentProfile={{
                         teamName: `Chat to ${admin.username}`,
-                        imageUrl: `${apiDomain}images/${admin.avatar}`
+                        imageUrl: `${apiDomain}/images/${admin.avatar}`
                     }}
                     messageList={messageList}
                     onMessageWasSent={onMessageWasSent}

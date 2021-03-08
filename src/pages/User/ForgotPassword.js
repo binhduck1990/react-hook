@@ -2,22 +2,31 @@ import {Form, Input, Button, notification} from 'antd'
 import {useAuth} from '../.././components/Auth'
 import {MailOutlined} from '@ant-design/icons'
 import {useHistory} from 'react-router-dom'
+import {useEffect, useState} from 'react'
 
 export function ForgotPassword() {
   const auth = useAuth()
   const history = useHistory()
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if(loading){
+      const email = form.getFieldValue('email')
+      auth.sendPasswordResetEmail(email, (res) => {
+        setLoading(false)
+        notification['success']({
+            message: res.data.message
+        })
+      }, (error) => {
+        setLoading(false)
+          auth.handleError(error, history)
+      })
+    }
+  }, [loading, auth, history, form])
 
   const handleSubmit = () => {
-    const email = form.getFieldValue('email')
-    auth.sendPasswordResetEmail(email, (res) => {
-      notification['success']({
-          message: res.data.message
-      })
-      history.replace('/login')
-    }, (error) => {
-        auth.handleError(error, history)
-    })
+    setLoading(true)
   }
 
   return (
@@ -39,7 +48,7 @@ export function ForgotPassword() {
       </Form.Item>
 
       <Form.Item>
-        <Button type='primary' htmlType='submit' className='login-form-button'>
+        <Button type='primary' htmlType='submit' className='login-form-button' loading={loading}>
           Reset Password
         </Button>
       </Form.Item>

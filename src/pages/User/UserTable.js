@@ -60,11 +60,11 @@ export function UserTable(props){
           <Space>
             {status.includes(record._id) ? 
               <Tooltip placement='topRight' title='Online'>
-                <div style={{width: 7, height: 7, background: '#25c325', borderRadius: '50%'}}></div>
+                <div style={{width: 7, height: 7, background: '#87d068', borderRadius: '50%'}}></div>
               </Tooltip>
                   :
               <Tooltip placement='topRight' title='Offline'>
-                <div style={{width: 7, height: 7, background: 'grey', borderRadius: '50%'}}></div>
+                <div style={{width: 7, height: 7, background: '#f50', borderRadius: '50%'}}></div>
               </Tooltip>
             }
             <Link to={`user/profile/${record._id}`}>

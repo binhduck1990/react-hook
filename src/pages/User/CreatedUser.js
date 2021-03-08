@@ -94,8 +94,7 @@ return (
                 label='Username'
                 name='username'
                 rules={[
-                    { required: true, message: 'Please input your name!' },
-                    { min: 8} 
+                    { required: true, message: 'Please input your name!' }
                 ]}
             >
                 <Input/>

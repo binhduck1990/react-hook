@@ -121,7 +121,7 @@ export function UserChat(props){
                 <Descriptions title="Personality" column={1} style={{padding: 15}} bordered={true}>
                 <Descriptions.Item label="Avatar">
                     <Image
-                        width={200}
+                        width={100}
                         src={`${apiDomain}/images/${admin.avatar}`}
                     />
                 </Descriptions.Item>

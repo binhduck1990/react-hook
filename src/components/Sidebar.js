@@ -13,6 +13,7 @@ export function SideBar({children}){
   const history = useHistory()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
+  const [iconCollap, setIconCollap] = useState(false)
   const items = [
     {key: '1', label: 'Users', path: '/user', icon: <TeamOutlined/>},
     {key: '3', label: 'Setting', path: '/setting', icon: <SettingOutlined/>},
@@ -23,7 +24,7 @@ export function SideBar({children}){
   const avatar = `${apiDomain}/images/${user.avatar}`
 
   const toggle = () => {
-      setCollapsed(!collapsed)
+    setCollapsed(!collapsed)
   }
 
   const logout = () => {
@@ -31,11 +32,11 @@ export function SideBar({children}){
       notification['success']({
         message: res.data.message
       })
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
       auth.socket.emit('logout', user._id, (confirmation) => {
         if(confirmation){
           history.replace('/login')
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
         }
       })
     })
@@ -59,9 +60,14 @@ export function SideBar({children}){
     history.push(clicked.path)
   }
 
+  const onBreakpoint = (broken) => {
+    setCollapsed(broken)
+    setIconCollap(broken)
+  }
+
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} breakpoint='xs'onBreakpoint={onBreakpoint}>
         <div className="logo" />
         <Menu theme="dark" mode="inline" selectedKeys={[key]} onClick={onClickMenu}>
           {items.map((item) => (
@@ -71,7 +77,7 @@ export function SideBar({children}){
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          {collapsed ? <MenuUnfoldOutlined className="trigger" onClick={toggle}/> : <MenuFoldOutlined className="trigger" onClick={toggle}/>}
+          {!iconCollap ? (collapsed ? <MenuUnfoldOutlined className="trigger" onClick={toggle}/> : <MenuFoldOutlined className="trigger" onClick={toggle}/>) : <></>}
           <Dropdown className='dropdown-header' overlay={menu} trigger={['click']} placement='topLeft'>
             <Link to="/#" className="ant-dropdown-link" onClick={e => e.preventDefault()}>
               <Avatar src={avatar} style={{ backgroundColor: '#87d068', cursor: 'pointer'}}/> <DownOutlined />
@@ -85,5 +91,5 @@ export function SideBar({children}){
         </Content>
       </Layout>
     </Layout>
-    )
+  )
 }

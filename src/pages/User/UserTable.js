@@ -45,6 +45,7 @@ export function UserTable(props){
       title: 'Avatar',
       dataIndex: 'avatar',
       key: 'avatar',
+      responsive: ['lg'],
       render: (text, record) => (
         <Avatar src={<Image src={`${apiDomain}/images/${record.avatar}`}/>}/>
       ),
@@ -54,6 +55,7 @@ export function UserTable(props){
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
+      responsive: ['lg'],
       sorter: (a, b) => a.username.localeCompare(b.username),
       render: (text, record) => (
         <>
@@ -81,6 +83,7 @@ export function UserTable(props){
       title: 'Age',
       dataIndex: 'age',
       key: 'age',
+      responsive: ['lg'],
       width: '10%',
       sorter: (a, b) => a.age - b.age
     },
@@ -88,6 +91,7 @@ export function UserTable(props){
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
+      responsive: ['lg'],
       width: '20%'
     },
     {
@@ -99,12 +103,14 @@ export function UserTable(props){
     {
       title: 'Phone',
       key: 'phone',
+      responsive: ['lg'],
       dataIndex: 'phone',
       width: '10%'
     },
     {
       title: 'Created At',
       key: 'created_at',
+      responsive: ['lg'],
       dataIndex: 'createdAt',
       width: '15%',
       sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),

@@ -136,20 +136,20 @@ export function UserFilter(props){
     return (
         <div className='user-filter'>
             <Row>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search name' value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search email' value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search address' value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><Input placeholder='Search phone' value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
+                <Col xs={{span: 24}} lg={{span: 6}} className='search-column'><Input placeholder='Search name' value={name} onChange={(e) => {onChangeInput(e, 'name')}} onPressEnter={(e) => {onPressEnterInput(e, 'name')}}/></Col>
+                <Col xs={{span: 24}} lg={{span: 6}} className='search-column'><Input placeholder='Search email' value={email} onChange={(e) => {onChangeInput(e, 'email')}} onPressEnter={(e) => {onPressEnterInput(e, 'email')}}/></Col>
+                <Col xs={{span: 24}} lg={{span: 6}} className='search-column'><Input placeholder='Search address' value={address} onChange={(e) => {onChangeInput(e, 'address')}} onPressEnter={(e) => {onPressEnterInput(e, 'address')}}/></Col>
+                <Col xs={{span: 24}} lg={{span: 6}} className='search-column'><Input placeholder='Search phone' value={phone} onChange={(e) => {onChangeInput(e, 'phone')}} onPressEnter={(e) => {onPressEnterInput(e, 'phone')}}/></Col>
             </Row>
-            <Col span={24} style={{ marginTop: '10px', marginBottom: '10px'}}></Col>
+            <Col span={24} className='devide-column'></Col>
             <Row>
-                <Col span={6} style={{paddingRight: '10px', paddingLeft: '10px'}}><DatePicker style={{ width: '100%' }} format={dateFormat} value={createdAt} onChange={onChangeCreatedAt}/></Col>
-                <Col span={3} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                <Col xs={{span: 24}} lg={{span: 6}} className='search-column'><DatePicker style={{ width: '100%' }} format={dateFormat} value={createdAt} onChange={onChangeCreatedAt}/></Col>
+                <Col xs={{span: 12}} lg={{span: 6}} className='search-button'>
                     <Button style={{width: '100%' }} type='primary' icon={<SearchOutlined />} onClick={onSearchUser}>
                         Search
                     </Button>
                 </Col>
-                <Col span={3} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+                <Col xs={{span: 12}} lg={{span: 6}} className='clear-button'>
                     <Button style={{width: '100%'}} onClick={onClearFilter}>
                         Clear
                     </Button>

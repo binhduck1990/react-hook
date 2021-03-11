@@ -136,8 +136,14 @@ export function UpdatedUser() {
     ]
 
     const formItemLayout = {
-        labelCol: {span: 8},
-        wrapperCol: {span: 8}
+        labelCol: {
+            xs: {span: 12},
+            lg: {span: 8}
+        },
+        wrapperCol: {
+            xs: {span: 12},
+            lg: {span: 8}
+        }
     }
 
     const formItemLayoutWithOutLabel = {

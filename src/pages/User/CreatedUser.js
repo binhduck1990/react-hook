@@ -70,8 +70,14 @@ export function CreatedUser() {
     ]
 
     const formItemLayout = {
-        labelCol: {span: 8},
-        wrapperCol: {span: 8}
+        labelCol: {
+            xs: {span: 12},
+            lg: {span: 8}
+        },
+        wrapperCol: {
+            xs: {span: 12},
+            lg: {span: 8}
+        }
     }
 
     const formItemLayoutWithOutLabel = {
@@ -83,12 +89,13 @@ export function CreatedUser() {
 
 return (
     <>
-        <h1 style={{textAlign: 'center', margin: '50px 0px 20px 0px'}}>Create your account</h1>
+        <h1 style={{textAlign: 'center', margin: '50px 0px 10px 0px'}}>Create your account</h1>
         <Form
             {...formItemLayout}
             form={form}
             name='basic'
             onFinish={handleSubmit}
+            style={{padding: 10}}
         >
             <Form.Item
                 label='Username'

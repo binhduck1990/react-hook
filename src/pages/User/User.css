@@ -32,3 +32,23 @@ width: 100%;
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+@media screen and (max-width: 576px) {
+  .search-column {
+    margin-bottom: 10px;
+  }
+  .search-button{
+    padding-right: 5px;
+  }
+  .clear-button{
+    padding-left: 5px;
+  }
+}
+
+@media screen and (min-width: 578px) {
+  .search-column, .search-button, .clear-button {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

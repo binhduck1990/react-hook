@@ -55,7 +55,6 @@ export function UserTable(props){
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
-      responsive: ['lg'],
       sorter: (a, b) => a.username.localeCompare(b.username),
       render: (text, record) => (
         <>
@@ -80,12 +79,18 @@ export function UserTable(props){
       width: '20%'
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Message',
+      dataIndex: 'massage',
+      key: 'massage',
       responsive: ['lg'],
       width: '10%',
-      sorter: (a, b) => a.age - b.age
+      render: (text, record) => (
+        <Link to={'#'}>
+          <Tooltip placement='topRight' title='Total message has sent'>
+            <span>{record.messages.length}</span>
+          </Tooltip>  
+        </Link>
+      ),
     },
     {
       title: 'Address',
@@ -97,6 +102,7 @@ export function UserTable(props){
     {
       title: 'Email',
       key: 'email',
+      responsive: ['lg'],
       dataIndex: 'email',
       width: '15%'
     },
